@@ -15,7 +15,8 @@
     // 指定要包含的类型声明文件，node 提供 Node.js API 类型，vitest/globals 提供测试全局变量类型
     "types": [
       "node",
-      "vitest/globals"
+      "vitest/globals",
+      "typed-query-selector"
     ],
 
     // 允许编译 JavaScript 文件，使其可以被导入和进行类型检查
