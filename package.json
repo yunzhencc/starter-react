@@ -46,6 +46,7 @@
     "tailwindcss": "catalog:dev",
     "turbo": "catalog:dev",
     "tw-animate-css": "catalog:dev",
+    "typed-query-selector": "catalog:dev",
     "typescript": "catalog:dev",
     "unplugin-auto-import": "catalog:dev",
     "vite": "catalog:dev",
