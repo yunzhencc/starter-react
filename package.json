@@ -1,9 +1,9 @@
 {
-  "name": "react-admin-template",
+  "name": "starter-react",
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.28.1",
+  "packageManager": "pnpm@11.15.0",
   "engines": {
     "node": ">=22.13.1"
   },
@@ -36,7 +36,6 @@
     "cross-env": "catalog:dev",
     "eslint": "catalog:dev",
     "eslint-plugin-format": "catalog:dev",
-    "eslint-plugin-react-hooks": "catalog:dev",
     "eslint-plugin-react-refresh": "catalog:dev",
     "lint-staged": "catalog:dev",
     "react-grab": "catalog:dev",
