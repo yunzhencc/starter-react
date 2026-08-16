@@ -1,9 +1,4 @@
 minimumReleaseAgeExclude:
-  - lint-staged@17.1.0
-  - '@tanstack/react-router@1.170.29'
-  - '@tanstack/router-core@1.171.24'
-  - '@tanstack/router-generator@1.167.30'
-  - '@tanstack/router-plugin@1.168.32'
 shellEmulator: true
 
 trustPolicy: no-downgrade
