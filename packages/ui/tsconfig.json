@@ -1,14 +1,11 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["DOM", "ES2022"],
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "strict": true,
-    "isolatedModules": true,
-    "skipLibCheck": true
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@pixvibe/ui/*": ["./src/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
