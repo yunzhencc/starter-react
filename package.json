@@ -11,7 +11,7 @@
   "scripts": {
     "bootstrap": "pnpm install",
     "clean": "tsx ./scripts/clean.ts",
-    "start": "turbo run dev --parallel",
+    "start": "turbo run dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
