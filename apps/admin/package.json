@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/cssinjs": "catalog:core",
     "@ant-design/icons": "catalog:core",
+    "@tanstack/react-hotkeys": "catalog:core",
     "@tanstack/react-query": "catalog:core",
     "@tanstack/react-router": "catalog:core",
     "@yunzhen/playground": "workspace:*",

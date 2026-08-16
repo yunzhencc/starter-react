@@ -9,6 +9,8 @@
     "pnpm": ">=11.0.0"
   },
   "scripts": {
+    "bootstrap": "pnpm install",
+    "clean": "tsx ./scripts/clean.ts",
     "start": "turbo run dev --parallel",
     "lint": "eslint",
     "lint:fix": "eslint --fix",

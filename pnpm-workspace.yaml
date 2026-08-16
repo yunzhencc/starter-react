@@ -1,4 +1,3 @@
-minimumReleaseAgeExclude:
 shellEmulator: true
 
 trustPolicy: no-downgrade
@@ -20,6 +19,7 @@ catalogs:
     '@lexical/rich-text': 0.49.0
     '@lexical/selection': 0.49.0
     '@lexical/utils': 0.49.0
+    '@tanstack/react-hotkeys': ^0.10.0
     '@tanstack/react-query': 5.101.4
     '@tanstack/react-router': 1.170.29
     '@tanstack/react-virtual': 3.14.9
