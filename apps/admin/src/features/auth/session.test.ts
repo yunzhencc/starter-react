@@ -25,14 +25,20 @@ afterEach(() => {
 
 describe('demo authentication', () => {
   it('persists valid remembered credentials in local storage', () => {
-    expect(login({ password: '123456', remember: true, username: 'vben' })?.accessToken).toBeTruthy();
-    expect(getSession()?.username).toBe('vben');
+    expect(login({ password: '123456', remember: true, username: 'yunzhen' })?.accessToken).toBeTruthy();
+    expect(getSession()?.username).toBe('yunzhen');
     expect(sessionStorage.length).toBe(0);
   });
 
+  it('accepts each Vben demo account', () => {
+    for (const username of ['yunzhen', 'admin', 'jack']) {
+      expect(login({ password: '123456', remember: false, username })?.username).toBe(username);
+    }
+  });
+
   it('rejects invalid credentials and clears both session locations on logout', () => {
-    expect(login({ password: 'wrong', remember: false, username: 'vben' })).toBeUndefined();
-    login({ password: '123456', remember: false, username: 'vben' });
+    expect(login({ password: 'wrong', remember: false, username: 'yunzhen' })).toBeUndefined();
+    login({ password: '123456', remember: false, username: 'yunzhen' });
     logout();
     expect(getSession()).toBeUndefined();
     expect(localStorage.length + sessionStorage.length).toBe(0);

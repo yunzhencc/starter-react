@@ -10,6 +10,7 @@ import {
   FullscreenOutlined,
   LinkOutlined,
   LockOutlined,
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MoreOutlined,
@@ -17,6 +18,7 @@ import {
   ReloadOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
+import { App as AntApp } from 'antd';
 import { motion } from 'motion/react';
 import { lazy, Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { logout as clearSession } from '@/features/auth/session';
@@ -62,6 +64,7 @@ function getStoredTabs() {
 }
 
 export function AdminLayout() {
+  const { modal } = AntApp.useApp();
   const location = useLocation();
   const navigate = useNavigate();
   const tabs = useRef(getStoredTabs()).current;
@@ -274,6 +277,17 @@ export function AdminLayout() {
     void navigate({ replace: true, to: '/login' });
   }
 
+  function confirmLogout() {
+    modal.confirm({
+      cancelText: '取消',
+      centered: true,
+      content: '您确定要退出登录吗？',
+      okText: '确认',
+      onOk: logout,
+      title: '提示',
+    });
+  }
+
   return (
     <div className={`admin-layout ${collapsed ? 'admin-layout--collapsed' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}>
       <aside className="admin-sidebar">
@@ -316,6 +330,9 @@ export function AdminLayout() {
             <ThemeToggle />
             <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
               <LockOutlined />
+            </button>
+            <button aria-label="退出登录" className="header-icon-button" title="退出登录" type="button" onClick={confirmLogout}>
+              <LogoutOutlined />
             </button>
           </div>
         </header>

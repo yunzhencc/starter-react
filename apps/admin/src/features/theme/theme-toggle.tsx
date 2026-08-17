@@ -116,6 +116,7 @@ export function ThemeToggle() {
     <Dropdown arrow={{ pointAtCenter: true }} menu={menu} placement="bottomRight" trigger={['click']}>
       <Button
         aria-label="主题设置"
+        className="header-icon-button"
         icon={<ThemeIcon />}
         style={{ fontSize: 16 }}
         type="text"

@@ -1,4 +1,6 @@
 const storageKey = 'starter-react:auth';
+export const demoUsernames = ['yunzhen', 'admin', 'jack'] as const;
+type DemoUsername = typeof demoUsernames[number];
 
 export interface LoginCredentials {
   password: string;
@@ -8,7 +10,7 @@ export interface LoginCredentials {
 
 export interface DemoSession {
   accessToken: string;
-  username: 'vben';
+  username: DemoUsername;
 }
 
 function parseSession(value: string | null): DemoSession | undefined {
@@ -18,7 +20,7 @@ function parseSession(value: string | null): DemoSession | undefined {
 
   try {
     const session = JSON.parse(value) as Partial<DemoSession>;
-    return typeof session.accessToken === 'string' && session.accessToken && session.username === 'vben'
+    return typeof session.accessToken === 'string' && session.accessToken && typeof session.username === 'string' && demoUsernames.includes(session.username as DemoUsername)
       ? session as DemoSession
       : undefined;
   }
@@ -35,11 +37,11 @@ export function getSession(): DemoSession | undefined {
 }
 
 export function login({ password, remember, username }: LoginCredentials): DemoSession | undefined {
-  if (username !== 'vben' || password !== '123456') {
+  if (!demoUsernames.includes(username as DemoUsername) || password !== '123456') {
     return undefined;
   }
 
-  const session = { accessToken: 'demo-vben-access-token', username: 'vben' } as const;
+  const session: DemoSession = { accessToken: 'demo-yunzhen-access-token', username: username as DemoUsername };
   logout();
   (remember ? localStorage : sessionStorage).setItem(storageKey, JSON.stringify(session));
   return session;
