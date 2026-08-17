@@ -19,6 +19,7 @@ import {
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { lazy, Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
+import { logout as clearSession } from '@/features/auth/session';
 import { ThemeToggle } from '@/features/theme/theme-toggle';
 import { DashboardView } from '@/views/dashboard';
 import { ChromeTabs } from './chrome-tabs';
@@ -268,8 +269,9 @@ export function AdminLayout() {
   }
 
   function logout() {
+    clearSession();
     unlock();
-    void navigate({ to: '/login' });
+    void navigate({ replace: true, to: '/login' });
   }
 
   return (

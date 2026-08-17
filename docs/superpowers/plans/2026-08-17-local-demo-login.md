@@ -13,7 +13,7 @@
 - Only `vben / 123456` can log in; do not add a backend, registration, password recovery, dynamic permissions, or packages.
 - Remembered sessions use `localStorage`; normal sessions use `sessionStorage`.
 - Persist `accessToken` and username; malformed storage is unauthenticated.
-- Unauthenticated app paths redirect to `/auth/login`; logout clears both storage locations.
+- Unauthenticated app paths redirect to `/login`; logout clears both storage locations.
 - Do not stage the pre-existing top-status-indicator removal in feature commits.
 
 ---
@@ -133,7 +133,7 @@ export function getLoginRedirect(pathname: string, search: string) {
 }
 ```
 
-Add root `beforeLoad` in `__root.tsx`: signed-out `/auth/` remains available; signed-in `/auth/` redirects to `/dashboard`; all other signed-out paths throw TanStack `redirect` to `/auth/login` using the return value of `getLoginRedirect(location.pathname, location.searchStr)`. Keep `RootComponent` only as the current layout selector.
+Add root `beforeLoad` in `__root.tsx`: signed-out `/login` and `/register` remain available; signed-in versions redirect to `/dashboard`; all other signed-out paths throw TanStack `redirect` to `/login` using the return value of `getLoginRedirect(location.pathname, location.searchStr)`. Keep `RootComponent` only as the current layout selector.
 
 - [ ] **Step 4: Verify and commit**
 
@@ -181,7 +181,7 @@ Expected: FAIL because `LoginForm` is not exported.
 
 Use Ant Design `Form`, `Input`, `Checkbox`, and `Button`; default `remember` to true; show `vben / 123456`; validate required fields; submit to `login`; on failure show `账号或密码错误`; on success use `navigate({ to: getSafeRedirect(redirect), replace: true })`. Validate optional `redirect` on the route. A `useEffect` sends already-authenticated visitors to the same safe destination. Add a centered, responsive card in `login.css` and no assets.
 
-In `AdminLayout.logout`, call auth `logout()` before `unlock()` and navigate with `replace: true` to `/auth/login`.
+In `AdminLayout.logout`, call auth `logout()` before `unlock()` and navigate with `replace: true` to `/login`.
 
 - [ ] **Step 4: Verify full flow and commit**
 

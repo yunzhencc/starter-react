@@ -6,7 +6,7 @@ import { getAppRoute } from '@/features/layout/route-definitions';
 
 export const Route = createRootRoute({
   beforeLoad: ({ location }) => {
-    if (location.pathname.startsWith('/auth/')) {
+    if (location.pathname === '/login' || location.pathname === '/register') {
       if (getSession()) {
         throw redirect({ replace: true, to: '/dashboard' });
       }
@@ -15,7 +15,7 @@ export const Route = createRootRoute({
 
     if (!getSession()) {
       const destination = getLoginRedirect(location.pathname, location.searchStr);
-      throw redirect({ href: `/auth/login?redirect=${encodeURIComponent(destination)}`, replace: true });
+      throw redirect({ href: `/login?redirect=${encodeURIComponent(destination)}`, replace: true });
     }
   },
   component: RootComponent,
