@@ -40,7 +40,6 @@ catalogs:
     overlayscrollbars-react: 0.5.6
     react: 19.2.8
     react-dom: 19.2.8
-    react-echarts-library: ^1.4.0
     react-resizable-panels: 4.12.2
     react-responsive: 10.0.1
     shadcn: 4.18.0

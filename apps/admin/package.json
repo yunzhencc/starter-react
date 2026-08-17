@@ -32,7 +32,6 @@
     "overlayscrollbars-react": "catalog:core",
     "react": "catalog:core",
     "react-dom": "catalog:core",
-    "react-echarts-library": "catalog:core",
     "react-responsive": "catalog:core",
     "tailwind-merge": "catalog:core",
     "tldraw": "catalog:core",
