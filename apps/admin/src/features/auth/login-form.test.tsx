@@ -15,6 +15,10 @@ describe('local demo login form', () => {
     expect(markup).toContain('手机登录');
     expect(markup).toContain('二维码登录');
     expect(markup).toContain('其他登录方式');
+    expect(markup).toContain('/images/auth/wechat.svg');
+    expect(markup).toContain('/images/auth/qqchat.svg');
+    expect(markup).toContain('/images/auth/github.svg');
+    expect(markup).toContain('/images/auth/google.svg');
     expect(markup).toContain('还没有账号？');
     expect(markup).toContain('注册');
   });

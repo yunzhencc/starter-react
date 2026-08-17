@@ -1,4 +1,3 @@
-import { GithubOutlined, GoogleOutlined, QqOutlined, WechatOutlined } from '@ant-design/icons';
 import { createFileRoute, useLocation, useNavigate } from '@tanstack/react-router';
 import { SliderCaptcha } from '@yunzhen/common-ui/captcha';
 import { Button, Card, Checkbox, Form, Input, Select, Typography } from 'antd';
@@ -91,17 +90,17 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         </div>
       </Form>
       <div className="login-third-party">
-        <div>
+        <div className="login-third-party__divider">
           <span />
-          其他登录方式
+          <span className="login-third-party__label">其他登录方式</span>
           <span />
         </div>
-        <p>
-          <Button aria-label="微信登录" icon={<WechatOutlined />} type="text" />
-          <Button aria-label="QQ 登录" icon={<QqOutlined />} type="text" />
-          <Button aria-label="GitHub 登录" icon={<GithubOutlined />} type="text" />
-          <Button aria-label="Google 登录" icon={<GoogleOutlined />} type="text" />
-        </p>
+        <div className="login-third-party__providers">
+          <button aria-label="微信登录" className="login-third-party__provider" type="button"><img alt="" src="/images/auth/wechat.svg" /></button>
+          <button aria-label="QQ 登录" className="login-third-party__provider" type="button"><img alt="" src="/images/auth/qqchat.svg" /></button>
+          <button aria-label="GitHub 登录" className="login-third-party__provider login-third-party__provider--github" type="button"><img alt="" src="/images/auth/github.svg" /></button>
+          <button aria-label="Google 登录" className="login-third-party__provider" type="button"><img alt="" src="/images/auth/google.svg" /></button>
+        </div>
       </div>
       <div className="login-register">
         还没有账号？
