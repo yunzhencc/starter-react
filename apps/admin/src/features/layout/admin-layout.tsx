@@ -1,10 +1,7 @@
 import type { MenuProps } from 'antd';
 import type { ElementType, MouseEvent } from 'react';
-import type { AppRoute } from './route-definitions';
 import type { Tab, TabStateSnapshot } from './tab-model';
 import {
-  AppstoreOutlined,
-  AreaChartOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
   CompressOutlined,
@@ -31,6 +28,7 @@ import { ChromeTabs } from './chrome-tabs';
 import { LayoutScrollArea } from './layout-scroll';
 import { getStoredLockScreen, LockScreen, persistLockScreen, SetLockScreenModal } from './lock-screen';
 import { appMenuItems, getAppRoute } from './route-definitions';
+import { RouteIcon } from './route-icon';
 import { createTabState, getTabKey } from './tab-model';
 import './admin-layout.css';
 
@@ -43,22 +41,19 @@ const pageViews: Record<string, ElementType> = {
   '/examples/slate': SlateView,
 };
 
-function getMenuIcon(icon: AppRoute['icon']) {
-  return icon === 'analytics' ? <AreaChartOutlined /> : <AppstoreOutlined />;
-}
-
 const menuItems: MenuProps['items'] = appMenuItems.map(item => 'children' in item
   ? {
       children: item.children.map(child => ({
+        icon: child.icon ? <RouteIcon icon={child.icon} /> : undefined,
         key: child.path,
         label: child.title,
       })),
-      icon: getMenuIcon(item.icon),
+      icon: <RouteIcon icon={item.icon} />,
       key: item.key,
       label: item.title,
     }
   : {
-      icon: getMenuIcon(item.icon),
+      icon: <RouteIcon icon={item.icon} />,
       key: item.path,
       label: item.title,
     });

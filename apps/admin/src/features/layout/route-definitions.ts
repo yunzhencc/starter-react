@@ -1,12 +1,10 @@
-import type { TabRoute } from './tab-model';
+import type { RouteIconName, TabRoute } from './tab-model';
 
-export type AppRoute = TabRoute & {
-  icon: 'analytics' | 'document';
-};
+export type AppRoute = TabRoute;
 
 export type AppMenuItem = AppRoute | {
   children: AppRoute[];
-  icon: AppRoute['icon'];
+  icon: RouteIconName;
   key: string;
   title: string;
 };
@@ -25,13 +23,11 @@ export const appMenuItems: AppMenuItem[] = [
     title: '演示',
     children: [
       {
-        icon: 'document',
         keepAlive: true,
         path: '/examples/slate',
         title: 'Slate 编辑器',
       },
       {
-        icon: 'document',
         keepAlive: true,
         path: '/examples/lexical',
         title: 'Lexical 编辑器',

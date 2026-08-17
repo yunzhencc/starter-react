@@ -12,6 +12,14 @@ describe('tab model', () => {
     );
   });
 
+  it('clears a stored icon when the current route has none', () => {
+    const tabs = createTabState();
+    tabs.open({ icon: 'document', path: '/examples/slate', title: 'Slate 编辑器' });
+    tabs.open({ path: '/examples/slate', title: 'Slate 编辑器' });
+
+    expect(tabs.items[0]?.icon).toBeUndefined();
+  });
+
   it('keeps affixed tabs, de-duplicates routes, and activates the next available tab when closing', () => {
     const tabs = createTabState();
     tabs.open({ path: '/dashboard', title: '分析页', affix: true });

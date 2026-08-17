@@ -2,6 +2,7 @@ import type { MouseEvent } from 'react';
 import type { Tab } from './tab-model';
 import { CloseOutlined, PushpinFilled } from '@ant-design/icons';
 import { AnimatePresence, Reorder } from 'motion/react';
+import { RouteIcon } from './route-icon';
 
 interface ChromeTabsProps {
   activeKey: string;
@@ -70,7 +71,7 @@ export function ChromeTabs({
                   <svg className="tabs-chrome__background-after" height="7" width="7" viewBox="0 0 7 7"><path d="M 0 0 A 7 7 0 0 0 7 7 L 0 7 Z" /></svg>
                 </div>
                 <button className="tabs-chrome__target" type="button">
-                  {tab.affix && <PushpinFilled />}
+                  <RouteIcon icon={tab.icon} />
                   <span>{tab.title}</span>
                 </button>
                 {(closable || pinnable) && (

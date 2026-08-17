@@ -1,7 +1,10 @@
+export type RouteIconName = 'analytics' | 'document';
+
 export interface TabRoute {
   affix?: boolean;
   fullPath?: string;
   fullPathKey?: boolean;
+  icon?: RouteIconName;
   keepAlive?: boolean;
   path: string;
   search?: Record<string, string | string[] | undefined>;
@@ -102,7 +105,7 @@ export function createTabState(snapshot?: TabStateSnapshot) {
       const key = getTabKey(route);
       const index = state.items.findIndex(tab => tab.key === key);
       const existing = state.items[index];
-      const tab = { ...existing, ...route, affix: existing?.affix ?? route.affix, key };
+      const tab = { ...existing, ...route, affix: existing?.affix ?? route.affix, icon: route.icon, key };
 
       if (index === -1) {
         state.items.push(tab);

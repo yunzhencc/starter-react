@@ -13,7 +13,7 @@ describe('chrome tabs', () => {
         onReorder={() => undefined}
         onUnpin={() => undefined}
         tabs={[
-          { affix: true, key: '/dashboard', path: '/dashboard', title: '分析页' },
+          { affix: true, icon: 'analytics', key: '/dashboard', path: '/dashboard', title: '分析页' },
           { key: '/about', path: '/about', title: '关于' },
         ]}
       />,
@@ -25,6 +25,7 @@ describe('chrome tabs', () => {
     expect(markup).toContain('tabs-chrome__background-before');
     expect(markup).toContain('tabs-chrome__background-after');
     expect(markup).toContain('is-active');
+    expect(markup).toContain('data-route-icon="analytics"');
     expect(markup).toContain('aria-label="取消固定 分析页"');
     expect(markup).toContain('aria-label="关闭 关于"');
   });
