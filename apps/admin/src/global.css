@@ -2,6 +2,48 @@
 
 @import "tailwindcss";
 
+:root {
+  --accent: 240 5% 96%;
+  --accent-dark: 216 14% 93%;
+  --accent-darker: 216 11% 91%;
+  --background: 0 0% 100%;
+  --background-deep: 216 20.11% 95.47%;
+  --border: 240 5.9% 90%;
+  --card: 0 0% 100%;
+  --destructive: 359.33 100% 65.1%;
+  --foreground: 210 6% 21%;
+  --header: 0 0% 100%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --popover: 0 0% 100%;
+  --primary: 212 100% 45%;
+  --radius: .5rem;
+  --sidebar: 0 0% 100%;
+  --success: 144 57% 58%;
+  --warning: 42 84% 61%;
+  color: hsl(var(--foreground));
+  background: hsl(var(--background-deep));
+  color-scheme: light;
+}
+
+:root.dark {
+  --accent: 216 5% 19%;
+  --accent-dark: 240 0% 22%;
+  --accent-darker: 240 0% 26%;
+  --background: 222.34 10.43% 12.27%;
+  --background-deep: 220 13.06% 9%;
+  --border: 240 3.7% 22%;
+  --card: 222.34 10.43% 12.27%;
+  --destructive: 359.21 68.47% 56.47%;
+  --foreground: 0 0% 95%;
+  --header: 222.34 10.43% 12.27%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 0 0% 14.2%;
+  --sidebar: 222.34 10.43% 12.27%;
+  color-scheme: dark;
+}
+
 html, body, #root, .admin-app {
   height: 100%;
   min-height: 0;

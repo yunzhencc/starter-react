@@ -18,6 +18,7 @@ import {
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { lazy, Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
+import { ThemeToggle } from '@/features/theme/theme-toggle';
 import { DashboardView } from '@/views/dashboard';
 import { ChromeTabs } from './chrome-tabs';
 import { LayoutScrollArea } from './layout-scroll';
@@ -279,8 +280,8 @@ export function AdminLayout() {
           </div>
           <div className="header-actions">
             <span className="status-dot" />
-            {' '}
-            系统运行正常
+            <span className="header-status">系统运行正常</span>
+            <ThemeToggle />
           </div>
         </header>
 

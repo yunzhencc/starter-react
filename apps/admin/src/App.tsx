@@ -3,6 +3,7 @@ import { RouterProvider } from '@tanstack/react-router';
 import { App as AntApp, ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import * as React from 'react';
+import { AppThemeProvider } from '@/features/theme/theme-provider';
 import { router } from '@/lib/router';
 import { Providers } from '@/providers';
 import './global.css';
@@ -26,14 +27,16 @@ export function App() {
   }, []);
 
   return (
-    <StyleProvider layer>
-      <ConfigProvider locale={zhCN}>
-        <AntApp className="admin-app">
-          <Providers>
-            <RouterProvider router={router} />
-          </Providers>
-        </AntApp>
-      </ConfigProvider>
-    </StyleProvider>
+    <AppThemeProvider>
+      <StyleProvider layer>
+        <ConfigProvider locale={zhCN}>
+          <AntApp className="admin-app">
+            <Providers>
+              <RouterProvider router={router} />
+            </Providers>
+          </AntApp>
+        </ConfigProvider>
+      </StyleProvider>
+    </AppThemeProvider>
   );
 }
