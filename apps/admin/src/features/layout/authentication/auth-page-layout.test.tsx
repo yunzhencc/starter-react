@@ -62,4 +62,26 @@ describe('auth page layout', () => {
     expect(container.querySelector('[data-layout="panel-left"]')).not.toBeNull();
     expect(localStorage.getItem('starter-react:auth-page-layout')).toBe('panel-left');
   });
+
+  it('uses Vben-ordered layout options with a matching trigger icon', () => {
+    const { container } = render(
+      <AuthPageLayout appName="React Starter" logo="/logo.svg" pageDescription="Description" pageTitle="Title">
+        <div>Login form</div>
+      </AuthPageLayout>,
+    );
+
+    const toggle = container.querySelector<HTMLButtonElement>('[aria-label="登录页布局"]');
+    expect(toggle).not.toBeNull();
+    if (!toggle) {
+      return;
+    }
+    expect(toggle.getAttribute('data-layout')).toBe('panel-right');
+    fireEvent.click(toggle);
+
+    const dropdowns = document.querySelectorAll('.auth-page-layout-toggle__dropdown');
+    const options = [...(dropdowns.item(dropdowns.length - 1)?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? [])];
+    expect(options.map(option => option.textContent)).toEqual(['表单居左', '表单居中', '表单居右']);
+    expect(options.every(option => option.querySelector('svg'))).toBe(true);
+    expect(container.querySelector('.auth-page-layout__toolbar')).not.toBeNull();
+  });
 });
