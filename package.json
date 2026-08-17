@@ -46,6 +46,7 @@
     "eslint": "catalog:eslint",
     "eslint-plugin-format": "catalog:eslint",
     "eslint-plugin-react-refresh": "catalog:eslint",
+    "jsdom": "catalog:test",
     "lint-staged": "catalog:dev",
     "playwright": "catalog:test",
     "react-grab": "catalog:dev",

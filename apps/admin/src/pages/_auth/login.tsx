@@ -1,4 +1,5 @@
 import { createFileRoute, useLocation, useNavigate } from '@tanstack/react-router';
+import { SliderCaptcha } from '@yunzhen/common-ui/captcha';
 import { Button, Card, Checkbox, Form, Input, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { getSafeRedirect } from '../../features/auth/redirect';
@@ -21,12 +22,12 @@ export const Route = createFileRoute('/_auth/login')({
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const [error, setError] = useState<string>();
-  const [sliderProgress, setSliderProgress] = useState(0);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm<LoginValues>();
 
   function submit(values: LoginValues) {
-    if (sliderProgress !== 100) {
+    if (!captchaVerified) {
       setError('请先完成滑块验证');
       return;
     }
@@ -52,7 +53,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             onChange={(username) => {
               form.setFieldsValue({ password: '123456', username });
               setError(undefined);
-              setSliderProgress(0);
+              setCaptchaVerified(false);
             }}
             options={demoUsernames.map(username => ({ label: username, value: username }))}
             size="large"
@@ -61,26 +62,12 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码' }]}>
           <Input.Password autoComplete="current-password" size="large" />
         </Form.Item>
-        <div className="login-slider">
-          <label htmlFor="login-slider-control">拖动滑块完成验证</label>
-          <div className="login-slider__track" data-verified={sliderProgress === 100}>
-            <input
-              aria-describedby="login-slider-status"
-              id="login-slider-control"
-              max="100"
-              min="0"
-              onChange={(event) => {
-                const progress = Number(event.currentTarget.value);
-                setSliderProgress(progress);
-                if (progress === 100)
-                  setError(undefined);
-              }}
-              type="range"
-              value={sliderProgress}
-            />
-            <span id="login-slider-status">{sliderProgress === 100 ? '验证通过' : '向右滑动完成验证'}</span>
-          </div>
-        </div>
+        <SliderCaptcha
+          onSuccess={() => {
+            setCaptchaVerified(true);
+            setError(undefined);
+          }}
+        />
         <Form.Item name="remember" valuePropName="checked">
           <Checkbox>记住我</Checkbox>
         </Form.Item>

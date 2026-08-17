@@ -1,0 +1,17 @@
+{
+  "name": "@yunzhen/common-ui",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./captcha": "./src/captcha/index.ts"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "dependencies": {
+    "@yunzhen/shadcn-ui": "workspace:*",
+    "lucide-react": "catalog:core"
+  }
+}

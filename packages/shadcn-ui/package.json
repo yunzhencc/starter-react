@@ -1,0 +1,27 @@
+{
+  "name": "@yunzhen/shadcn-ui",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./globals.css": "./src/styles/globals.css",
+    "./components/*": "./src/components/*.tsx",
+    "./lib/*": "./src/lib/*.ts",
+    "./hooks/*": "./src/hooks/*.ts"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "dependencies": {
+    "@base-ui/react": "catalog:core",
+    "@fontsource-variable/geist": "catalog:core",
+    "@yunzhen/utils": "workspace:*",
+    "class-variance-authority": "catalog:core",
+    "lucide-react": "catalog:core",
+    "react-resizable-panels": "catalog:core",
+    "shadcn": "catalog:core",
+    "tw-animate-css": "catalog:dev",
+    "zod": "catalog:core"
+  }
+}

@@ -15,6 +15,7 @@
     "@tanstack/react-hotkeys": "catalog:core",
     "@tanstack/react-query": "catalog:core",
     "@tanstack/react-router": "catalog:core",
+    "@yunzhen/common-ui": "workspace:*",
     "@yunzhen/playground": "workspace:*",
     "@yunzhen/request": "catalog:core",
     "@yunzhen/utils": "workspace:*",
