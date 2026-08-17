@@ -1,4 +1,6 @@
+import type { MenuProps } from 'antd';
 import type { ElementType, MouseEvent } from 'react';
+import type { AppRoute } from './route-definitions';
 import type { Tab, TabStateSnapshot } from './tab-model';
 import {
   AppstoreOutlined,
@@ -18,7 +20,7 @@ import {
   ReloadOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { App as AntApp } from 'antd';
+import { App as AntApp, Menu } from 'antd';
 import { motion } from 'motion/react';
 import { lazy, Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { logout as clearSession } from '@/features/auth/session';
@@ -27,7 +29,7 @@ import { DashboardView } from '@/views/dashboard';
 import { ChromeTabs } from './chrome-tabs';
 import { LayoutScrollArea } from './layout-scroll';
 import { getStoredLockScreen, LockScreen, persistLockScreen, SetLockScreenModal } from './lock-screen';
-import { appRoutes, getAppRoute } from './route-definitions';
+import { appMenuItems, getAppRoute } from './route-definitions';
 import { createTabState, getTabKey } from './tab-model';
 import './admin-layout.css';
 
@@ -39,6 +41,26 @@ const pageViews: Record<string, ElementType> = {
   '/examples/lexical': LexicalView,
   '/examples/slate': SlateView,
 };
+
+function getMenuIcon(icon: AppRoute['icon']) {
+  return icon === 'analytics' ? <AreaChartOutlined /> : <AppstoreOutlined />;
+}
+
+const menuItems: MenuProps['items'] = appMenuItems.map(item => 'children' in item
+  ? {
+      children: item.children.map(child => ({
+        key: child.path,
+        label: child.title,
+      })),
+      icon: getMenuIcon(item.icon),
+      key: item.key,
+      label: item.title,
+    }
+  : {
+      icon: getMenuIcon(item.icon),
+      key: item.path,
+      label: item.title,
+    });
 
 const storageKey = 'starter-react:tabbar';
 
@@ -295,23 +317,17 @@ export function AdminLayout() {
           <span className="brand-mark"><img alt="" src="/logo.svg" /></span>
           <span className="brand-name">React Starter</span>
         </button>
-        <nav aria-label="主菜单" className="admin-menu">
-          {appRoutes.map((item) => {
-            const active = location.pathname.startsWith(item.path);
-            return (
-              <button
-                className={active ? 'admin-menu-item admin-menu-item--active' : 'admin-menu-item'}
-                key={item.path}
-                title={item.title}
-                type="button"
-                onClick={() => void navigate({ to: item.path as never })}
-              >
-                {item.icon === 'analytics' ? <AreaChartOutlined /> : <AppstoreOutlined />}
-                <span>{item.title}</span>
-              </button>
-            );
-          })}
-        </nav>
+        <Menu
+          aria-label="主菜单"
+          className="admin-menu"
+          defaultOpenKeys={route?.path.startsWith('/examples/') ? ['examples'] : []}
+          inlineCollapsed={collapsed}
+          inlineIndent={12}
+          items={menuItems}
+          mode="inline"
+          selectedKeys={route ? [route.path] : []}
+          onClick={({ key }) => void navigate({ to: key as never })}
+        />
         <button className="sidebar-collapse" type="button" onClick={() => setCollapsed(value => !value)}>
           {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           <span>收起菜单</span>
