@@ -105,6 +105,7 @@ export function AdminLayout() {
   const tabs = useRef(getStoredTabs()).current;
   const [revision, render] = useReducer(value => value + 1, 0);
   const [collapsed, setCollapsed] = useState(false);
+  const [sidebarHidden, setSidebarHidden] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(getStoredSidebarWidth);
   const [contextTab, setContextTab] = useState<string>();
   const [contextMenuPosition, setContextMenuPosition] = useState({ left: 0, top: 0 });
@@ -122,8 +123,8 @@ export function AdminLayout() {
   const [pageTransition, setPageTransition] = useState({ displayedKey: currentKey, leavingKey: '' });
   const [tabScroll, setTabScroll] = useState({ left: true, overflow: false, right: true });
   const compactSidebar = useMediaQuery({ maxWidth: 900 });
-  const sidebarSize = maximized ? 0 : collapsed ? 60 : compactSidebar ? 64 : sidebarWidth;
-  const sidebarResizable = !compactSidebar && !maximized;
+  const sidebarSize = maximized || sidebarHidden ? 0 : collapsed ? 60 : compactSidebar ? 64 : sidebarWidth;
+  const sidebarResizable = !compactSidebar && !maximized && !sidebarHidden;
 
   useEffect(() => {
     if (!route) {
@@ -371,7 +372,7 @@ export function AdminLayout() {
   return (
     <>
       <SplitPane
-        className={`admin-layout ${collapsed ? 'admin-layout--collapsed' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}
+        className={`admin-layout ${collapsed && !sidebarHidden ? 'admin-layout--collapsed' : ''} ${sidebarHidden ? 'admin-layout--sidebar-hidden' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}
         direction="horizontal"
         dividerClassName="admin-sidebar-resizer"
         dividerSize={sidebarResizable ? 1 : 0}
@@ -381,8 +382,8 @@ export function AdminLayout() {
       >
         <Pane
           className="admin-sidebar-pane"
-          maxSize={maximized || compactSidebar ? sidebarSize : maxSidebarWidth}
-          minSize={maximized || compactSidebar ? sidebarSize : minSidebarWidth}
+          maxSize={maximized || compactSidebar || sidebarHidden ? sidebarSize : maxSidebarWidth}
+          minSize={maximized || compactSidebar || sidebarHidden ? sidebarSize : minSidebarWidth}
           size={sidebarSize}
         >
           <aside className="admin-sidebar">
@@ -408,8 +409,8 @@ export function AdminLayout() {
           <main className="admin-main">
             <header className="admin-header">
               <div className="header-leading">
-                <button aria-label={collapsed ? '展开菜单' : '收起菜单'} className="header-menu-toggle" title={collapsed ? '展开菜单' : '收起菜单'} type="button" onClick={() => setCollapsed(value => !value)}>
-                  {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                <button aria-label={sidebarHidden ? '显示菜单' : '隐藏菜单'} className="header-menu-toggle" title={sidebarHidden ? '显示菜单' : '隐藏菜单'} type="button" onClick={() => setSidebarHidden(value => !value)}>
+                  {sidebarHidden ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 </button>
                 <div className="breadcrumb">
                   工作台
