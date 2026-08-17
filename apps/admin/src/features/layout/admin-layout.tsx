@@ -31,7 +31,7 @@ import { LayoutScrollArea } from './layout-scroll';
 import { getStoredLockScreen, LockScreen, persistLockScreen, SetLockScreenModal } from './lock-screen';
 import { appMenuItems, getAppRoute } from './route-definitions';
 import { RouteIcon } from './route-icon';
-import { getSidebarWidth } from './sidebar-width';
+import { getSidebarWidth, maxSidebarWidth, minSidebarWidth } from './sidebar-width';
 import { createTabState, getTabKey } from './tab-model';
 import './admin-layout.css';
 
@@ -123,7 +123,7 @@ export function AdminLayout() {
   const [tabScroll, setTabScroll] = useState({ left: true, overflow: false, right: true });
   const compactSidebar = useMediaQuery({ maxWidth: 900 });
   const sidebarSize = maximized ? 0 : collapsed ? 60 : compactSidebar ? 64 : sidebarWidth;
-  const sidebarResizable = !collapsed && !compactSidebar && !maximized;
+  const sidebarResizable = !compactSidebar && !maximized;
 
   useEffect(() => {
     if (!route) {
@@ -313,12 +313,17 @@ export function AdminLayout() {
   }
 
   function resizeSidebar(sizes: number[]) {
-    setSidebarWidth(getSidebarWidth(String(sizes[0])));
+    const width = getSidebarWidth(String(sizes[0]));
+    setSidebarWidth(width);
+    if (width > minSidebarWidth) {
+      setCollapsed(false);
+    }
   }
 
   function persistSidebarSize(sizes: number[]) {
     const width = getSidebarWidth(String(sizes[0]));
     setSidebarWidth(width);
+    setCollapsed(width <= minSidebarWidth);
     try {
       window.localStorage.setItem(sidebarWidthStorageKey, String(width));
     }
@@ -376,8 +381,8 @@ export function AdminLayout() {
       >
         <Pane
           className="admin-sidebar-pane"
-          maxSize={maximized || collapsed || compactSidebar ? sidebarSize : 360}
-          minSize={maximized || collapsed || compactSidebar ? sidebarSize : 160}
+          maxSize={maximized || compactSidebar ? sidebarSize : maxSidebarWidth}
+          minSize={maximized || compactSidebar ? sidebarSize : minSidebarWidth}
           size={sidebarSize}
         >
           <aside className="admin-sidebar">

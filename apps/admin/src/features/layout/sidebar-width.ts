@@ -1,6 +1,6 @@
-const defaultSidebarWidth = 224;
-const minSidebarWidth = 160;
-const maxSidebarWidth = 360;
+export const defaultSidebarWidth = 180;
+export const minSidebarWidth = 60;
+export const maxSidebarWidth = 320;
 
 export function getSidebarWidth(value: string | null) {
   if (value === null) {
