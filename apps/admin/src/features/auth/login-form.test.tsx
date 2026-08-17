@@ -1,10 +1,29 @@
-import { renderToStaticMarkup } from 'react-dom/server';
+// @vitest-environment jsdom
+import { createMemoryHistory, createRootRoute, createRoute, createRouter, Outlet, RouterProvider } from '@tanstack/react-router';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { LoginForm } from '../../pages/_auth/login';
 
+Object.defineProperty(window, 'matchMedia', {
+  value: () => ({ addEventListener: () => {}, addListener: () => {}, matches: false, media: '', removeEventListener: () => {}, removeListener: () => {} }),
+});
+Object.defineProperty(window, 'scrollTo', { value: () => {} });
+
 describe('local demo login form', () => {
-  it('renders the complete Vben login surface around the local demo captcha', () => {
-    const markup = renderToStaticMarkup(<LoginForm onSuccess={() => undefined} />);
+  it('renders the complete Vben login surface around the local demo captcha', async () => {
+    const rootRoute = createRootRoute({ component: Outlet });
+    const loginRoute = createRoute({
+      component: () => <LoginForm onSuccess={() => undefined} />,
+      getParentRoute: () => rootRoute,
+      path: '/login',
+    });
+    const router = createRouter({
+      history: createMemoryHistory({ initialEntries: ['/login'] }),
+      routeTree: rootRoute.addChildren([loginRoute]),
+    });
+    const { container } = render(<RouterProvider router={router} />);
+    await screen.findByText('欢迎回来 👋🏻');
+    const markup = container.innerHTML;
 
     expect(markup).toContain('欢迎回来 👋🏻');
     expect(markup).toContain('Super');

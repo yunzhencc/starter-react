@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { AuthSupportCard } from './components/auth-support-card';
 
@@ -14,7 +14,7 @@ function RouteComponent() {
         <>
           已有账号？
           {' '}
-          <a href="/login">登录</a>
+          <Link to="/login">登录</Link>
         </>
       )}
       title="创建账号"

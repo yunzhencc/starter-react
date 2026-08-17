@@ -1,4 +1,4 @@
-import { createFileRoute, useLocation, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link, useLocation, useNavigate } from '@tanstack/react-router';
 import { SliderCaptcha } from '@yunzhen/common-ui/captcha';
 import { Button, Card, Checkbox, Form, Input, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
@@ -80,13 +80,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         </Form.Item>
         <div className="login-options">
           <Form.Item name="remember" valuePropName="checked"><Checkbox>记住我</Checkbox></Form.Item>
-          <a href="/forget-password">忘记密码？</a>
+          <Link to="/forget-password">忘记密码？</Link>
         </div>
         {error && <div className="login-error" role="alert">{error}</div>}
         <Button block htmlType="submit" loading={submitting} size="large" type="primary">登录</Button>
         <div className="login-alt-actions">
-          <a href="/code-login">手机登录</a>
-          <a href="/qrcode-login">二维码登录</a>
+          <Link to="/code-login">手机登录</Link>
+          <Link to="/qrcode-login">二维码登录</Link>
         </div>
       </Form>
       <div className="login-third-party">
@@ -105,7 +105,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       <div className="login-register">
         还没有账号？
         {' '}
-        <a href="/register">注册</a>
+        <Link to="/register">注册</Link>
       </div>
     </Card>
   );

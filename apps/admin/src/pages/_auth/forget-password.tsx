@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { Button, Form, Input } from 'antd';
 import { AuthSupportCard } from './components/auth-support-card';
 
@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_auth/forget-password')({ component: Rout
 
 function RouteComponent() {
   return (
-    <AuthSupportCard description="输入邮箱以重置您的密码" footer={<a href="/login">返回登录</a>} title="忘记密码">
+    <AuthSupportCard description="输入邮箱以重置您的密码" footer={<Link to="/login">返回登录</Link>} title="忘记密码">
       <Form layout="vertical">
         <Form.Item name="email">
           <Input placeholder="example@example.com" size="large" />
