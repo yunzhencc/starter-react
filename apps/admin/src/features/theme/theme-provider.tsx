@@ -31,6 +31,12 @@ function AntdThemeProvider({ children }: { children: ReactNode }) {
 
   const config = {
     algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+    components: {
+      Menu: {
+        collapsedIconSize: 14,
+        itemMarginInline: 8,
+      },
+    },
     token: tokens,
   };
 
