@@ -1,8 +1,8 @@
 import { createFileRoute, useLocation, useNavigate } from '@tanstack/react-router';
 import { Button, Card, Checkbox, Form, Input, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { getSafeRedirect } from '@/features/auth/redirect';
-import { getSession, login } from '@/features/auth/session';
+import { getSafeRedirect } from '../../features/auth/redirect';
+import { getSession, login } from '../../features/auth/session';
 import './login.css';
 
 interface LoginValues {
