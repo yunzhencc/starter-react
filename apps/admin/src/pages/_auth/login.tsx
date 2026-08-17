@@ -36,7 +36,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   }
 
   return (
-    <Card className="login-card" bordered={false}>
+    <Card className="login-card" variant="borderless">
       <Typography.Title level={2}>欢迎回来</Typography.Title>
       <Typography.Paragraph type="secondary">使用本地演示账号登录管理后台</Typography.Paragraph>
       <Form<LoginValues> initialValues={{ remember: true, username: 'vben' }} layout="vertical" onFinish={submit} requiredMark={false}>
