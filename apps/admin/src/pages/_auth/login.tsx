@@ -22,6 +22,7 @@ export const Route = createFileRoute('/_auth/login')({
 });
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
+  const [captchaError, setCaptchaError] = useState<string>();
   const [error, setError] = useState<string>();
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -29,7 +30,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
   function submit(values: LoginValues) {
     if (!captchaVerified) {
-      setError('请先完成滑块验证');
+      setCaptchaError('请先完成滑块验证');
       return;
     }
 
@@ -56,6 +57,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             aria-label="选择账号"
             onChange={(username) => {
               form.setFieldsValue({ password: '123456', username });
+              setCaptchaError(undefined);
               setError(undefined);
               setCaptchaVerified(false);
             }}
@@ -70,10 +72,11 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
           <Input.Password aria-label="密码" autoComplete="current-password" placeholder="密码" size="large" />
         </Form.Item>
-        <Form.Item className="login-captcha-item">
+        <Form.Item className="login-captcha-item" help={captchaError} validateStatus={captchaError ? 'error' : undefined}>
           <SliderCaptcha
             onSuccess={() => {
               setCaptchaVerified(true);
+              setCaptchaError(undefined);
               setError(undefined);
             }}
           />

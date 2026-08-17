@@ -28,6 +28,7 @@ catalogs:
     antd: 6.6.0
     class-variance-authority: 0.7.1
     clsx: 2.1.1
+    echarts: ^6.1.0
     enum-plus: 3.3.0
     es-toolkit: 1.50.0
     lexical: 0.49.0
@@ -39,6 +40,7 @@ catalogs:
     overlayscrollbars-react: 0.5.6
     react: 19.2.8
     react-dom: 19.2.8
+    react-echarts-library: ^1.4.0
     react-resizable-panels: 4.12.2
     react-responsive: 10.0.1
     shadcn: 4.18.0

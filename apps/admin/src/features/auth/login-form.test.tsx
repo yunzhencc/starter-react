@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { createMemoryHistory, createRootRoute, createRoute, createRouter, Outlet, RouterProvider } from '@tanstack/react-router';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { LoginForm } from '../../pages/_auth/login';
 
@@ -22,7 +22,7 @@ describe('local demo login form', () => {
       routeTree: rootRoute.addChildren([loginRoute]),
     });
     const { container } = render(<RouterProvider router={router} />);
-    await screen.findByText('欢迎回来 👋🏻');
+    await within(container).findByText('欢迎回来 👋🏻');
     const markup = container.innerHTML;
 
     expect(markup).toContain('欢迎回来 👋🏻');
@@ -40,5 +40,24 @@ describe('local demo login form', () => {
     expect(markup).toContain('/images/auth/google.svg');
     expect(markup).toContain('还没有账号？');
     expect(markup).toContain('注册');
+  });
+
+  it('shows the captcha validation under the captcha item', async () => {
+    const rootRoute = createRootRoute({ component: Outlet });
+    const loginRoute = createRoute({
+      component: () => <LoginForm onSuccess={() => undefined} />,
+      getParentRoute: () => rootRoute,
+      path: '/login',
+    });
+    const router = createRouter({
+      history: createMemoryHistory({ initialEntries: ['/login'] }),
+      routeTree: rootRoute.addChildren([loginRoute]),
+    });
+    const { container } = render(<RouterProvider router={router} />);
+
+    await within(container).findByText('欢迎回来 👋🏻');
+    fireEvent.click(container.querySelector('button[type="submit"]')!);
+
+    expect((await within(container).findByText('请先完成滑块验证')).classList.contains('ant-form-item-explain-error')).toBe(true);
   });
 });
