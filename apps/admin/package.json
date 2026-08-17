@@ -23,6 +23,7 @@
     "enum-plus": "catalog:core",
     "es-toolkit": "catalog:core",
     "motion": "catalog:core",
+    "next-themes": "catalog:core",
     "overlayscrollbars": "catalog:core",
     "overlayscrollbars-react": "catalog:core",
     "react": "catalog:core",

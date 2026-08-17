@@ -69,6 +69,9 @@ catalogs:
     motion:
       specifier: 13.1.0
       version: 13.1.0
+    next-themes:
+      specifier: ^0.4.6
+      version: 0.4.6
     overlayscrollbars:
       specifier: 2.16.0
       version: 2.16.0
@@ -425,6 +428,9 @@ importers:
       motion:
         specifier: catalog:core
         version: 13.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      next-themes:
+        specifier: catalog:core
+        version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       overlayscrollbars:
         specifier: catalog:core
         version: 2.16.0
@@ -6773,6 +6779,12 @@ packages:
   negotiator@1.0.0:
     resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
     engines: {node: '>= 0.6'}
+
+  next-themes@0.4.6:
+    resolution: {integrity: sha512-pZvgD5L0IEvX5/9GWyHMf3m8BKiVQwsCMHfoFosXtXBMnaS0ZnIJ9ST4b4NqLVKDEm8QBxoNNGNaBv2JNF6XNA==}
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
@@ -15258,6 +15270,11 @@ snapshots:
   natural-orderby@5.0.0: {}
 
   negotiator@1.0.0: {}
+
+  next-themes@0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
   no-case@3.0.4:
     dependencies:
