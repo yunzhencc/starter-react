@@ -19,5 +19,6 @@ export default antfu({
     'tsconfig.app.json',
     'tsconfig.node.json',
     '.agents/',
+    'packages/shadcn-ui/',
   ],
 });

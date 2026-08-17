@@ -18,6 +18,7 @@
     "@yunzhen/common-ui": "workspace:*",
     "@yunzhen/playground": "workspace:*",
     "@yunzhen/request": "catalog:core",
+    "@yunzhen/shadcn-ui": "workspace:*",
     "@yunzhen/utils": "workspace:*",
     "antd": "catalog:core",
     "clsx": "catalog:core",

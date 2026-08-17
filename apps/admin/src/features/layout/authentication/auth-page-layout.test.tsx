@@ -37,14 +37,14 @@ describe('auth page layout', () => {
     expect(renderLayout('panel-center')).not.toContain('auth-page-layout__hero');
   });
 
-  it('uses the Vben authentication shell', () => {
+  it('uses the original CareerCompass characters as the default hero effect', () => {
     const markup = renderLayout('panel-right');
 
     expect(markup).toContain('auth-page-layout__toolbar');
     expect(markup).toContain('auth-page-layout__hero-background');
     expect(markup).toContain('auth-page-layout__hero-content');
-    expect(markup).toContain('auth-page-layout__slogan');
-    expect(markup).toContain('auth-page-layout__slogan-image');
+    expect(markup).toContain('auth-page-layout__careercompass-characters');
+    expect(markup).not.toContain('auth-page-layout__slogan');
     expect(markup).toContain('auth-page-layout__brand');
     expect(markup).toContain('auth-page-layout__content');
   });

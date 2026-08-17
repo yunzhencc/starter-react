@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 import { ThemeToggle } from '../../theme/theme-toggle';
 import { AuthPageLayoutToggle } from '../widgets/auth-page-layout-toggle';
+import { AuthHero } from './auth-hero';
 import { getAuthPageLayout, setAuthPageLayout } from './preferences';
 import './auth-page-layout.css';
 
@@ -25,9 +26,7 @@ export function AuthPageLayout({ appName, children, logo, pageDescription, pageT
     <section aria-labelledby="auth-page-title" className="auth-page-layout__hero" key={layout}>
       <div aria-hidden="true" className="auth-page-layout__hero-background" />
       <div className="auth-page-layout__hero-content" data-side={side}>
-        <div className="auth-page-layout__slogan" aria-hidden="true">
-          <img alt="" className="auth-page-layout__slogan-image" src="/images/auth-slogan.svg" />
-        </div>
+        <AuthHero />
         <div className="auth-page-layout__copy">
           <h1 id="auth-page-title">{pageTitle}</h1>
           <span>{pageDescription}</span>

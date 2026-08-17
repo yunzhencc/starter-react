@@ -52,6 +52,7 @@ html, body, #root, .admin-app {
 
 /* https://tailwindcss.com/docs/detecting-classes-in-source-files */
 @source "../node_modules/@yunzhen/playground";
+@source "../../../packages/shadcn-ui/src/components/animated-characters.tsx";
 
 @theme {
   --color-slot-bg: #5278f568;

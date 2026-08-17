@@ -422,6 +422,9 @@ importers:
       '@yunzhen/request':
         specifier: catalog:core
         version: 2.0.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
+      '@yunzhen/shadcn-ui':
+        specifier: workspace:*
+        version: link:../../packages/shadcn-ui
       '@yunzhen/utils':
         specifier: workspace:*
         version: link:../../packages/utils
