@@ -244,8 +244,8 @@ export function AdminLayout() {
     <div className={`admin-layout ${collapsed ? 'admin-layout--collapsed' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}>
       <aside className="admin-sidebar">
         <button className="brand" type="button" onClick={() => void navigate({ to: '/dashboard' })}>
-          <span className="brand-mark">V</span>
-          <span className="brand-name">Vben Admin</span>
+          <span className="brand-mark"><img alt="" src="/logo.svg" /></span>
+          <span className="brand-name">React Starter</span>
         </button>
         <nav aria-label="主菜单" className="admin-menu">
           {appRoutes.map((item) => {

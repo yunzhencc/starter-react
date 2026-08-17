@@ -24,6 +24,7 @@
     "es-toolkit": "catalog:core",
     "motion": "catalog:core",
     "next-themes": "catalog:core",
+    "nuqs": "catalog:core",
     "overlayscrollbars": "catalog:core",
     "overlayscrollbars-react": "catalog:core",
     "react": "catalog:core",
