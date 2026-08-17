@@ -9,6 +9,7 @@ import {
   ExpandOutlined,
   FullscreenOutlined,
   LinkOutlined,
+  LockOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MoreOutlined,
@@ -22,6 +23,7 @@ import { ThemeToggle } from '@/features/theme/theme-toggle';
 import { DashboardView } from '@/views/dashboard';
 import { ChromeTabs } from './chrome-tabs';
 import { LayoutScrollArea } from './layout-scroll';
+import { getStoredLockScreen, LockScreen, persistLockScreen, SetLockScreenModal } from './lock-screen';
 import { appRoutes, getAppRoute } from './route-definitions';
 import { createTabState, getTabKey } from './tab-model';
 import './admin-layout.css';
@@ -67,6 +69,8 @@ export function AdminLayout() {
   const [contextTab, setContextTab] = useState<string>();
   const [contextMenuPosition, setContextMenuPosition] = useState({ left: 0, top: 0 });
   const [maximized, setMaximized] = useState(false);
+  const [lockScreen, setLockScreen] = useState(getStoredLockScreen);
+  const [lockScreenModalOpen, setLockScreenModalOpen] = useState(false);
   const [refreshVersion, setRefreshVersion] = useState<Record<string, number>>({});
   const route = getAppRoute(location.pathname);
   const fullPath = route ? `${route.path}${location.searchStr}` : '';
@@ -92,6 +96,17 @@ export function AdminLayout() {
   useEffect(() => {
     window.sessionStorage.setItem(storageKey, JSON.stringify(tabs.snapshot()));
   }, [revision, tabs]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!lockScreen.isLocked && event.altKey && event.code === 'KeyL' && !event.repeat) {
+        event.preventDefault();
+        setLockScreenModalOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lockScreen.isLocked]);
 
   useEffect(() => {
     if (!contextTab) {
@@ -240,6 +255,23 @@ export function AdminLayout() {
     });
   }
 
+  function lock(password: string) {
+    const next = { isLocked: true, password };
+    setLockScreen(next);
+    persistLockScreen(next);
+    setLockScreenModalOpen(false);
+  }
+
+  function unlock() {
+    setLockScreen({ isLocked: false });
+    persistLockScreen({ isLocked: false });
+  }
+
+  function logout() {
+    unlock();
+    void navigate({ to: '/login' });
+  }
+
   return (
     <div className={`admin-layout ${collapsed ? 'admin-layout--collapsed' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}>
       <aside className="admin-sidebar">
@@ -282,6 +314,9 @@ export function AdminLayout() {
             <span className="status-dot" />
             <span className="header-status">系统运行正常</span>
             <ThemeToggle />
+            <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
+              <LockOutlined />
+            </button>
           </div>
         </header>
 
@@ -423,6 +458,12 @@ export function AdminLayout() {
           })}
         </LayoutScrollArea>
       </main>
+      <SetLockScreenModal
+        open={lockScreenModalOpen}
+        onCancel={() => setLockScreenModalOpen(false)}
+        onConfirm={lock}
+      />
+      {lockScreen.isLocked && <LockScreen password={lockScreen.password ?? ''} onLogout={logout} onUnlock={unlock} />}
     </div>
   );
 }
