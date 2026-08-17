@@ -6,7 +6,7 @@ import { getAppRoute } from '@/features/layout/route-definitions';
 
 export const Route = createRootRoute({
   beforeLoad: ({ location }) => {
-    if (location.pathname === '/login' || location.pathname === '/register') {
+    if (['/login', '/register', '/forget-password', '/code-login', '/qrcode-login'].includes(location.pathname)) {
       if (getSession()) {
         throw redirect({ replace: true, to: '/dashboard' });
       }

@@ -1,3 +1,4 @@
+import { GithubOutlined, GoogleOutlined, QqOutlined, WechatOutlined } from '@ant-design/icons';
 import { createFileRoute, useLocation, useNavigate } from '@tanstack/react-router';
 import { SliderCaptcha } from '@yunzhen/common-ui/captcha';
 import { Button, Card, Checkbox, Form, Input, Select, Typography } from 'antd';
@@ -9,6 +10,7 @@ import './login.css';
 interface LoginValues {
   password: string;
   remember: boolean;
+  selectAccount: string;
   username: string;
 }
 
@@ -45,39 +47,66 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
   return (
     <Card className="login-card" variant="borderless">
-      <Typography.Title id="login-title" level={2}>欢迎回来</Typography.Title>
-      <Typography.Paragraph type="secondary">使用演示账号登录管理后台</Typography.Paragraph>
-      <Form<LoginValues> form={form} initialValues={{ password: '123456', remember: true, username: 'yunzhen' }} layout="vertical" onFinish={submit} requiredMark={false}>
-        <Form.Item label="账号" name="username" rules={[{ required: true, message: '请输入账号' }]}>
+      <div className="login-title">
+        <Typography.Title id="login-title" level={2}>欢迎回来 👋🏻</Typography.Title>
+        <Typography.Paragraph type="secondary">请输入您的账号和密码登录</Typography.Paragraph>
+      </div>
+      <Form<LoginValues> form={form} initialValues={{ password: '123456', remember: true, selectAccount: 'vben', username: 'vben' }} layout="vertical" onFinish={submit} requiredMark={false}>
+        <Form.Item name="selectAccount">
           <Select
+            aria-label="选择账号"
             onChange={(username) => {
               form.setFieldsValue({ password: '123456', username });
               setError(undefined);
               setCaptchaVerified(false);
             }}
-            options={demoUsernames.map(username => ({ label: username, value: username }))}
+            options={demoUsernames.filter(username => username !== 'yunzhen').map(username => ({ label: username === 'vben' ? 'Super' : username === 'admin' ? 'Admin' : 'User', value: username }))}
+            placeholder="选择账号"
             size="large"
           />
         </Form.Item>
-        <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码' }]}>
-          <Input.Password autoComplete="current-password" size="large" />
+        <Form.Item name="username" rules={[{ required: true, message: '请输入用户名' }]}>
+          <Input aria-label="用户名" autoComplete="username" placeholder="用户名" size="large" />
         </Form.Item>
-        <SliderCaptcha
-          onSuccess={() => {
-            setCaptchaVerified(true);
-            setError(undefined);
-          }}
-        />
-        <Form.Item name="remember" valuePropName="checked">
-          <Checkbox>记住我</Checkbox>
+        <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
+          <Input.Password aria-label="密码" autoComplete="current-password" placeholder="密码" size="large" />
         </Form.Item>
+        <Form.Item className="login-captcha-item">
+          <SliderCaptcha
+            onSuccess={() => {
+              setCaptchaVerified(true);
+              setError(undefined);
+            }}
+          />
+        </Form.Item>
+        <div className="login-options">
+          <Form.Item name="remember" valuePropName="checked"><Checkbox>记住我</Checkbox></Form.Item>
+          <a href="/forget-password">忘记密码？</a>
+        </div>
         {error && <div className="login-error" role="alert">{error}</div>}
         <Button block htmlType="submit" loading={submitting} size="large" type="primary">登录</Button>
+        <div className="login-alt-actions">
+          <a href="/code-login">手机登录</a>
+          <a href="/qrcode-login">二维码登录</a>
+        </div>
       </Form>
-      <div className="login-hint">
-        <span>演示账号：yunzhen / 123456</span>
-        <span>管理员账号：admin / 123456</span>
-        <span>用户账号：jack / 123456</span>
+      <div className="login-third-party">
+        <div>
+          <span />
+          其他登录方式
+          <span />
+        </div>
+        <p>
+          <Button aria-label="微信登录" icon={<WechatOutlined />} type="text" />
+          <Button aria-label="QQ 登录" icon={<QqOutlined />} type="text" />
+          <Button aria-label="GitHub 登录" icon={<GithubOutlined />} type="text" />
+          <Button aria-label="Google 登录" icon={<GoogleOutlined />} type="text" />
+        </p>
+      </div>
+      <div className="login-register">
+        还没有账号？
+        {' '}
+        <a href="/register">注册</a>
       </div>
     </Card>
   );

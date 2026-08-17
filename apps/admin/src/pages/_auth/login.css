@@ -1,7 +1,30 @@
-.login-card { width: min(100%, 400px); box-shadow: none; }
-.login-card .ant-card-body { padding: 8px; }
-.login-card .ant-typography { margin-bottom: 4px; }
-.login-card .ant-form { margin-top: 32px; }
-.login-card .ant-form-item { margin-bottom: 18px; }
+.login-card { width: min(100%, 448px); background: transparent; box-shadow: none; }
+.login-card .ant-card-body { padding: 0; }
+.login-title { margin-bottom: 28px; }
+.login-title .ant-typography { margin: 0; }
+.login-title h2.ant-typography { margin-bottom: 12px; font-size: 30px; font-weight: 700; letter-spacing: -.025em; line-height: 36px; }
+.login-title .ant-typography-secondary { color: hsl(var(--muted-foreground)); font-size: 14px; }
+.login-card .ant-form-item { margin-bottom: 16px; }
+.login-card .ant-form-item-label { display: none; }
+.login-card .ant-input-affix-wrapper,
+.login-card .ant-input,
+.login-card .ant-select-single { min-height: 40px; }
+.login-captcha-item { margin-bottom: 10px !important; }
+.login-options { display: flex; align-items: flex-start; justify-content: space-between; margin: 4px 0 22px; font-size: 14px; }
+.login-options .ant-form-item { margin: 0; }
+.login-options a,
+.login-alt-actions a,
+.login-register a { color: hsl(var(--primary)); text-decoration: none; }
 .login-error { margin: -6px 0 14px; color: hsl(var(--destructive)); font-size: 13px; }
-.login-hint { display: grid; gap: 4px; margin-top: 22px; color: hsl(var(--muted-foreground)); font-size: 12px; line-height: 1.5; text-align: center; }
+.login-alt-actions { display: flex; gap: 16px; margin: 16px 0 8px; }
+.login-alt-actions a { display: grid; flex: 1; height: 40px; place-items: center; border: 1px solid hsl(var(--border)); border-radius: 6px; color: hsl(var(--foreground)); font-size: 14px; }
+.login-third-party { margin-top: 16px; color: hsl(var(--muted-foreground)); font-size: 12px; text-align: center; }
+.login-third-party > div { display: flex; align-items: center; gap: 12px; }
+.login-third-party span { flex: 1; border-top: 1px solid hsl(var(--border)); }
+.login-third-party p { margin: 16px 0 12px; }
+.login-third-party .ant-btn { color: hsl(var(--muted-foreground)); font-size: 18px; }
+.login-register { margin-top: 12px; color: hsl(var(--muted-foreground)); font-size: 14px; text-align: center; }
+
+@media (min-width: 1024px) {
+  .login-title h2.ant-typography { font-size: 36px; }
+}

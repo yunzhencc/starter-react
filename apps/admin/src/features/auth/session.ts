@@ -1,5 +1,5 @@
 const storageKey = 'starter-react:auth';
-export const demoUsernames = ['yunzhen', 'admin', 'jack'] as const;
+export const demoUsernames = ['vben', 'admin', 'jack', 'yunzhen'] as const;
 type DemoUsername = typeof demoUsernames[number];
 
 export interface LoginCredentials {
