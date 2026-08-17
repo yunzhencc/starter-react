@@ -350,19 +350,20 @@ export function AdminLayout() {
           selectedKeys={route ? [route.path] : []}
           onClick={({ key }) => void navigate({ to: key as never })}
         />
-        <button className="sidebar-collapse" type="button" onClick={() => setCollapsed(value => !value)}>
-          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          <span>收起菜单</span>
-        </button>
       </aside>
 
       <main className="admin-main">
         <header className="admin-header">
-          <div className="breadcrumb">
-            工作台
-            <span>/</span>
-            {' '}
-            {route?.title}
+          <div className="header-leading">
+            <button aria-label={collapsed ? '展开菜单' : '收起菜单'} className="header-menu-toggle" title={collapsed ? '展开菜单' : '收起菜单'} type="button" onClick={() => setCollapsed(value => !value)}>
+              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            </button>
+            <div className="breadcrumb">
+              工作台
+              <span>/</span>
+              {' '}
+              {route?.title}
+            </div>
           </div>
           <div className="header-actions">
             <ThemeToggle />
