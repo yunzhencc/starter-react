@@ -9,6 +9,7 @@ import {
   ArrowRightOutlined,
   CompressOutlined,
   ExpandOutlined,
+  FullscreenExitOutlined,
   FullscreenOutlined,
   LinkOutlined,
   LockOutlined,
@@ -94,6 +95,7 @@ export function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [contextTab, setContextTab] = useState<string>();
   const [contextMenuPosition, setContextMenuPosition] = useState({ left: 0, top: 0 });
+  const [fullscreen, setFullscreen] = useState(() => typeof document !== 'undefined' && !!document.fullscreenElement);
   const [maximized, setMaximized] = useState(false);
   const [lockScreen, setLockScreen] = useState(getStoredLockScreen);
   const [lockScreenModalOpen, setLockScreenModalOpen] = useState(false);
@@ -122,6 +124,12 @@ export function AdminLayout() {
   useEffect(() => {
     window.sessionStorage.setItem(storageKey, JSON.stringify(tabs.snapshot()));
   }, [revision, tabs]);
+
+  useEffect(() => {
+    const syncFullscreen = () => setFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', syncFullscreen);
+    return () => document.removeEventListener('fullscreenchange', syncFullscreen);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -310,6 +318,20 @@ export function AdminLayout() {
     });
   }
 
+  async function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      }
+      else {
+        await document.documentElement.requestFullscreen();
+      }
+    }
+    catch {
+      // The browser may deny fullscreen when it is unavailable.
+    }
+  }
+
   return (
     <div className={`admin-layout ${collapsed ? 'admin-layout--collapsed' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}>
       <aside className="admin-sidebar">
@@ -344,6 +366,9 @@ export function AdminLayout() {
           </div>
           <div className="header-actions">
             <ThemeToggle />
+            <button aria-label={fullscreen ? '退出全屏' : '全屏'} className="header-icon-button" title={fullscreen ? '退出全屏' : '全屏'} type="button" onClick={() => void toggleFullscreen()}>
+              {fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
+            </button>
             <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
               <LockOutlined />
             </button>
