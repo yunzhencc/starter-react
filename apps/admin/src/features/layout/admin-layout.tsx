@@ -311,8 +311,6 @@ export function AdminLayout() {
             {route?.title}
           </div>
           <div className="header-actions">
-            <span className="status-dot" />
-            <span className="header-status">系统运行正常</span>
             <ThemeToggle />
             <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
               <LockOutlined />
