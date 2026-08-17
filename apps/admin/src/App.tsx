@@ -2,23 +2,12 @@ import { StyleProvider } from '@ant-design/cssinjs';
 import { RouterProvider } from '@tanstack/react-router';
 import { App as AntApp, ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import * as React from 'react';
 import { router } from '@/lib/router';
 import { Providers } from '@/providers';
 import './global.css';
 
 export function App() {
-  const [initBodyOverlayScrollbars] = useOverlayScrollbars({
-    defer: true,
-    options: {
-      scrollbars: {
-        clickScroll: true,
-        autoHide: 'scroll',
-      },
-    },
-  });
-
   React.useEffect(
     () => {
       if (import.meta.env.DEV && import.meta.env.VITE_DEV_REACT_GRAB === 'true') {
@@ -36,14 +25,10 @@ export function App() {
     }
   }, []);
 
-  React.useEffect(() => {
-    initBodyOverlayScrollbars(document.body);
-  }, [initBodyOverlayScrollbars]);
-
   return (
     <StyleProvider layer>
       <ConfigProvider locale={zhCN}>
-        <AntApp>
+        <AntApp className="admin-app">
           <Providers>
             <RouterProvider router={router} />
           </Providers>

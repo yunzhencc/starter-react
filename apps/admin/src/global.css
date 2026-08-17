@@ -2,6 +2,12 @@
 
 @import "tailwindcss";
 
+html, body, #root, .admin-app {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
 /* https://tailwindcss.com/docs/detecting-classes-in-source-files */
 @source "../node_modules/@yunzhen/playground";
 
