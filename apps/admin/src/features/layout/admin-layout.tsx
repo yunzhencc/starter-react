@@ -21,6 +21,8 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 import { App as AntApp, Menu } from 'antd';
 import { motion } from 'motion/react';
 import { lazy, Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { Pane, SplitPane } from 'react-split-pane';
 import { logout as clearSession } from '@/features/auth/session';
 import { ThemeToggle } from '@/features/theme/theme-toggle';
 import { DashboardView } from '@/views/dashboard';
@@ -29,6 +31,7 @@ import { LayoutScrollArea } from './layout-scroll';
 import { getStoredLockScreen, LockScreen, persistLockScreen, SetLockScreenModal } from './lock-screen';
 import { appMenuItems, getAppRoute } from './route-definitions';
 import { RouteIcon } from './route-icon';
+import { getSidebarWidth } from './sidebar-width';
 import { createTabState, getTabKey } from './tab-model';
 import './admin-layout.css';
 
@@ -59,6 +62,7 @@ const menuItems: MenuProps['items'] = appMenuItems.map(item => 'children' in ite
     });
 
 const storageKey = 'starter-react:tabbar';
+const sidebarWidthStorageKey = 'starter-react:sidebar-width';
 
 function getStoredTabs() {
   if (typeof window === 'undefined') {
@@ -81,6 +85,19 @@ function getStoredTabs() {
   }
 }
 
+function getStoredSidebarWidth() {
+  if (typeof window === 'undefined') {
+    return getSidebarWidth(null);
+  }
+
+  try {
+    return getSidebarWidth(window.localStorage.getItem(sidebarWidthStorageKey));
+  }
+  catch {
+    return getSidebarWidth(null);
+  }
+}
+
 export function AdminLayout() {
   const { modal } = AntApp.useApp();
   const location = useLocation();
@@ -88,6 +105,7 @@ export function AdminLayout() {
   const tabs = useRef(getStoredTabs()).current;
   const [revision, render] = useReducer(value => value + 1, 0);
   const [collapsed, setCollapsed] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(getStoredSidebarWidth);
   const [contextTab, setContextTab] = useState<string>();
   const [contextMenuPosition, setContextMenuPosition] = useState({ left: 0, top: 0 });
   const [fullscreen, setFullscreen] = useState(() => typeof document !== 'undefined' && !!document.fullscreenElement);
@@ -103,6 +121,9 @@ export function AdminLayout() {
   const tabViewportRef = useRef<HTMLDivElement>(null);
   const [pageTransition, setPageTransition] = useState({ displayedKey: currentKey, leavingKey: '' });
   const [tabScroll, setTabScroll] = useState({ left: true, overflow: false, right: true });
+  const compactSidebar = useMediaQuery({ maxWidth: 900 });
+  const sidebarSize = maximized ? 0 : collapsed ? 60 : compactSidebar ? 64 : sidebarWidth;
+  const sidebarResizable = !collapsed && !compactSidebar && !maximized;
 
   useEffect(() => {
     if (!route) {
@@ -291,6 +312,21 @@ export function AdminLayout() {
     setLockScreenModalOpen(false);
   }
 
+  function resizeSidebar(sizes: number[]) {
+    setSidebarWidth(getSidebarWidth(String(sizes[0])));
+  }
+
+  function persistSidebarSize(sizes: number[]) {
+    const width = getSidebarWidth(String(sizes[0]));
+    setSidebarWidth(width);
+    try {
+      window.localStorage.setItem(sidebarWidthStorageKey, String(width));
+    }
+    catch {
+      // Ignore unavailable browser storage.
+    }
+  }
+
   function unlock() {
     setLockScreen({ isLocked: false });
     persistLockScreen({ isLocked: false });
@@ -328,196 +364,215 @@ export function AdminLayout() {
   }
 
   return (
-    <div className={`admin-layout ${collapsed ? 'admin-layout--collapsed' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}>
-      <aside className="admin-sidebar">
-        <button className="brand" type="button" onClick={() => void navigate({ to: '/dashboard' })}>
-          <span className="brand-mark"><img alt="" src="/logo.svg" /></span>
-          <span className="brand-name">React Starter</span>
-        </button>
-        <Menu
-          aria-label="主菜单"
-          className="admin-menu"
-          defaultOpenKeys={route?.path.startsWith('/examples/') ? ['examples'] : []}
-          inlineCollapsed={collapsed}
-          inlineIndent={12}
-          items={menuItems}
-          mode="inline"
-          selectedKeys={route ? [route.path] : []}
-          onClick={({ key }) => void navigate({ to: key as never })}
-        />
-      </aside>
-
-      <main className="admin-main">
-        <header className="admin-header">
-          <div className="header-leading">
-            <button aria-label={collapsed ? '展开菜单' : '收起菜单'} className="header-menu-toggle" title={collapsed ? '展开菜单' : '收起菜单'} type="button" onClick={() => setCollapsed(value => !value)}>
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+    <>
+      <SplitPane
+        className={`admin-layout ${collapsed ? 'admin-layout--collapsed' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}
+        direction="horizontal"
+        dividerClassName="admin-sidebar-resizer"
+        dividerSize={sidebarResizable ? 1 : 0}
+        resizable={sidebarResizable}
+        onResize={resizeSidebar}
+        onResizeEnd={persistSidebarSize}
+      >
+        <Pane
+          className="admin-sidebar-pane"
+          maxSize={maximized || collapsed || compactSidebar ? sidebarSize : 360}
+          minSize={maximized || collapsed || compactSidebar ? sidebarSize : 160}
+          size={sidebarSize}
+        >
+          <aside className="admin-sidebar">
+            <button className="brand" type="button" onClick={() => void navigate({ to: '/dashboard' })}>
+              <span className="brand-mark"><img alt="" src="/logo.svg" /></span>
+              <span className="brand-name">React Starter</span>
             </button>
-            <div className="breadcrumb">
-              工作台
-              <span>/</span>
-              {' '}
-              {route?.title}
-            </div>
-          </div>
-          <div className="header-actions">
-            <ThemeToggle />
-            <button aria-label={fullscreen ? '退出全屏' : '全屏'} className="header-icon-button" title={fullscreen ? '退出全屏' : '全屏'} type="button" onClick={() => void toggleFullscreen()}>
-              {fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
-            </button>
-            <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
-              <LockOutlined />
-            </button>
-            <button aria-label="退出登录" className="header-icon-button" title="退出登录" type="button" onClick={confirmLogout}>
-              <LogoutOutlined />
-            </button>
-          </div>
-        </header>
-
-        <section className="tabbar" aria-label="已打开的页签">
-          {tabScroll.overflow && (
-            <button
-              aria-label="向左滚动页签"
-              className="tab-scroll-button tab-scroll-button--left"
-              disabled={tabScroll.left}
-              type="button"
-              onClick={() => scrollTabs('left')}
-            >
-              <ArrowLeftOutlined />
-            </button>
-          )}
-          <div
-            className={`tab-list ${!tabScroll.left ? 'tab-list--shadow-left' : ''} ${!tabScroll.right ? 'tab-list--shadow-right' : ''}`}
-            ref={tabViewportRef}
-            onScroll={() => {
-              const viewport = tabViewportRef.current;
-              if (!viewport)
-                return;
-              setTabScroll({
-                left: viewport.scrollLeft <= 0,
-                overflow: viewport.scrollWidth > viewport.clientWidth,
-                right: viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 1,
-              });
-            }}
-            onWheel={(event) => {
-              event.preventDefault();
-              event.currentTarget.scrollBy({ left: event.deltaY * 3 });
-            }}
-          >
-            <ChromeTabs
-              activeKey={currentKey}
-              tabs={visibleTabs}
-              onActivate={(key) => {
-                const tab = visibleTabs.find(item => item.key === key);
-                if (tab)
-                  goTo(tab);
-              }}
-              onClose={close}
-              onContextMenu={openContextMenu}
-              onReorder={(keys) => {
-                tabs.reorderByKeys(keys);
-                render();
-              }}
-              onUnpin={togglePin}
+            <Menu
+              aria-label="主菜单"
+              className="admin-menu"
+              defaultOpenKeys={route?.path.startsWith('/examples/') ? ['examples'] : []}
+              inlineCollapsed={collapsed}
+              inlineIndent={12}
+              items={menuItems}
+              mode="inline"
+              selectedKeys={route ? [route.path] : []}
+              onClick={({ key }) => void navigate({ to: key as never })}
             />
-          </div>
-          {tabScroll.overflow && (
-            <button
-              aria-label="向右滚动页签"
-              className="tab-scroll-button tab-scroll-button--right"
-              disabled={tabScroll.right}
-              type="button"
-              onClick={() => scrollTabs('right')}
-            >
-              <ArrowRightOutlined />
-            </button>
-          )}
-          <div className="tab-tools">
-            <button aria-label="更多页签操作" type="button" onClick={openCurrentTabMenu}><MoreOutlined /></button>
-            <button aria-label="刷新当前页面" type="button" onClick={() => currentKey && refresh(currentKey)}><ReloadOutlined /></button>
-            <button aria-label="切换内容最大化" type="button" onClick={() => setMaximized(value => !value)}>
-              {maximized ? <CompressOutlined /> : <ExpandOutlined />}
-            </button>
-          </div>
-        </section>
+          </aside>
+        </Pane>
 
-        {contextTab && (() => {
-          const tab = visibleTabs.find(item => item.key === contextTab);
-          if (!tab) {
-            return null;
-          }
-          return (
-            <div className="tab-menu" role="menu" style={contextMenuPosition}>
-              <button disabled={tab.affix || visibleTabs.length < 2} role="menuitem" type="button" onClick={() => close(tab.key)}><span>关闭</span></button>
-              <button role="menuitem" type="button" onClick={() => togglePin(tab)}>
-                <PushpinOutlined />
-                <span>{tab.affix ? '取消固定' : '固定'}</span>
-              </button>
-              <button
-                role="menuitem"
-                type="button"
-                onClick={() => {
-                  if (!maximized)
-                    goTo(tab);
-                  setMaximized(value => !value);
-                  setContextTab(undefined);
+        <Pane className="admin-main-pane">
+          <main className="admin-main">
+            <header className="admin-header">
+              <div className="header-leading">
+                <button aria-label={collapsed ? '展开菜单' : '收起菜单'} className="header-menu-toggle" title={collapsed ? '展开菜单' : '收起菜单'} type="button" onClick={() => setCollapsed(value => !value)}>
+                  {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                </button>
+                <div className="breadcrumb">
+                  工作台
+                  <span>/</span>
+                  {' '}
+                  {route?.title}
+                </div>
+              </div>
+              <div className="header-actions">
+                <ThemeToggle />
+                <button aria-label={fullscreen ? '退出全屏' : '全屏'} className="header-icon-button" title={fullscreen ? '退出全屏' : '全屏'} type="button" onClick={() => void toggleFullscreen()}>
+                  {fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
+                </button>
+                <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
+                  <LockOutlined />
+                </button>
+                <button aria-label="退出登录" className="header-icon-button" title="退出登录" type="button" onClick={confirmLogout}>
+                  <LogoutOutlined />
+                </button>
+              </div>
+            </header>
+
+            <section className="tabbar" aria-label="已打开的页签">
+              {tabScroll.overflow && (
+                <button
+                  aria-label="向左滚动页签"
+                  className="tab-scroll-button tab-scroll-button--left"
+                  disabled={tabScroll.left}
+                  type="button"
+                  onClick={() => scrollTabs('left')}
+                >
+                  <ArrowLeftOutlined />
+                </button>
+              )}
+              <div
+                className={`tab-list ${!tabScroll.left ? 'tab-list--shadow-left' : ''} ${!tabScroll.right ? 'tab-list--shadow-right' : ''}`}
+                ref={tabViewportRef}
+                onScroll={() => {
+                  const viewport = tabViewportRef.current;
+                  if (!viewport)
+                    return;
+                  setTabScroll({
+                    left: viewport.scrollLeft <= 0,
+                    overflow: viewport.scrollWidth > viewport.clientWidth,
+                    right: viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 1,
+                  });
+                }}
+                onWheel={(event) => {
+                  event.preventDefault();
+                  event.currentTarget.scrollBy({ left: event.deltaY * 3 });
                 }}
               >
-                <FullscreenOutlined />
-                <span>{maximized ? '还原最大化' : '最大化'}</span>
-              </button>
-              <button role="menuitem" type="button" onClick={() => refresh(tab.key)}>
-                <ReloadOutlined />
-                <span>重新加载</span>
-              </button>
-              <button role="menuitem" type="button" onClick={() => openInNewWindow(tab)}>
-                <LinkOutlined />
-                <span>在新窗口打开</span>
-              </button>
-              <div role="separator" />
-              <button disabled={!visibleTabs.slice(0, visibleTabs.indexOf(tab)).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('left', tab.key)}><span>关闭左侧标签页</span></button>
-              <button disabled={!visibleTabs.slice(visibleTabs.indexOf(tab) + 1).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('right', tab.key)}><span>关闭右侧标签页</span></button>
-              <div role="separator" />
-              <button disabled={!visibleTabs.some(item => !item.affix && item.key !== tab.key)} role="menuitem" type="button" onClick={() => closeWith('others', tab.key)}><span>关闭其它标签页</span></button>
-              <button disabled={!visibleTabs.some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('all', tab.key)}><span>关闭全部标签页</span></button>
-            </div>
-          );
-        })()}
+                <ChromeTabs
+                  activeKey={currentKey}
+                  tabs={visibleTabs}
+                  onActivate={(key) => {
+                    const tab = visibleTabs.find(item => item.key === key);
+                    if (tab)
+                      goTo(tab);
+                  }}
+                  onClose={close}
+                  onContextMenu={openContextMenu}
+                  onReorder={(keys) => {
+                    tabs.reorderByKeys(keys);
+                    render();
+                  }}
+                  onUnpin={togglePin}
+                />
+              </div>
+              {tabScroll.overflow && (
+                <button
+                  aria-label="向右滚动页签"
+                  className="tab-scroll-button tab-scroll-button--right"
+                  disabled={tabScroll.right}
+                  type="button"
+                  onClick={() => scrollTabs('right')}
+                >
+                  <ArrowRightOutlined />
+                </button>
+              )}
+              <div className="tab-tools">
+                <button aria-label="更多页签操作" type="button" onClick={openCurrentTabMenu}><MoreOutlined /></button>
+                <button aria-label="刷新当前页面" type="button" onClick={() => currentKey && refresh(currentKey)}><ReloadOutlined /></button>
+                <button aria-label="切换内容最大化" type="button" onClick={() => setMaximized(value => !value)}>
+                  {maximized ? <CompressOutlined /> : <ExpandOutlined />}
+                </button>
+              </div>
+            </section>
 
-        <LayoutScrollArea>
-          {visibleTabs.map((tab) => {
-            const View = pageViews[tab.path];
-            if (!View) {
-              return null;
-            }
-            const visible = tab.key === pageTransition.displayedKey;
-            const leaving = tab.key === pageTransition.leavingKey;
-            const mode = visible || leaving ? 'visible' : 'hidden';
-            return tab.keepAlive
-              ? (
-                  <motion.div
-                    animate={leaving ? { opacity: 0, x: 30 } : visible ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-                    className={`page-route ${leaving ? 'page-route--leaving' : ''}`}
-                    initial={{ opacity: 0, x: -30 }}
-                    key={tab.key}
-                    style={{ display: mode === 'hidden' ? 'none' : undefined }}
-                    transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            {contextTab && (() => {
+              const tab = visibleTabs.find(item => item.key === contextTab);
+              if (!tab) {
+                return null;
+              }
+              return (
+                <div className="tab-menu" role="menu" style={contextMenuPosition}>
+                  <button disabled={tab.affix || visibleTabs.length < 2} role="menuitem" type="button" onClick={() => close(tab.key)}><span>关闭</span></button>
+                  <button role="menuitem" type="button" onClick={() => togglePin(tab)}>
+                    <PushpinOutlined />
+                    <span>{tab.affix ? '取消固定' : '固定'}</span>
+                  </button>
+                  <button
+                    role="menuitem"
+                    type="button"
+                    onClick={() => {
+                      if (!maximized)
+                        goTo(tab);
+                      setMaximized(value => !value);
+                      setContextTab(undefined);
+                    }}
                   >
-                    <Suspense fallback={<div className="page-loading">正在加载页面…</div>}>
-                      <View key={`${tab.key}:${refreshVersion[tab.key] ?? 0}`} />
-                    </Suspense>
-                  </motion.div>
-                )
-              : visible ? <View key={`${tab.key}:${refreshVersion[tab.key] ?? 0}`} /> : null;
-          })}
-        </LayoutScrollArea>
-      </main>
+                    <FullscreenOutlined />
+                    <span>{maximized ? '还原最大化' : '最大化'}</span>
+                  </button>
+                  <button role="menuitem" type="button" onClick={() => refresh(tab.key)}>
+                    <ReloadOutlined />
+                    <span>重新加载</span>
+                  </button>
+                  <button role="menuitem" type="button" onClick={() => openInNewWindow(tab)}>
+                    <LinkOutlined />
+                    <span>在新窗口打开</span>
+                  </button>
+                  <div role="separator" />
+                  <button disabled={!visibleTabs.slice(0, visibleTabs.indexOf(tab)).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('left', tab.key)}><span>关闭左侧标签页</span></button>
+                  <button disabled={!visibleTabs.slice(visibleTabs.indexOf(tab) + 1).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('right', tab.key)}><span>关闭右侧标签页</span></button>
+                  <div role="separator" />
+                  <button disabled={!visibleTabs.some(item => !item.affix && item.key !== tab.key)} role="menuitem" type="button" onClick={() => closeWith('others', tab.key)}><span>关闭其它标签页</span></button>
+                  <button disabled={!visibleTabs.some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('all', tab.key)}><span>关闭全部标签页</span></button>
+                </div>
+              );
+            })()}
+
+            <LayoutScrollArea>
+              {visibleTabs.map((tab) => {
+                const View = pageViews[tab.path];
+                if (!View) {
+                  return null;
+                }
+                const visible = tab.key === pageTransition.displayedKey;
+                const leaving = tab.key === pageTransition.leavingKey;
+                const mode = visible || leaving ? 'visible' : 'hidden';
+                return tab.keepAlive
+                  ? (
+                      <motion.div
+                        animate={leaving ? { opacity: 0, x: 30 } : visible ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                        className={`page-route ${leaving ? 'page-route--leaving' : ''}`}
+                        initial={{ opacity: 0, x: -30 }}
+                        key={tab.key}
+                        style={{ display: mode === 'hidden' ? 'none' : undefined }}
+                        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                      >
+                        <Suspense fallback={<div className="page-loading">正在加载页面…</div>}>
+                          <View key={`${tab.key}:${refreshVersion[tab.key] ?? 0}`} />
+                        </Suspense>
+                      </motion.div>
+                    )
+                  : visible ? <View key={`${tab.key}:${refreshVersion[tab.key] ?? 0}`} /> : null;
+              })}
+            </LayoutScrollArea>
+          </main>
+        </Pane>
+      </SplitPane>
       <SetLockScreenModal
         open={lockScreenModalOpen}
         onCancel={() => setLockScreenModalOpen(false)}
         onConfirm={lock}
       />
       {lockScreen.isLocked && <LockScreen password={lockScreen.password ?? ''} onLogout={logout} onUnlock={unlock} />}
-    </div>
+    </>
   );
 }

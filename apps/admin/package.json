@@ -33,6 +33,7 @@
     "react": "catalog:core",
     "react-dom": "catalog:core",
     "react-responsive": "catalog:core",
+    "react-split-pane": "catalog:core",
     "sonner": "catalog:core",
     "tailwind-merge": "catalog:core",
     "tldraw": "catalog:core",
