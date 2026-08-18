@@ -473,6 +473,7 @@ export function AdminLayout() {
                   activeKey={currentKey}
                   tabs={visibleTabs}
                   onActivate={(key) => {
+                    setContextTab(undefined);
                     const tab = visibleTabs.find(item => item.key === key);
                     if (tab)
                       goTo(tab);

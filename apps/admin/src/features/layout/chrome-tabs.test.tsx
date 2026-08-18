@@ -59,4 +59,10 @@ describe('chrome tabs', () => {
     expect(layout).toContain('Math.max(4, Math.min(rect.bottom + 4, window.innerHeight - 320))');
     expect(styles).toMatch(/\.tab-menu[^}]*max-width: calc\(100vw - 8px\)/);
   });
+
+  it('closes tab actions when activating a tab', () => {
+    const layout = readFileSync(new URL('./admin-layout.tsx', import.meta.url), 'utf8');
+
+    expect(layout).toMatch(/onActivate=\{\(key\) => \{\s+setContextTab\(undefined\);/);
+  });
 });
