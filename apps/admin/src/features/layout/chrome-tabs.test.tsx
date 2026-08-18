@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { ChromeTabs } from './chrome-tabs';
@@ -28,5 +29,12 @@ describe('chrome tabs', () => {
     expect(markup).toContain('data-route-icon="analytics"');
     expect(markup).toContain('aria-label="取消固定 分析页"');
     expect(markup).toContain('aria-label="关闭 关于"');
+  });
+
+  it('uses Vben-aligned close control spacing', () => {
+    const styles = readFileSync(new URL('./admin-layout.css', import.meta.url), 'utf8');
+
+    expect(styles).toMatch(/\.tabs-chrome__extra[^}]*right: 14px/);
+    expect(styles).toMatch(/\.tabs-chrome__extra svg[^}]*font-size: 10px/);
   });
 });
