@@ -6,9 +6,6 @@
 .login-title .ant-typography-secondary { color: hsl(var(--muted-foreground)); font-size: 14px; }
 .login-card .ant-form-item { margin-bottom: 16px; }
 .login-card .ant-form-item-label { display: none; }
-.login-card .ant-input-affix-wrapper,
-.login-card .ant-input,
-.login-card .ant-select-single { min-height: 40px; }
 .login-captcha-item { margin-bottom: 10px !important; }
 .login-options { display: flex; align-items: flex-start; justify-content: space-between; margin: 4px 0 22px; font-size: 14px; }
 .login-options .ant-form-item { margin: 0; }
