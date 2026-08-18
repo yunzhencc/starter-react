@@ -9,11 +9,9 @@ import './auth-page-layout.css';
 interface AuthPageLayoutProps extends PropsWithChildren {
   appName: string;
   logo: string;
-  pageDescription: string;
-  pageTitle: string;
 }
 
-export function AuthPageLayout({ appName, children, logo, pageDescription, pageTitle }: AuthPageLayoutProps) {
+export function AuthPageLayout({ appName, children, logo }: AuthPageLayoutProps) {
   const [layout, setLayout] = useState(getAuthPageLayout);
   const side = layout === 'panel-center' ? 'center' : layout === 'panel-left' ? 'left' : 'right';
   const form = (
@@ -23,14 +21,10 @@ export function AuthPageLayout({ appName, children, logo, pageDescription, pageT
     </section>
   );
   const hero = (
-    <section aria-labelledby="auth-page-title" className="auth-page-layout__hero" key={layout}>
+    <section className="auth-page-layout__hero" key={layout}>
       <div aria-hidden="true" className="auth-page-layout__hero-background" />
       <div className="auth-page-layout__hero-content" data-side={side}>
         <AuthHero />
-        <div className="auth-page-layout__copy">
-          <h1 id="auth-page-title">{pageTitle}</h1>
-          <span>{pageDescription}</span>
-        </div>
       </div>
     </section>
   );

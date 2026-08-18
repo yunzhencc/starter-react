@@ -18,7 +18,7 @@ afterEach(() => localStorage.clear());
 function renderLayout(layout: 'panel-left' | 'panel-center' | 'panel-right') {
   setAuthPageLayout(layout);
   return renderToStaticMarkup(
-    <AuthPageLayout appName="React Starter" logo="/logo.svg" pageDescription="Description" pageTitle="Title">
+    <AuthPageLayout appName="React Starter" logo="/logo.svg">
       <div>Login form</div>
     </AuthPageLayout>,
   );
@@ -47,11 +47,12 @@ describe('auth page layout', () => {
     expect(markup).not.toContain('auth-page-layout__slogan');
     expect(markup).toContain('auth-page-layout__brand');
     expect(markup).toContain('auth-page-layout__content');
+    expect(markup).not.toContain('class="auth-page-layout__copy"');
   });
 
   it('applies the layout chosen from its toolbar', () => {
     const { container } = render(
-      <AuthPageLayout appName="React Starter" logo="/logo.svg" pageDescription="Description" pageTitle="Title">
+      <AuthPageLayout appName="React Starter" logo="/logo.svg">
         <div>Login form</div>
       </AuthPageLayout>,
     );
@@ -65,7 +66,7 @@ describe('auth page layout', () => {
 
   it('uses Vben-ordered layout options with a matching trigger icon', () => {
     const { container } = render(
-      <AuthPageLayout appName="React Starter" logo="/logo.svg" pageDescription="Description" pageTitle="Title">
+      <AuthPageLayout appName="React Starter" logo="/logo.svg">
         <div>Login form</div>
       </AuthPageLayout>,
     );
