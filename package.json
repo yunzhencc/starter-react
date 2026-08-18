@@ -36,6 +36,7 @@
     "@tanstack/router-plugin": "catalog:dev",
     "@testing-library/react": "catalog:test",
     "@testing-library/user-event": "catalog:test",
+    "@types/jsdom": "catalog:types",
     "@types/node": "catalog:types",
     "@types/react": "catalog:types",
     "@types/react-dom": "catalog:types",

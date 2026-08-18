@@ -1,5 +1,3 @@
-// @vitest-environment jsdom
-
 import type { CaptchaHandle } from './types';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { act, createRef } from 'react';

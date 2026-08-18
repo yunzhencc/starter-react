@@ -1,4 +1,3 @@
-// @vitest-environment jsdom
 import type { EChartsOption } from 'echarts';
 import { act, render, screen } from '@testing-library/react';
 import * as echarts from 'echarts/core';

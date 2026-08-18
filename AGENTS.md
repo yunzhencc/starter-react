@@ -23,15 +23,14 @@ scripts/                    仓库维护脚本
 ```sh
 pnpm install
 pnpm start
+pnpm test
 pnpm --filter admin dev
 pnpm --filter admin build
-pnpm --filter admin exec vitest run <测试文件>
 pnpm lint <目标路径>
 pnpm clean
 ```
 
 - 使用 pnpm；不要使用 npm 或 yarn 修改依赖锁文件。
-- 根 `pnpm test --run` 当前无法解析 `vitest` 二进制。验证应用改动时使用 `pnpm --filter admin exec vitest run <测试文件>`；修复根测试命令时同步更新该说明。
 - 修改依赖时使用 catalog，例如 `pnpm add <包> --save-catalog-name core`；先确认现有依赖不能解决问题。
 
 ## 验证

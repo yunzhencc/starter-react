@@ -1,4 +1,3 @@
-// @vitest-environment jsdom
 import { createMemoryHistory, createRootRoute, createRoute, createRouter, Outlet, RouterProvider } from '@tanstack/react-router';
 import { fireEvent, render, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
