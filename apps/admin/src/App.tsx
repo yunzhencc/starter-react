@@ -6,9 +6,12 @@ import * as React from 'react';
 import { AppThemeProvider } from '@/features/theme/theme-provider';
 import { router } from '@/lib/router';
 import { Providers } from '@/providers';
+import { unmountAppLoading } from './app-loading';
 import './global.css';
 
 export function App() {
+  React.useEffect(unmountAppLoading, []);
+
   React.useEffect(
     () => {
       if (import.meta.env.DEV && import.meta.env.VITE_DEV_REACT_GRAB === 'true') {

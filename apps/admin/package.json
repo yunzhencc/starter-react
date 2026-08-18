@@ -23,6 +23,7 @@
     "antd": "catalog:core",
     "clsx": "catalog:core",
     "echarts": "catalog:core",
+    "echarts-for-react": "catalog:core",
     "enum-plus": "catalog:core",
     "es-toolkit": "catalog:core",
     "motion": "catalog:core",
