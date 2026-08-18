@@ -1,2 +1,17 @@
 @import '@yunzhen/shadcn-ui/globals.css';
 @import 'overlayscrollbars/overlayscrollbars.css';
+
+@keyframes keep-alive {
+  100% { z-index: -1; }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: keep-alive .5s linear forwards;
+  mix-blend-mode: normal;
+}
+
+.dark::view-transition-old(root) { z-index: 1; }
+.dark::view-transition-new(root) { z-index: 999; }
+::view-transition-old(root) { z-index: 999; }
+::view-transition-new(root) { z-index: 1; }
