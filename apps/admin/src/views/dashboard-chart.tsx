@@ -2,36 +2,27 @@ import type { EChartsOption } from 'echarts';
 import EChartsReactCore from 'echarts-for-react/esm/core';
 import { BarChart, LineChart, PieChart, RadarChart } from 'echarts/charts';
 import {
-  DatasetComponent,
   GridComponent,
   LegendComponent,
-  TitleComponent,
-  ToolboxComponent,
   TooltipComponent,
-  TransformComponent,
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { LabelLayout, LegacyGridContainLabel, UniversalTransition } from 'echarts/features';
+import { LabelLayout, LegacyGridContainLabel } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 
 echarts.use([
-  TitleComponent,
   PieChart,
   RadarChart,
   TooltipComponent,
   GridComponent,
-  DatasetComponent,
-  TransformComponent,
   BarChart,
   LineChart,
   LabelLayout,
   LegacyGridContainLabel,
-  UniversalTransition,
   CanvasRenderer,
   LegendComponent,
-  ToolboxComponent,
 ]);
 
 export function DashboardChart({ label, option }: { label: string; option: EChartsOption }) {
