@@ -14,7 +14,7 @@ const analyze = process.env.ANALYZE;
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, __dirname, envPrefix);
+  const env = loadEnv(mode, import.meta.dirname, envPrefix);
 
   const plugins: UserConfig['plugins'] = [
     tanstackRouter({
