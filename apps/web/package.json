@@ -16,6 +16,9 @@
     "@tanstack/react-query": "catalog:core",
     "@tanstack/react-router": "catalog:core",
     "@yunzhen/shadcn-ui": "workspace:*",
+    "next-themes": "catalog:core",
+    "overlayscrollbars": "catalog:core",
+    "overlayscrollbars-react": "catalog:core",
     "react": "catalog:core",
     "react-dom": "catalog:core"
   }
