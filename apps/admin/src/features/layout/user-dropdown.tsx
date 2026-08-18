@@ -1,9 +1,13 @@
-import { GithubOutlined, UserOutlined } from '@ant-design/icons';
+import { GithubOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 
-const githubUrl = 'https://github.com/vbenjs/vue-vben-admin';
+const githubUrl = 'https://github.com/yunzhencc/starter-react';
 
-export function UserDropdown() {
+interface UserDropdownProps {
+  onLogout: () => void;
+}
+
+export function UserDropdown({ onLogout }: UserDropdownProps) {
   return (
     <Dropdown
       classNames={{ root: 'user-dropdown' }}
@@ -36,6 +40,13 @@ export function UserDropdown() {
             </span>
             GitHub
           </a>
+          <div className="user-dropdown__divider" />
+          <button className="user-dropdown__item" type="button" onClick={onLogout}>
+            <span className="user-dropdown__item-icon">
+              <LogoutOutlined aria-hidden />
+            </span>
+            退出登录
+          </button>
         </div>
       )}
       trigger={['click']}

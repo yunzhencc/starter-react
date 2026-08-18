@@ -10,7 +10,6 @@ import {
   FullscreenOutlined,
   LinkOutlined,
   LockOutlined,
-  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MoreOutlined,
@@ -428,10 +427,7 @@ export function AdminLayout() {
                 <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
                   <LockOutlined />
                 </button>
-                <button aria-label="退出登录" className="header-icon-button" title="退出登录" type="button" onClick={confirmLogout}>
-                  <LogoutOutlined />
-                </button>
-                <UserDropdown />
+                <UserDropdown onLogout={confirmLogout} />
               </div>
             </header>
 
