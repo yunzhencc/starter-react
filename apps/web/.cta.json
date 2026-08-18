@@ -1,8 +1,8 @@
 {
-  "projectName": "@yunzhen/app-web",
+  "projectName": "web",
   "mode": "file-router",
   "typescript": true,
-  "packageManager": "npm",
+  "packageManager": "pnpm",
   "includeExamples": true,
   "tailwind": true,
   "projectPreset": "default",

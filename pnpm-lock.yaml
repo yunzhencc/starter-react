@@ -539,9 +539,18 @@ importers:
 
   apps/web:
     dependencies:
+      '@tanstack/react-hotkeys':
+        specifier: catalog:core
+        version: 0.10.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@tanstack/react-query':
+        specifier: catalog:core
+        version: 5.101.4(react@19.2.8)
       '@tanstack/react-router':
         specifier: catalog:core
         version: 1.170.29(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@yunzhen/shadcn-ui':
+        specifier: workspace:*
+        version: link:../../packages/shadcn-ui
       react:
         specifier: catalog:core
         version: 19.2.8

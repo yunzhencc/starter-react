@@ -12,6 +12,8 @@
     "bootstrap": "pnpm install",
     "clean": "tsx ./scripts/clean.ts",
     "start": "turbo run dev",
+    "start:admin": "pnpm --filter @yunzhen/app-admin run dev",
+    "start:web": "pnpm --filter @yunzhen/app-web run dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "vitest",

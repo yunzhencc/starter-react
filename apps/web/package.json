@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@yunzhen/app-web",
   "type": "module",
   "private": true,
   "imports": {
@@ -12,7 +12,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-hotkeys": "catalog:core",
+    "@tanstack/react-query": "catalog:core",
     "@tanstack/react-router": "catalog:core",
+    "@yunzhen/shadcn-ui": "workspace:*",
     "react": "catalog:core",
     "react-dom": "catalog:core"
   }
