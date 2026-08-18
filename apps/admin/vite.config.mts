@@ -4,6 +4,7 @@ import process from 'node:process';
 import tailwindcss from '@tailwindcss/vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 import { bundleStats } from 'rollup-plugin-bundle-stats';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig, loadEnv } from 'vite';
@@ -22,6 +23,10 @@ export default defineConfig(({ mode }) => {
       routesDirectory: './src/pages',
       routeFileIgnorePattern: 'components|views|types',
       autoCodeSplitting: true,
+    }),
+    codeInspectorPlugin({
+      bundler: 'vite', // Automatically detect development or production environment
+      editor: 'code',
     }),
     react(),
     tailwindcss(),

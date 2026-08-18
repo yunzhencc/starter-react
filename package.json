@@ -51,6 +51,7 @@
     "@vitest/coverage-v8": "catalog:test",
     "@vitest/ui": "catalog:test",
     "@vitest/web-worker": "catalog:test",
+    "code-inspector-plugin": "catalog:vite",
     "cross-env": "catalog:dev",
     "eslint": "catalog:eslint",
     "eslint-plugin-format": "catalog:eslint",
