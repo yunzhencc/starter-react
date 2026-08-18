@@ -1,0 +1,19 @@
+{
+  "name": "web",
+  "type": "module",
+  "private": true,
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "scripts": {
+    "dev": "vite dev --port 3000",
+    "generate-routes": "tsr generate",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "catalog:core",
+    "react": "catalog:core",
+    "react-dom": "catalog:core"
+  }
+}
