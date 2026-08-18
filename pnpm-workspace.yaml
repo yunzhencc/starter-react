@@ -2,9 +2,6 @@ minimumReleaseAgeExclude:
   - '@testing-library/user-event@14.6.5'
   - '@yunzhen/request@2.1.0'
   - antd@6.6.1
-onlyBuiltDependencies:
-  - esbuild
-  - lightningcss
 shellEmulator: true
 
 trustPolicy: no-downgrade
@@ -118,6 +115,9 @@ catalogs:
     vite: 8.2.1
     vite-plugin-html: 3.2.2
 
+onlyBuiltDependencies:
+  - esbuild
+  - lightningcss
 allowBuilds:
   '@yunzhen/request': false
   core-js: false

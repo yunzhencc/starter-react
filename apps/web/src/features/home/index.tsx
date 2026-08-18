@@ -1,11 +1,11 @@
-import { Button } from '@yunzhen/shadcn-ui/components/button';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function Home() {
   return (
     <main>
       hello world
 
-      <Button>Click me</Button>
+      <ThemeToggle />
     </main>
   );
 }
