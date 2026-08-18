@@ -2,6 +2,7 @@ import type { MenuProps } from 'antd';
 import type { ElementType, MouseEvent } from 'react';
 import type { Tab, TabStateSnapshot } from './tab-model';
 import {
+  AppstoreOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
   CompressOutlined,
@@ -12,7 +13,6 @@ import {
   LockOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  MoreOutlined,
   PushpinOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
@@ -292,7 +292,7 @@ export function AdminLayout() {
     }
     const rect = event.currentTarget.getBoundingClientRect();
     setContextTab(tab.key);
-    setContextMenuPosition({ left: rect.right - 176, top: rect.bottom + 4 });
+    setContextMenuPosition({ left: Math.min(rect.left, window.innerWidth - 160), top: rect.bottom + 4 });
   }
 
   function scrollTabs(direction: 'left' | 'right') {
@@ -490,7 +490,7 @@ export function AdminLayout() {
                 </button>
               )}
               <div className="tab-tools">
-                <button aria-label="更多页签操作" type="button" onClick={openCurrentTabMenu}><MoreOutlined /></button>
+                <button aria-label="更多页签操作" type="button" onClick={openCurrentTabMenu}><AppstoreOutlined /></button>
                 <button aria-label="刷新当前页面" type="button" onClick={() => currentKey && refresh(currentKey)}><ReloadOutlined /></button>
                 <button aria-label="切换内容最大化" type="button" onClick={() => setMaximized(value => !value)}>
                   {maximized ? <CompressOutlined /> : <ExpandOutlined />}
