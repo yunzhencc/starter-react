@@ -33,6 +33,7 @@ import { appMenuItems, getAppRoute } from './route-definitions';
 import { RouteIcon } from './route-icon';
 import { getSidebarWidth, maxSidebarWidth, minSidebarWidth } from './sidebar-width';
 import { createTabState, getTabKey } from './tab-model';
+import { UserDropdown } from './user-dropdown';
 import './admin-layout.css';
 
 const SlateView = lazy(() => import('@yunzhen/playground/pages/slate/text-area'));
@@ -430,6 +431,7 @@ export function AdminLayout() {
                 <button aria-label="退出登录" className="header-icon-button" title="退出登录" type="button" onClick={confirmLogout}>
                   <LogoutOutlined />
                 </button>
+                <UserDropdown />
               </div>
             </header>
 
