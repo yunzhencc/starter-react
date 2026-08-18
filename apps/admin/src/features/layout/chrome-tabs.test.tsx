@@ -38,6 +38,13 @@ describe('chrome tabs', () => {
     expect(styles).toMatch(/\.tabs-chrome__extra svg[^}]*font-size: 10px/);
   });
 
+  it('keeps the avatar right edge aligned with Vben', () => {
+    const styles = readFileSync(new URL('./admin-layout.css', import.meta.url), 'utf8');
+
+    expect(styles).toMatch(/\.admin-header[^}]*padding: 0 0 0 8px/);
+    expect(styles).toMatch(/\.user-dropdown__trigger[^}]*margin: 0 8px 0 4px/);
+  });
+
   it('uses compact icon menu items for tab actions', () => {
     const layout = readFileSync(new URL('./admin-layout.tsx', import.meta.url), 'utf8');
     const styles = readFileSync(new URL('./admin-layout.css', import.meta.url), 'utf8');
