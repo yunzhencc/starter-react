@@ -1,7 +1,6 @@
 @layer theme, base, antd, components, utilities;
 
 @import '@yunzhen/shadcn-ui/globals.css';
-@import 'tw-animate-css';
 
 :root {
   --accent: 240 5% 96%;
