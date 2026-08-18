@@ -5,16 +5,21 @@ import {
   AppstoreOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
+  CloseOutlined,
+  ColumnWidthOutlined,
   CompressOutlined,
+  DoubleLeftOutlined,
+  DoubleRightOutlined,
   ExpandOutlined,
+  ExportOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
-  LinkOutlined,
   LockOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PushpinOutlined,
   ReloadOutlined,
+  SwapOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { App as AntApp, Menu } from 'antd';
@@ -292,7 +297,10 @@ export function AdminLayout() {
     }
     const rect = event.currentTarget.getBoundingClientRect();
     setContextTab(tab.key);
-    setContextMenuPosition({ left: Math.min(rect.left, window.innerWidth - 160), top: rect.bottom + 4 });
+    setContextMenuPosition({
+      left: Math.max(4, Math.min(rect.left, window.innerWidth - 168)),
+      top: Math.max(4, Math.min(rect.bottom + 4, window.innerHeight - 320)),
+    });
   }
 
   function scrollTabs(direction: 'left' | 'right') {
@@ -505,7 +513,10 @@ export function AdminLayout() {
               }
               return (
                 <div className="tab-menu" role="menu" style={contextMenuPosition}>
-                  <button disabled={tab.affix || visibleTabs.length < 2} role="menuitem" type="button" onClick={() => close(tab.key)}><span>关闭</span></button>
+                  <button disabled={tab.affix || visibleTabs.length < 2} role="menuitem" type="button" onClick={() => close(tab.key)}>
+                    <CloseOutlined />
+                    <span>关闭</span>
+                  </button>
                   <button role="menuitem" type="button" onClick={() => togglePin(tab)}>
                     <PushpinOutlined />
                     <span>{tab.affix ? '取消固定' : '固定'}</span>
@@ -528,15 +539,27 @@ export function AdminLayout() {
                     <span>重新加载</span>
                   </button>
                   <button role="menuitem" type="button" onClick={() => openInNewWindow(tab)}>
-                    <LinkOutlined />
+                    <ExportOutlined />
                     <span>在新窗口打开</span>
                   </button>
                   <div role="separator" />
-                  <button disabled={!visibleTabs.slice(0, visibleTabs.indexOf(tab)).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('left', tab.key)}><span>关闭左侧标签页</span></button>
-                  <button disabled={!visibleTabs.slice(visibleTabs.indexOf(tab) + 1).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('right', tab.key)}><span>关闭右侧标签页</span></button>
+                  <button disabled={!visibleTabs.slice(0, visibleTabs.indexOf(tab)).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('left', tab.key)}>
+                    <DoubleLeftOutlined />
+                    <span>关闭左侧标签页</span>
+                  </button>
+                  <button disabled={!visibleTabs.slice(visibleTabs.indexOf(tab) + 1).some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('right', tab.key)}>
+                    <DoubleRightOutlined />
+                    <span>关闭右侧标签页</span>
+                  </button>
                   <div role="separator" />
-                  <button disabled={!visibleTabs.some(item => !item.affix && item.key !== tab.key)} role="menuitem" type="button" onClick={() => closeWith('others', tab.key)}><span>关闭其它标签页</span></button>
-                  <button disabled={!visibleTabs.some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('all', tab.key)}><span>关闭全部标签页</span></button>
+                  <button disabled={!visibleTabs.some(item => !item.affix && item.key !== tab.key)} role="menuitem" type="button" onClick={() => closeWith('others', tab.key)}>
+                    <ColumnWidthOutlined />
+                    <span>关闭其它标签页</span>
+                  </button>
+                  <button disabled={!visibleTabs.some(item => !item.affix)} role="menuitem" type="button" onClick={() => closeWith('all', tab.key)}>
+                    <SwapOutlined />
+                    <span>关闭全部标签页</span>
+                  </button>
                 </div>
               );
             })()}

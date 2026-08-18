@@ -37,4 +37,26 @@ describe('chrome tabs', () => {
     expect(styles).toMatch(/\.tabs-chrome__extra[^}]*right: 14px/);
     expect(styles).toMatch(/\.tabs-chrome__extra svg[^}]*font-size: 10px/);
   });
+
+  it('uses compact icon menu items for tab actions', () => {
+    const layout = readFileSync(new URL('./admin-layout.tsx', import.meta.url), 'utf8');
+    const styles = readFileSync(new URL('./admin-layout.css', import.meta.url), 'utf8');
+
+    expect(layout).toContain('<CloseOutlined />');
+    expect(layout).toContain('<DoubleLeftOutlined />');
+    expect(layout).toContain('<DoubleRightOutlined />');
+    expect(layout).toContain('<ColumnWidthOutlined />');
+    expect(layout).toContain('<SwapOutlined />');
+    expect(styles).toMatch(/\.tab-menu button[^}]*height: 32px[^}]*padding: 6px 24px 6px 8px/);
+    expect(styles).toMatch(/\.tab-menu button[^}]*margin-bottom: 0/);
+  });
+
+  it('keeps the more-actions menu inside the viewport', () => {
+    const layout = readFileSync(new URL('./admin-layout.tsx', import.meta.url), 'utf8');
+    const styles = readFileSync(new URL('./admin-layout.css', import.meta.url), 'utf8');
+
+    expect(layout).toContain('Math.max(4, Math.min(rect.left, window.innerWidth - 168))');
+    expect(layout).toContain('Math.max(4, Math.min(rect.bottom + 4, window.innerHeight - 320))');
+    expect(styles).toMatch(/\.tab-menu[^}]*max-width: calc\(100vw - 8px\)/);
+  });
 });
