@@ -24,6 +24,7 @@ scripts/                    仓库维护脚本
 pnpm install
 pnpm start
 pnpm test
+pnpm test --run <测试文件>
 pnpm --filter admin dev
 pnpm --filter admin build
 pnpm lint <目标路径>
@@ -56,7 +57,6 @@ pnpm clean
 - 保留用户已有的未提交改动；不要使用 `git reset --hard`、`git checkout --` 或删除未授权文件。
 - 用户要求“提交全部代码”时，检查已暂存、未暂存和未跟踪文件后一次性提交完整范围；普通“提交代码”只提交当前任务相关文件。
 - 提交前检查 `git status --short`、暂存区 `name-status` 与 `git diff --cached --check`；提交后再次检查状态。`lint-staged` 会修改并重新暂存文件。
-- `.github/` 文件可能触发当前 lint-staged 的 ESLint 配置缺失问题。仅在确认内容与 `git diff --cached --check` 均通过后，才可使用 `--no-verify`，并在结果中说明原因。
 
 ## 编辑本文件
 
