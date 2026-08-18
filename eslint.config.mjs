@@ -18,6 +18,7 @@ export default antfu({
     'tsconfig.json',
     'tsconfig.app.json',
     'tsconfig.node.json',
+    '**/routeTree.gen.ts',
     '.agents/',
     'packages/shadcn-ui/',
   ],
