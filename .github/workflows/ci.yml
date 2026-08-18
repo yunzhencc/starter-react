@@ -1,0 +1,16 @@
+name: Unit Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  unit-test:
+    uses: sxzz/workflows/.github/workflows/unit-test.yml@ea00b206fd53ae8f6d75c72fb1f67b8673ab8959
+    with:
+      build: pnpm --filter @yunzhen/app-admin build
+      node-versions: '22,24'

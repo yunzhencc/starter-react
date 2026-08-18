@@ -2,6 +2,7 @@ import type { InputRef } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import { Button, Input, Modal } from 'antd';
 import { useEffect, useRef, useState } from 'react';
+import logo from '@/assets/logo.svg';
 
 const storageKey = 'starter-react:lock-screen';
 
@@ -78,7 +79,7 @@ export function SetLockScreenModal({ onCancel, onConfirm, open }: SetLockScreenM
       }}
     >
       <div className="lock-screen-modal">
-        <img alt="React Starter" className="lock-screen-modal__avatar" src="/logo.svg" />
+        <img alt="React Starter" className="lock-screen-modal__avatar" src={logo} />
         <Input.Password
           ref={inputRef}
           autoComplete="new-password"
@@ -159,7 +160,7 @@ export function LockScreen({ onLogout, onUnlock, password }: LockScreenProps) {
                 submit();
               }}
             >
-              <img alt="React Starter" className="lock-screen__avatar" src="/logo.svg" />
+              <img alt="React Starter" className="lock-screen__avatar" src={logo} />
               <Input.Password
                 ref={inputRef}
                 autoComplete="current-password"

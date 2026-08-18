@@ -15,7 +15,7 @@ export const Route = createRootRoute({
 
     if (!getSession()) {
       const destination = getLoginRedirect(location.pathname, location.searchStr);
-      throw redirect({ href: `/login?redirect=${encodeURIComponent(destination)}`, replace: true });
+      throw redirect({ replace: true, search: { redirect: destination }, to: '/login' });
     }
   },
   component: RootComponent,

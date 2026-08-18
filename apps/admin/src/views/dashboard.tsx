@@ -1,14 +1,18 @@
 import type { EChartsOption } from 'echarts';
 import { useState } from 'react';
+import bell from '@/assets/images/dashboard/bell.svg';
+import cake from '@/assets/images/dashboard/cake.svg';
+import card from '@/assets/images/dashboard/card.svg';
+import download from '@/assets/images/dashboard/download.svg';
 import { DashboardChart } from './dashboard-chart';
 
 type DashboardTab = 'trends' | 'visits';
 
 const overviewItems = [
-  { icon: '/images/dashboard/card.svg', title: '用户量', totalTitle: '总用户量', totalValue: '120,000', value: '2,000' },
-  { icon: '/images/dashboard/cake.svg', title: '访问量', totalTitle: '总访问量', totalValue: '500,000', value: '20,000' },
-  { icon: '/images/dashboard/download.svg', title: '下载量', totalTitle: '总下载量', totalValue: '120,000', value: '8,000' },
-  { icon: '/images/dashboard/bell.svg', title: '使用量', totalTitle: '总使用量', totalValue: '50,000', value: '5,000' },
+  { icon: card, title: '用户量', totalTitle: '总用户量', totalValue: '120,000', value: '2,000' },
+  { icon: cake, title: '访问量', totalTitle: '总访问量', totalValue: '500,000', value: '20,000' },
+  { icon: download, title: '下载量', totalTitle: '总下载量', totalValue: '120,000', value: '8,000' },
+  { icon: bell, title: '使用量', totalTitle: '总使用量', totalValue: '50,000', value: '5,000' },
 ];
 
 const chartOptions: Record<DashboardTab | 'data' | 'sales' | 'source', EChartsOption> = {

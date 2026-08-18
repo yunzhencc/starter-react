@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ThemeToggle } from '../../theme/theme-toggle';
 import { AuthPageLayoutToggle } from '../widgets/auth-page-layout-toggle';
@@ -31,10 +32,10 @@ export function AuthPageLayout({ appName, children, logo }: AuthPageLayoutProps)
 
   return (
     <main className="auth-page-layout" data-layout={layout}>
-      <a className="auth-page-layout__brand" href="/">
+      <Link className="auth-page-layout__brand" to="/">
         <img alt={appName} src={logo} />
         <span>{appName}</span>
-      </a>
+      </Link>
       <div className="auth-page-layout__toolbar">
         <AuthPageLayoutToggle
           layout={layout}

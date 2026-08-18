@@ -2,6 +2,10 @@ import { createFileRoute, Link, useLocation, useNavigate } from '@tanstack/react
 import { SliderCaptcha } from '@yunzhen/common-ui/captcha';
 import { Button, Card, Checkbox, Form, Input, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
+import github from '@/assets/images/auth/github.svg';
+import google from '@/assets/images/auth/google.svg';
+import qqchat from '@/assets/images/auth/qqchat.svg';
+import wechat from '@/assets/images/auth/wechat.svg';
 import { getSafeRedirect } from '../../features/auth/redirect';
 import { demoUsernames, getSession, login } from '../../features/auth/session';
 import './login.css';
@@ -99,10 +103,18 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           <span />
         </div>
         <div className="login-third-party__providers">
-          <button aria-label="微信登录" className="login-third-party__provider" type="button"><img alt="" src="/images/auth/wechat.svg" /></button>
-          <button aria-label="QQ 登录" className="login-third-party__provider" type="button"><img alt="" src="/images/auth/qqchat.svg" /></button>
-          <button aria-label="GitHub 登录" className="login-third-party__provider login-third-party__provider--github" type="button"><img alt="" src="/images/auth/github.svg" /></button>
-          <button aria-label="Google 登录" className="login-third-party__provider" type="button"><img alt="" src="/images/auth/google.svg" /></button>
+          <button aria-label="微信登录" className="login-third-party__provider" type="button">
+            <img alt="" src={wechat} />
+          </button>
+          <button aria-label="QQ 登录" className="login-third-party__provider" type="button">
+            <img alt="" src={qqchat} />
+          </button>
+          <button aria-label="GitHub 登录" className="login-third-party__provider login-third-party__provider--github" type="button">
+            <img alt="" src={github} />
+          </button>
+          <button aria-label="Google 登录" className="login-third-party__provider" type="button">
+            <img alt="" src={google} />
+          </button>
         </div>
       </div>
       <div className="login-register">

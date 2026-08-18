@@ -1,5 +1,6 @@
 import { AnimatedCharacters } from '@yunzhen/shadcn-ui/components/animated-characters';
 import { useEffect, useState } from 'react';
+import authSlogan from '@/assets/images/auth-slogan.svg';
 
 type AuthHeroEffect = 'careercompass' | 'slogan';
 
@@ -46,7 +47,7 @@ export function AuthHero() {
   if (authHeroEffect === 'slogan') {
     return (
       <div aria-hidden="true" className="auth-page-layout__slogan">
-        <img alt="" className="auth-page-layout__slogan-image" src="/images/auth-slogan.svg" />
+        <img alt="" className="auth-page-layout__slogan-image" src={authSlogan} />
       </div>
     );
   }

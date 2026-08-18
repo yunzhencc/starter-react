@@ -27,6 +27,7 @@ import { motion } from 'motion/react';
 import { lazy, Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Pane, SplitPane } from 'react-split-pane';
+import logo from '@/assets/logo.svg';
 import { logout as clearSession } from '@/features/auth/session';
 import { ThemeToggle } from '@/features/theme/theme-toggle';
 import { DashboardView } from '@/views/dashboard';
@@ -396,7 +397,7 @@ export function AdminLayout() {
         >
           <aside className="admin-sidebar">
             <button className="brand" type="button" onClick={() => void navigate({ to: '/dashboard' })}>
-              <span className="brand-mark"><img alt="" src="/logo.svg" /></span>
+              <span className="brand-mark"><img alt="" src={logo} /></span>
               <span className="brand-name">React Starter</span>
             </button>
             <Menu

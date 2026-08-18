@@ -12,6 +12,7 @@ describe('dashboardView', () => {
 
     expect(screen.getByText('用户量')).toBeTruthy();
     expect(screen.getByText('访问数量')).toBeTruthy();
+    expect(Array.from(document.querySelectorAll<HTMLImageElement>('.analysis-overview-card img')).every(image => !image.src.startsWith(`${window.location.origin}/images/`))).toBe(true);
     expect(screen.getAllByLabelText(/图$/)).toHaveLength(4);
     fireEvent.click(screen.getByRole('tab', { name: '月访问量' }));
     expect(screen.getByLabelText('月访问量图')).toBeTruthy();

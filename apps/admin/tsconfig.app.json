@@ -13,7 +13,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite/client", "typed-query-selector"],
+    "types": ["node", "vite/client", "typed-query-selector"],
     "allowImportingTsExtensions": true,
 
     "noFallthroughCasesInSwitch": true,

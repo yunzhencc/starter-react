@@ -1,5 +1,6 @@
 import { GithubOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
+import avatar from '@/assets/images/avatar-v1.webp';
 
 const githubUrl = 'https://github.com/yunzhencc/starter-react';
 
@@ -16,7 +17,7 @@ export function UserDropdown({ onLogout }: UserDropdownProps) {
         <div className="user-dropdown__content">
           <div className="user-dropdown__profile">
             <div className="user-dropdown__avatar">
-              <img alt="Vben" src="/images/avatar-v1.webp" />
+              <img alt="Vben" src={avatar} />
               <span aria-label="在线" className="user-dropdown__status" />
             </div>
             <div>
@@ -53,7 +54,7 @@ export function UserDropdown({ onLogout }: UserDropdownProps) {
     >
       <button aria-label="用户菜单" className="user-dropdown__trigger" type="button">
         <span className="user-dropdown__avatar">
-          <img alt="Vben" src="/images/avatar-v1.webp" />
+          <img alt="avatar" src={avatar} />
           <span aria-label="在线" className="user-dropdown__status" />
         </span>
       </button>
