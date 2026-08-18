@@ -1,4 +1,4 @@
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 
 function Kbd({ className, ...props }: React.ComponentProps<'kbd'>) {
   return (

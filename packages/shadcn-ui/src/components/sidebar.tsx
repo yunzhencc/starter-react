@@ -3,25 +3,25 @@
 import type { VariantProps } from 'class-variance-authority';
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
-import { Button } from '@pixvibe/ui/components/button';
+import { Button } from '@yunzhen/shadcn-ui/components/button';
 
-import { Input } from '@pixvibe/ui/components/input';
-import { Separator } from '@pixvibe/ui/components/separator';
+import { Input } from '@yunzhen/shadcn-ui/components/input';
+import { Separator } from '@yunzhen/shadcn-ui/components/separator';
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@pixvibe/ui/components/sheet';
-import { Skeleton } from '@pixvibe/ui/components/skeleton';
+} from '@yunzhen/shadcn-ui/components/sheet';
+import { Skeleton } from '@yunzhen/shadcn-ui/components/skeleton';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@pixvibe/ui/components/tooltip';
-import { useIsMobile } from '@pixvibe/ui/hooks/use-mobile';
-import { cn } from '@pixvibe/ui/lib/utils';
+} from '@yunzhen/shadcn-ui/components/tooltip';
+import { useIsMobile } from '@yunzhen/shadcn-ui/hooks/use-mobile';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { cva } from 'class-variance-authority';
 import { PanelLeftIcon } from 'lucide-react';
 import * as React from 'react';

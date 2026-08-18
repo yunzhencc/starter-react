@@ -17,7 +17,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "vitest",
-    "typecheck": "vue-tsc --noEmit --skipLibCheck",
+    "typecheck": "turbo run typecheck",
     "release": "changeset",
     "prepare": "simple-git-hooks",
     "preinstall": "npx only-allow pnpm"

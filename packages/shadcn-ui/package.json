@@ -9,6 +9,9 @@
     "./lib/*": "./src/lib/*.ts",
     "./hooks/*": "./src/hooks/*.ts"
   },
+    "scripts": {
+    "typecheck": "tsc -b"
+  },
   "peerDependencies": {
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"

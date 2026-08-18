@@ -31,8 +31,8 @@ interface PupilProps {
   size?: number;
   maxDistance?: number;
   pupilColor?: string;
-  forceLookX?: number;
-  forceLookY?: number;
+  forceLookX?: number | undefined;
+  forceLookY?: number | undefined;
 }
 
 export const Pupil = ({
@@ -106,8 +106,8 @@ interface EyeBallProps {
   eyeColor?: string;
   pupilColor?: string;
   isBlinking?: boolean;
-  forceLookX?: number;
-  forceLookY?: number;
+  forceLookX?: number | undefined;
+  forceLookY?: number | undefined;
 }
 
 export const EyeBall = ({

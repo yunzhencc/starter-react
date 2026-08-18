@@ -1,7 +1,7 @@
 import { Toast as ToastPrimitive } from '@base-ui/react/toast';
-import { Button } from '@pixvibe/ui/components/button';
+import { Button } from '@yunzhen/shadcn-ui/components/button';
 
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon } from 'lucide-react';
 import * as React from 'react';
 

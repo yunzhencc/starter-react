@@ -25,7 +25,6 @@ describe('body scrollbars', () => {
     const { rerender, unmount } = render(<BodyScrollbars />);
 
     expect(initialize).toHaveBeenCalledWith(document.body, {
-      cancel: { body: null },
       scrollbars: { autoHide: 'scroll', clickScroll: true, theme: 'os-theme-dark' },
     });
 
@@ -34,7 +33,6 @@ describe('body scrollbars', () => {
 
     expect(destroy).toHaveBeenCalledOnce();
     expect(initialize).toHaveBeenLastCalledWith(document.body, {
-      cancel: { body: null },
       scrollbars: { autoHide: 'scroll', clickScroll: true, theme: 'os-theme-light' },
     });
 

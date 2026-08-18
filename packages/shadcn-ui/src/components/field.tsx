@@ -1,8 +1,8 @@
 import type { VariantProps } from 'class-variance-authority';
-import { Label } from '@pixvibe/ui/components/label';
+import { Label } from '@yunzhen/shadcn-ui/components/label';
 
-import { Separator } from '@pixvibe/ui/components/separator';
-import { cn } from '@pixvibe/ui/lib/utils';
+import { Separator } from '@yunzhen/shadcn-ui/components/separator';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
 

@@ -4,7 +4,7 @@
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "paths": {
-      "@pixvibe/ui/*": ["./src/*"]
+      "@yunzhen/shadcn-ui/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"]

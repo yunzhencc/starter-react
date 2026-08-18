@@ -7,7 +7,6 @@ export function BodyScrollbars() {
 
   useEffect(() => {
     const instance = OverlayScrollbars(document.body, {
-      cancel: { body: null },
       scrollbars: {
         autoHide: 'scroll',
         clickScroll: true,

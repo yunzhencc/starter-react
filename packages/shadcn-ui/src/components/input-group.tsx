@@ -1,9 +1,9 @@
 import type { VariantProps } from 'class-variance-authority';
-import { Button } from '@pixvibe/ui/components/button';
+import { Button } from '@yunzhen/shadcn-ui/components/button';
 
-import { Input } from '@pixvibe/ui/components/input';
-import { Textarea } from '@pixvibe/ui/components/textarea';
-import { cn } from '@pixvibe/ui/lib/utils';
+import { Input } from '@yunzhen/shadcn-ui/components/input';
+import { Textarea } from '@yunzhen/shadcn-ui/components/textarea';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
 

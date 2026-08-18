@@ -1,15 +1,15 @@
 'use client';
 
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
-import { Button } from '@pixvibe/ui/components/button';
+import { Button } from '@yunzhen/shadcn-ui/components/button';
 
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from '@pixvibe/ui/components/input-group';
-import { cn } from '@pixvibe/ui/lib/utils';
+} from '@yunzhen/shadcn-ui/components/input-group';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { CheckIcon, ChevronDownIcon, XIcon } from 'lucide-react';
 import * as React from 'react';
 

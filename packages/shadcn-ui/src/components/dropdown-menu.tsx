@@ -1,5 +1,5 @@
 import { Menu as MenuPrimitive } from '@base-ui/react/menu';
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 
 import { CheckIcon, ChevronRightIcon } from 'lucide-react';
 import * as React from 'react';

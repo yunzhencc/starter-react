@@ -6,22 +6,22 @@ interface AppearanceTransition {
   ready: Promise<void>;
 }
 
-type DocumentWithViewTransition = Document & {
+interface DocumentWithViewTransition {
   startViewTransition?: (callback: () => void) => AppearanceTransition;
-};
+}
 
 const theme = vi.hoisted(() => ({
   resolvedTheme: 'dark',
   setTheme: vi.fn(),
 }));
-const documentWithViewTransition = document as DocumentWithViewTransition;
+const documentWithViewTransition = document as unknown as DocumentWithViewTransition;
 
 vi.mock('next-themes', () => ({ useTheme: () => theme }));
 
 afterEach(() => {
   cleanup();
   delete documentWithViewTransition.startViewTransition;
-  delete (document.documentElement as HTMLElement & { animate?: Element['animate'] }).animate;
+  delete (document.documentElement as unknown as { animate?: Element['animate'] }).animate;
   document.documentElement.classList.remove('dark', 'light');
   theme.resolvedTheme = 'dark';
   theme.setTheme.mockClear();

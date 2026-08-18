@@ -1,4 +1,4 @@
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 
 import * as ResizablePrimitive from 'react-resizable-panels';
 

@@ -1,6 +1,6 @@
 import { Switch as SwitchPrimitive } from '@base-ui/react/switch';
 
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 
 function Switch({
   className,

@@ -1,7 +1,7 @@
 import type { VariantProps } from 'class-variance-authority';
 import { Tabs as TabsPrimitive } from '@base-ui/react/tabs';
 
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { cva } from 'class-variance-authority';
 
 function Tabs({

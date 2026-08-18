@@ -1,9 +1,9 @@
 import type { VariantProps } from 'class-variance-authority';
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
-import { Separator } from '@pixvibe/ui/components/separator';
+import { Separator } from '@yunzhen/shadcn-ui/components/separator';
 
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
 

@@ -1,6 +1,6 @@
 import { ScrollArea as ScrollAreaPrimitive } from '@base-ui/react/scroll-area';
 
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 
 function ScrollArea({
   className,

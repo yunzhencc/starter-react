@@ -1,5 +1,5 @@
 import { Avatar as AvatarPrimitive } from '@base-ui/react/avatar';
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 
 import * as React from 'react';
 

@@ -1,7 +1,7 @@
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
-import { Button } from '@pixvibe/ui/components/button';
+import { Button } from '@yunzhen/shadcn-ui/components/button';
 
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 import { XIcon } from 'lucide-react';
 import * as React from 'react';
 

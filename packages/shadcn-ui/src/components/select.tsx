@@ -1,5 +1,5 @@
 import { Select as SelectPrimitive } from '@base-ui/react/select';
-import { cn } from '@pixvibe/ui/lib/utils';
+import { cn } from '@yunzhen/shadcn-ui/lib/utils';
 
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import * as React from 'react';

@@ -9,6 +9,9 @@
       "import": "./src/pages/*.tsx"
     }
   },
+  "scripts": {
+    "typecheck": "tsc -b"
+  },
   "dependencies": {
     "@ant-design/icons": "catalog:core",
     "@lexical/react": "catalog:core",
