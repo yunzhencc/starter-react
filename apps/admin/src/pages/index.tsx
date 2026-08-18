@@ -10,8 +10,7 @@ function RouteComponent() {
 
   useEffect(() => {
     navigate({ to: '/dashboard', replace: true });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigate]);
 
   return null;
 }
