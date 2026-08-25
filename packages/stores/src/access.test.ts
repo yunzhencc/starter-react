@@ -25,12 +25,18 @@ describe('@yunzhen/stores access menus', () => {
     lockScreen('secret');
 
     expect(getLockScreenState()).toEqual({ isLockScreen: true, lockScreenPassword: 'secret' });
-    expect(window.localStorage.getItem('starter-react:lock-screen')).toBe('{"isLockScreen":true,"lockScreenPassword":"secret"}');
+    expect(JSON.parse(window.localStorage.getItem('starter-react:lock-screen') ?? '')).toEqual({
+      state: { isLockScreen: true, lockScreenPassword: 'secret' },
+      version: 0,
+    });
 
     unlockScreen();
 
     expect(getLockScreenState()).toEqual({ isLockScreen: false, lockScreenPassword: undefined });
-    expect(window.localStorage.getItem('starter-react:lock-screen')).toBeNull();
+    expect(JSON.parse(window.localStorage.getItem('starter-react:lock-screen') ?? '')).toEqual({
+      state: { isLockScreen: false },
+      version: 0,
+    });
   });
 
   it('exposes the shared access state and actions to non-React consumers', () => {
