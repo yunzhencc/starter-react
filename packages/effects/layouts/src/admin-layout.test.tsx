@@ -17,6 +17,7 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+  window.sessionStorage.clear();
   vi.unstubAllGlobals();
 });
 
@@ -40,5 +41,25 @@ describe('@yunzhen/layouts AdminLayout', () => {
     expect(await screen.findByRole('heading', { name: 'Home' })).toBeTruthy();
     fireEvent.click(screen.getByText('Editor'));
     expect(onNavigate).toHaveBeenCalledWith('/editor');
+  });
+
+  it('does not render serialized tab icons from session storage', async () => {
+    window.sessionStorage.setItem('yunzhen:tabbar', JSON.stringify({
+      activeKey: '/home',
+      history: ['/home'],
+      items: [{ icon: { _owner: null, _store: {}, key: null, props: {} }, key: '/home', path: '/home', title: 'Home' }],
+    }));
+
+    render(
+      <AdminLayout
+        activePath="/home"
+        brand={<span>Playground</span>}
+        menuItems={[{ affix: true, path: '/home', title: 'Home' }]}
+        renderPage={route => <h1>{route.title}</h1>}
+        onNavigate={vi.fn()}
+      />,
+    );
+
+    expect(await screen.findByRole('button', { name: 'Home' })).toBeTruthy();
   });
 });

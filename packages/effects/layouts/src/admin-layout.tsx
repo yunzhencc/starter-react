@@ -12,7 +12,6 @@ import {
   DoubleRightOutlined,
   ExpandOutlined,
   ExportOutlined,
-  FullscreenExitOutlined,
   FullscreenOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -61,7 +60,10 @@ function getStoredTabs(storageKey: string, routes: LayoutRoute[]) {
       ? createTabState({
           activeKey: snapshot.activeKey,
           history: snapshot.history.filter(key => typeof key === 'string'),
-          items: snapshot.items.filter(tab => routes.some(route => route.path === tab.path)),
+          items: snapshot.items.flatMap(({ icon: _icon, ...tab }) => {
+            const route = routes.find(item => item.path === tab.path);
+            return route ? [{ ...tab, icon: route.icon, title: route.title }] : [];
+          }),
         })
       : createTabState();
   }
@@ -92,7 +94,6 @@ export function AdminLayout({
   const { collapsed, hidden: sidebarHidden, width: sidebarWidth } = preferences.sidebar;
   const [contextTab, setContextTab] = useState<string>();
   const [contextMenuPosition, setContextMenuPosition] = useState({ left: 0, top: 0 });
-  const [fullscreen, setFullscreen] = useState(() => typeof document !== 'undefined' && !!document.fullscreenElement);
   const [maximized, setMaximized] = useState(false);
   const [refreshVersion, setRefreshVersion] = useState<Record<string, number>>({});
   const [pageTransition, setPageTransition] = useState<{ displayedKey: string; leavingKey: string }>({ displayedKey: currentKey, leavingKey: '' });
@@ -113,14 +114,12 @@ export function AdminLayout({
   }, [activeSearch, fullPath, route, tabs]);
 
   useEffect(() => {
-    window.sessionStorage.setItem('yunzhen:tabbar', JSON.stringify(tabs.snapshot()));
+    const snapshot = tabs.snapshot();
+    window.sessionStorage.setItem('yunzhen:tabbar', JSON.stringify({
+      ...snapshot,
+      items: snapshot.items.map(({ icon: _icon, ...tab }) => tab),
+    }));
   }, [revision, tabs]);
-
-  useEffect(() => {
-    const syncFullscreen = () => setFullscreen(!!document.fullscreenElement);
-    document.addEventListener('fullscreenchange', syncFullscreen);
-    return () => document.removeEventListener('fullscreenchange', syncFullscreen);
-  }, []);
 
   useEffect(() => {
     if (!contextTab)
@@ -216,17 +215,6 @@ export function AdminLayout({
       top: Math.max(4, Math.min(rect.bottom + 4, window.innerHeight - 320)),
     });
   };
-  const toggleFullscreen = async () => {
-    try {
-      if (document.fullscreenElement)
-        await document.exitFullscreen();
-      else await document.documentElement.requestFullscreen();
-    }
-    catch {
-      // The browser may deny fullscreen when it is unavailable.
-    }
-  };
-
   return [
     <AdminLayoutFrame
       key="layout"
@@ -263,7 +251,6 @@ export function AdminLayout({
             </div>
             <div className="header-actions">
               {headerActions}
-              <button aria-label={fullscreen ? '退出全屏' : '全屏'} className="header-icon-button" title={fullscreen ? '退出全屏' : '全屏'} type="button" onClick={() => void toggleFullscreen()}>{fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}</button>
             </div>
           </header>
           <section className="tabbar" aria-label="已打开的页签">

@@ -1,4 +1,4 @@
-import { LockOutlined } from '@ant-design/icons';
+import { FullscreenExitOutlined, FullscreenOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import { BasicLayout } from '@yunzhen/layouts';
 import { LockScreen, LockScreenModal, ThemeToggle } from '@yunzhen/layouts/widgets';
@@ -31,6 +31,7 @@ export function AdminLayout() {
   const isLockScreen = useAccessStore(state => state.isLockScreen);
   const { shortcutKeys, widget } = usePreferences();
   const [lockScreenModalOpen, setLockScreenModalOpen] = useState(false);
+  const [fullscreen, setFullscreen] = useState(() => typeof document !== 'undefined' && !!document.fullscreenElement);
   const showLockInHeader = widget.lockScreen && widget.lockScreenButtonPosition === 'header';
   const showLockInDropdown = widget.lockScreen && widget.lockScreenButtonPosition === 'user-dropdown';
   const enableLockScreenShortcut = widget.lockScreen
@@ -52,6 +53,23 @@ export function AdminLayout() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [enableLockScreenShortcut, isLockScreen]);
+
+  useEffect(() => {
+    const syncFullscreen = () => setFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', syncFullscreen);
+    return () => document.removeEventListener('fullscreenchange', syncFullscreen);
+  }, []);
+
+  async function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement)
+        await document.exitFullscreen();
+      else await document.documentElement.requestFullscreen();
+    }
+    catch {
+      // The browser may deny fullscreen when it is unavailable.
+    }
+  }
 
   function logout() {
     clearSession();
@@ -83,6 +101,7 @@ export function AdminLayout() {
         headerActions={(
           <>
             <ThemeToggle />
+            <button aria-label={fullscreen ? '退出全屏' : '全屏'} className="header-icon-button" title={fullscreen ? '退出全屏' : '全屏'} type="button" onClick={() => void toggleFullscreen()}>{fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}</button>
             {showLockInHeader && (
               <button aria-label={t('ui.lockScreen.title')} className="header-icon-button" title={t('ui.lockScreen.title')} type="button" onClick={() => setLockScreenModalOpen(true)}>
                 <LockOutlined />
