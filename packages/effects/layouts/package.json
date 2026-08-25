@@ -39,7 +39,6 @@
     "@yunzhen/stores": "workspace:*",
     "antd": "catalog:core",
     "motion": "catalog:core",
-    "next-themes": "catalog:core",
     "overlayscrollbars-react": "catalog:core",
     "react-responsive": "catalog:core",
     "react-split-pane": "catalog:core"

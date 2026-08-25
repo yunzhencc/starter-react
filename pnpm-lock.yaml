@@ -536,9 +536,6 @@ importers:
       motion:
         specifier: catalog:core
         version: 13.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      next-themes:
-        specifier: catalog:core
-        version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       nuqs:
         specifier: catalog:core
         version: 2.10.0(@tanstack/react-router@1.170.32(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router-dom@7.18.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
@@ -662,9 +659,6 @@ importers:
       motion:
         specifier: catalog:core
         version: 13.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      next-themes:
-        specifier: catalog:core
-        version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       overlayscrollbars-react:
         specifier: catalog:core
         version: 0.5.6(overlayscrollbars@2.16.0)(react@19.2.8)
