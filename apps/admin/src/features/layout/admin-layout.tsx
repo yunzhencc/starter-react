@@ -1,29 +1,18 @@
-import type { LayoutMenuItem, Tab } from '@yunzhen/layouts';
-import type { ElementType } from 'react';
 import { LockOutlined } from '@ant-design/icons';
-import { useLocation, useNavigate } from '@tanstack/react-router';
-import { AdminLayout as SharedAdminLayout } from '@yunzhen/layouts';
+import { useNavigate } from '@tanstack/react-router';
+import { BasicLayout } from '@yunzhen/layouts';
+import { setAccessMenus } from '@yunzhen/stores';
 import { App as AntApp } from 'antd';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '@/assets/logo.svg';
 import { logout as clearSession } from '@/features/auth/session';
 import { ThemeToggle } from '@/features/theme/theme-toggle';
-import { DashboardView } from '@/views/dashboard';
 import { getStoredLockScreen, LockScreen, persistLockScreen, SetLockScreenModal } from './lock-screen';
 import { appMenuItems } from './route-definitions';
 import { RouteIcon } from './route-icon';
 import { UserDropdown } from './user-dropdown';
 
-const SlateView = lazy(() => import('@yunzhen/playground/pages/slate/text-area'));
-const LexicalView = lazy(() => import('@yunzhen/playground/pages/lexical/basic'));
-
-const pageViews: Record<string, ElementType> = {
-  '/dashboard': DashboardView,
-  '/examples/lexical': LexicalView,
-  '/examples/slate': SlateView,
-};
-
-const menuItems: LayoutMenuItem[] = appMenuItems.map(item => 'children' in item
+const menuItems = appMenuItems.map(item => 'children' in item
   ? {
       children: item.children.map(child => ({ ...child, icon: child.icon ? <RouteIcon icon={child.icon} /> : undefined })),
       icon: <RouteIcon icon={item.icon} />,
@@ -32,9 +21,10 @@ const menuItems: LayoutMenuItem[] = appMenuItems.map(item => 'children' in item
     }
   : { ...item, icon: <RouteIcon icon={item.icon} /> });
 
+setAccessMenus(menuItems);
+
 export function AdminLayout() {
   const { modal } = AntApp.useApp();
-  const location = useLocation();
   const navigate = useNavigate();
   const [lockScreen, setLockScreen] = useState(getStoredLockScreen);
   const [lockScreenModalOpen, setLockScreenModalOpen] = useState(false);
@@ -81,9 +71,7 @@ export function AdminLayout() {
 
   return (
     <>
-      <SharedAdminLayout
-        activePath={location.pathname}
-        activeSearch={location.searchStr}
+      <BasicLayout
         brand={(
           <button className="brand" type="button" onClick={() => void navigate({ to: '/dashboard' })}>
             <span className="brand-mark"><img alt="" src={logo} /></span>
@@ -99,15 +87,6 @@ export function AdminLayout() {
             <UserDropdown onLogout={confirmLogout} />
           </>
         )}
-        menuItems={menuItems}
-        renderPage={(tab: Tab, refreshVersion) => {
-          const View = pageViews[tab.path];
-          return View
-            ? <Suspense fallback={<div className="page-loading">正在加载页面…</div>}><View key={`${tab.key}:${refreshVersion}`} /></Suspense>
-            : null;
-        }}
-        storageKeyPrefix="starter-react"
-        onNavigate={path => void navigate({ to: path as never })}
       />
       <SetLockScreenModal open={lockScreenModalOpen} onCancel={() => setLockScreenModalOpen(false)} onConfirm={lock} />
       {lockScreen.isLocked && <LockScreen password={lockScreen.password ?? ''} onLogout={logout} onUnlock={unlock} />}

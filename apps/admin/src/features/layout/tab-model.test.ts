@@ -1,4 +1,4 @@
-import { createTabState, getTabKey } from '@yunzhen/layouts';
+import { createTabState, getTabKey } from '@yunzhen/stores';
 import { describe, expect, it } from 'vitest';
 
 describe('tab model', () => {

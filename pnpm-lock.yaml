@@ -503,6 +503,9 @@ importers:
       '@yunzhen/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/shadcn-ui
+      '@yunzhen/stores':
+        specifier: workspace:*
+        version: link:../../packages/stores
       '@yunzhen/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -622,6 +625,18 @@ importers:
       '@ant-design/icons':
         specifier: catalog:core
         version: 6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@tanstack/react-router':
+        specifier: catalog:core
+        version: 1.170.32(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@yunzhen/layout-ui':
+        specifier: workspace:*
+        version: link:../../layout-ui
+      '@yunzhen/preferences':
+        specifier: workspace:*
+        version: link:../../preferences
+      '@yunzhen/stores':
+        specifier: workspace:*
+        version: link:../../stores
       antd:
         specifier: catalog:core
         version: 6.6.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -643,6 +658,21 @@ importers:
       react-responsive:
         specifier: catalog:core
         version: 10.0.1(react@19.2.8)
+      react-split-pane:
+        specifier: catalog:core
+        version: 3.2.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+
+  packages/layout-ui:
+    dependencies:
+      '@ant-design/icons':
+        specifier: catalog:core
+        version: 6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.8
+      react-dom:
+        specifier: '>=19.0.0'
+        version: 19.2.8(react@19.2.8)
       react-split-pane:
         specifier: catalog:core
         version: 3.2.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -701,6 +731,12 @@ importers:
         specifier: catalog:core
         version: 0.126.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(slate-dom@0.126.0(slate@0.126.2))(slate@0.126.2)
 
+  packages/preferences:
+    dependencies:
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.8
+
   packages/shadcn-ui:
     dependencies:
       '@base-ui/react':
@@ -737,6 +773,12 @@ importers:
         specifier: catalog:core
         version: 4.4.3
 
+  packages/stores:
+    dependencies:
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.8
+
   packages/utils:
     dependencies:
       clsx:
@@ -751,6 +793,9 @@ importers:
 
   playground:
     dependencies:
+      '@tanstack/react-router':
+        specifier: catalog:core
+        version: 1.170.32(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@yunzhen/layouts':
         specifier: workspace:*
         version: link:../packages/effects/layouts
@@ -760,6 +805,9 @@ importers:
       '@yunzhen/request':
         specifier: catalog:core
         version: 2.1.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
+      '@yunzhen/stores':
+        specifier: workspace:*
+        version: link:../packages/stores
       react:
         specifier: catalog:core
         version: 19.2.8

@@ -1,4 +1,4 @@
-import type { LayoutRoute } from '@yunzhen/layouts';
+import type { LayoutRoute } from '@yunzhen/stores';
 
 export type RouteIconName = 'analytics' | 'document';
 

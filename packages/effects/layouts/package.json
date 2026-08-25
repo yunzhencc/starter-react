@@ -28,6 +28,10 @@
   },
   "dependencies": {
     "@ant-design/icons": "catalog:core",
+    "@tanstack/react-router": "catalog:core",
+    "@yunzhen/layout-ui": "workspace:*",
+    "@yunzhen/preferences": "workspace:*",
+    "@yunzhen/stores": "workspace:*",
     "antd": "catalog:core",
     "motion": "catalog:core",
     "next-themes": "catalog:core",

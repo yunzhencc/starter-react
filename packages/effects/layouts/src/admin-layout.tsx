@@ -1,6 +1,6 @@
+import type { LayoutMenuItem, LayoutRoute, Tab, TabStateSnapshot } from '@yunzhen/stores';
 import type { MenuProps } from 'antd';
 import type { MouseEvent, ReactNode } from 'react';
-import type { LayoutRoute, Tab, TabStateSnapshot } from './tab-model';
 import {
   AppstoreOutlined,
   ArrowLeftOutlined,
@@ -20,25 +20,19 @@ import {
   ReloadOutlined,
   SwapOutlined,
 } from '@ant-design/icons';
+import { AdminLayoutFrame, LayoutPane } from '@yunzhen/layout-ui';
+import { updatePreferences, usePreferences } from '@yunzhen/preferences';
 import { Menu } from 'antd';
 import { motion } from 'motion/react';
 import { useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Pane, SplitPane } from 'react-split-pane';
 import { ChromeTabs } from './chrome-tabs';
 import { LayoutScrollArea } from './layout-scroll';
 import { getSidebarWidth, maxSidebarWidth, minSidebarWidth } from './sidebar-width';
 import { createTabState, getTabKey } from './tab-model';
 import './admin-layout.css';
 
-export type LayoutMenuItem = LayoutRoute | {
-  children: LayoutRoute[];
-  icon?: ReactNode;
-  key: string;
-  title: string;
-};
-
-export interface AdminLayoutProps {
+interface AdminLayoutProps {
   activePath: string;
   activeSearch?: string;
   brand: ReactNode;
@@ -46,7 +40,6 @@ export interface AdminLayoutProps {
   menuItems: LayoutMenuItem[];
   onNavigate: (path: string) => void;
   renderPage: (route: Tab, refreshVersion: number) => ReactNode;
-  storageKeyPrefix?: string;
 }
 
 function isMenuGroup(item: LayoutMenuItem): item is Extract<LayoutMenuItem, { children: LayoutRoute[] }> {
@@ -84,7 +77,6 @@ export function AdminLayout({
   menuItems,
   onNavigate,
   renderPage,
-  storageKeyPrefix = 'yunzhen:layout',
 }: AdminLayoutProps) {
   const routes = getRoutes(menuItems);
   const route = routes.find(item => item.path === (activePath === '/' ? activePath : activePath.replace(/\/$/, '')));
@@ -92,18 +84,10 @@ export function AdminLayout({
   const currentKey = route
     ? getTabKey({ ...route, fullPath, search: Object.fromEntries(new URLSearchParams(activeSearch)) })
     : '';
-  const tabs = useRef(getStoredTabs(`${storageKeyPrefix}:tabbar`, routes)).current;
+  const tabs = useRef(getStoredTabs('yunzhen:tabbar', routes)).current;
+  const preferences = usePreferences();
   const [revision, render] = useReducer(value => value + 1, 0);
-  const [collapsed, setCollapsed] = useState(false);
-  const [sidebarHidden, setSidebarHidden] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState(() => {
-    try {
-      return getSidebarWidth(window.localStorage.getItem(`${storageKeyPrefix}:sidebar-width`));
-    }
-    catch {
-      return getSidebarWidth(null);
-    }
-  });
+  const { collapsed, hidden: sidebarHidden, width: sidebarWidth } = preferences.sidebar;
   const [contextTab, setContextTab] = useState<string>();
   const [contextMenuPosition, setContextMenuPosition] = useState({ left: 0, top: 0 });
   const [fullscreen, setFullscreen] = useState(() => typeof document !== 'undefined' && !!document.fullscreenElement);
@@ -127,8 +111,8 @@ export function AdminLayout({
   }, [activeSearch, fullPath, route, tabs]);
 
   useEffect(() => {
-    window.sessionStorage.setItem(`${storageKeyPrefix}:tabbar`, JSON.stringify(tabs.snapshot()));
-  }, [revision, storageKeyPrefix, tabs]);
+    window.sessionStorage.setItem('yunzhen:tabbar', JSON.stringify(tabs.snapshot()));
+  }, [revision, tabs]);
 
   useEffect(() => {
     const syncFullscreen = () => setFullscreen(!!document.fullscreenElement);
@@ -242,41 +226,31 @@ export function AdminLayout({
   };
 
   return (
-    <SplitPane
+    <AdminLayoutFrame
       className={`admin-layout ${collapsed && !sidebarHidden ? 'admin-layout--collapsed' : ''} ${sidebarHidden ? 'admin-layout--sidebar-hidden' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}
-      direction="horizontal"
-      dividerClassName="admin-sidebar-resizer"
-      dividerSize={sidebarResizable ? 1 : 0}
-      resizable={sidebarResizable}
-      onResize={(sizes) => {
-        const width = getSidebarWidth(String(sizes[0]));
-        setSidebarWidth(width);
+      sidebarResizable={sidebarResizable}
+      onResize={(size) => {
+        const width = getSidebarWidth(String(size));
+        updatePreferences({ sidebar: { width } });
         if (width > minSidebarWidth)
-          setCollapsed(false);
+          updatePreferences({ sidebar: { collapsed: false } });
       }}
-      onResizeEnd={(sizes) => {
-        const width = getSidebarWidth(String(sizes[0]));
-        setSidebarWidth(width);
-        setCollapsed(width <= minSidebarWidth);
-        try {
-          window.localStorage.setItem(`${storageKeyPrefix}:sidebar-width`, String(width));
-        }
-        catch {
-          // Ignore unavailable browser storage.
-        }
+      onResizeEnd={(size) => {
+        const width = getSidebarWidth(String(size));
+        updatePreferences({ sidebar: { collapsed: width <= minSidebarWidth, width } });
       }}
     >
-      <Pane className="admin-sidebar-pane" maxSize={maximized || compactSidebar || sidebarHidden ? sidebarSize : maxSidebarWidth} minSize={maximized || compactSidebar || sidebarHidden ? sidebarSize : minSidebarWidth} size={sidebarSize}>
+      <LayoutPane className="admin-sidebar-pane" maxSize={maximized || compactSidebar || sidebarHidden ? sidebarSize : maxSidebarWidth} minSize={maximized || compactSidebar || sidebarHidden ? sidebarSize : minSidebarWidth} size={sidebarSize}>
         <aside className="admin-sidebar">
           {brand}
           <Menu aria-label="主菜单" className="admin-menu" defaultOpenKeys={menuItems.filter(isMenuGroup).filter(item => item.children.some(child => child.path === route?.path)).map(item => item.key)} inlineCollapsed={collapsed} inlineIndent={12} items={antMenuItems} mode="inline" selectedKeys={route ? [route.path] : []} onClick={({ key }) => onNavigate(key)} />
         </aside>
-      </Pane>
-      <Pane className="admin-main-pane">
+      </LayoutPane>
+      <LayoutPane className="admin-main-pane">
         <main className="admin-main">
           <header className="admin-header">
             <div className="header-leading">
-              <button aria-label={sidebarHidden ? '显示菜单' : '隐藏菜单'} className="header-menu-toggle" title={sidebarHidden ? '显示菜单' : '隐藏菜单'} type="button" onClick={() => setSidebarHidden(value => !value)}>{sidebarHidden ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}</button>
+              <button aria-label={sidebarHidden ? '显示菜单' : '隐藏菜单'} className="header-menu-toggle" title={sidebarHidden ? '显示菜单' : '隐藏菜单'} type="button" onClick={() => updatePreferences({ sidebar: { hidden: !sidebarHidden } })}>{sidebarHidden ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}</button>
               <div className="breadcrumb">
                 工作台
                 <span>/</span>
@@ -395,7 +369,7 @@ export function AdminLayout({
             })}
           </LayoutScrollArea>
         </main>
-      </Pane>
-    </SplitPane>
+      </LayoutPane>
+    </AdminLayoutFrame>
   );
 }

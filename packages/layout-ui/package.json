@@ -1,0 +1,26 @@
+{
+  "name": "@yunzhen/layout-ui",
+  "type": "module",
+  "version": "0.0.0",
+  "license": "MIT",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -b"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "dependencies": {
+    "@ant-design/icons": "catalog:core",
+    "react-split-pane": "catalog:core"
+  }
+}
