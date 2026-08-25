@@ -26,6 +26,7 @@ describe('themeToggle', () => {
   it('persists the selected light mode from the three-option menu', () => {
     render(<ThemeToggle />);
 
+    expect(screen.getByTitle('Theme icon')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Theme settings|主题设置/ }));
     fireEvent.click(screen.getByRole('menuitem', { name: /Light theme|浅色主题/ }));
 
