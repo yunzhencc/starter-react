@@ -9,6 +9,12 @@
     "unlock": "Click to unlock",
     "wrongPassword": "Incorrect password. Please try again."
   },
+  "theme": {
+    "dark": "Dark theme",
+    "followSystem": "Follow system",
+    "label": "Theme settings",
+    "light": "Light theme"
+  },
   "formRules": {
 
   }

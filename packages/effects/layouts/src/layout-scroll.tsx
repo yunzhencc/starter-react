@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from 'react';
-import { useTheme } from 'next-themes';
+import { useIsDark } from '@yunzhen/preferences';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 export function LayoutScrollArea({ children }: PropsWithChildren) {
-  const { resolvedTheme } = useTheme();
+  const isDark = useIsDark();
 
   return (
     <OverlayScrollbarsComponent
@@ -15,7 +15,7 @@ export function LayoutScrollArea({ children }: PropsWithChildren) {
         scrollbars: {
           autoHide: 'scroll',
           clickScroll: true,
-          theme: resolvedTheme === 'dark' ? 'os-theme-light' : 'os-theme-dark',
+          theme: isDark ? 'os-theme-light' : 'os-theme-dark',
         },
       }}
     >
