@@ -1,9 +1,22 @@
 {
-  "name": "starter-react",
+  "name": "starter-react-monorepo",
   "type": "module",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@11.23.0",
+  "license": "MIT",
+  "homepage": "https://github.com/yunzhencc/starter-react#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yunzhencc/starter-react.git"
+  },
+  "bugs": "https://github.com/yunzhencc/starter-react/issues",
+  "keywords": [
+    "monorepo",
+    "turbo",
+    "react",
+    "react admin"
+  ],
   "engines": {
     "node": "^22.18.0 || ^24.12.0",
     "pnpm": ">=11.0.0"
@@ -16,6 +29,7 @@
     "start:web": "pnpm --filter @yunzhen/app-web run dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
+    "check:cspell": "cspell lint \"**/*.ts\" \"**/README.md\" \".changeset/*.md\" --no-progress",
     "test": "vitest",
     "typecheck": "turbo run typecheck",
     "release": "changeset",
@@ -23,12 +37,12 @@
     "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "catalog:eslint",
+    "@antfu/eslint-config": "catalog:lint",
     "@changesets/cli": "catalog:dev",
-    "@commitlint/cli": "catalog:dev",
-    "@commitlint/config-conventional": "catalog:dev",
-    "@commitlint/types": "catalog:dev",
-    "@eslint-react/eslint-plugin": "catalog:eslint",
+    "@commitlint/cli": "catalog:lint",
+    "@commitlint/config-conventional": "catalog:lint",
+    "@commitlint/types": "catalog:lint",
+    "@eslint-react/eslint-plugin": "catalog:lint",
     "@playwright/test": "catalog:test",
     "@rsbuild/plugin-react": "catalog:dev",
     "@rslib/core": "catalog:dev",
@@ -53,9 +67,10 @@
     "@vitest/web-worker": "catalog:test",
     "code-inspector-plugin": "catalog:vite",
     "cross-env": "catalog:dev",
-    "eslint": "catalog:eslint",
-    "eslint-plugin-format": "catalog:eslint",
-    "eslint-plugin-react-refresh": "catalog:eslint",
+    "cspell": "catalog:lint",
+    "eslint": "catalog:lint",
+    "eslint-plugin-format": "catalog:lint",
+    "eslint-plugin-react-refresh": "catalog:lint",
     "jsdom": "catalog:test",
     "lint-staged": "catalog:dev",
     "playwright": "catalog:test",
