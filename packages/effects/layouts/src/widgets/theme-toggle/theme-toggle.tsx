@@ -1,6 +1,6 @@
 import type { ThemeMode } from '@yunzhen/preferences';
 import type { MenuProps } from 'antd';
-import type { MouseEvent } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 import { BgColorsOutlined, MoonOutlined, SunOutlined, SyncOutlined } from '@ant-design/icons';
 import { useTranslation } from '@yunzhen/locales';
 import { updatePreferences, usePreferences } from '@yunzhen/preferences';
@@ -18,7 +18,7 @@ export function ThemeToggle() {
   const { theme } = usePreferences();
   const badge = <Badge color="blue" style={{ marginTop: -1 }} />;
 
-  function selectTheme(event: MouseEvent<HTMLElement>, mode: ThemeMode) {
+  function selectTheme(event: KeyboardEvent<HTMLElement> | MouseEvent<HTMLElement>, mode: ThemeMode) {
     if (theme.mode === mode) {
       return;
     }
@@ -27,7 +27,7 @@ export function ThemeToggle() {
     const startViewTransition = (document as Document & {
       startViewTransition?: (callback: () => void) => AppearanceTransition;
     }).startViewTransition;
-    if (mode === 'auto' || !startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (mode === 'auto' || !startViewTransition || !('clientX' in event) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       update();
       return;
     }

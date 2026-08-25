@@ -1,14 +1,13 @@
 import type { ReactNode } from 'react';
+import { useIsDark } from '@yunzhen/preferences';
 import { theme as antdTheme, ConfigProvider } from 'antd';
-import { ThemeProvider, useTheme } from 'next-themes';
-import { toHsl } from './theme';
 
 function readAntdTokens() {
   if (typeof document === 'undefined') {
     return {};
   }
   const styles = getComputedStyle(document.documentElement);
-  const hsl = (name: string) => toHsl(styles.getPropertyValue(name));
+  const hsl = (name: string) => `hsl(${styles.getPropertyValue(name).trim()})`;
   return {
     borderRadius: Number.parseFloat(styles.getPropertyValue('--radius')) * 16,
     colorBgBase: hsl('--background-deep'),
@@ -25,8 +24,7 @@ function readAntdTokens() {
 }
 
 function AntdThemeProvider({ children }: { children: ReactNode }) {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+  const isDark = useIsDark();
   const tokens = readAntdTokens();
 
   const config = {
@@ -44,16 +42,5 @@ function AntdThemeProvider({ children }: { children: ReactNode }) {
 }
 
 export function AppThemeProvider({ children }: { children: ReactNode }) {
-  return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="dark"
-      enableColorScheme
-      enableSystem
-      storageKey="starter-react:theme"
-      themes={['light', 'dark']}
-    >
-      <AntdThemeProvider>{children}</AntdThemeProvider>
-    </ThemeProvider>
-  );
+  return <AntdThemeProvider>{children}</AntdThemeProvider>;
 }

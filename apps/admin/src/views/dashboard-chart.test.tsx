@@ -1,5 +1,6 @@
 import type { EChartsOption } from 'echarts';
 import { act, render, screen } from '@testing-library/react';
+import { resetPreferences, updatePreferences } from '@yunzhen/preferences';
 import * as echarts from 'echarts/core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DashboardChart } from './dashboard-chart';
@@ -13,8 +14,6 @@ vi.mock('echarts-for-react/esm/core', () => ({
     return <div data-testid="echarts-for-react" />;
   },
 }));
-
-vi.mock('next-themes', () => ({ useTheme: () => ({ resolvedTheme: 'dark' }) }));
 
 describe('dashboard chart', () => {
   beforeEach(() => {
@@ -30,7 +29,10 @@ describe('dashboard chart', () => {
     });
   });
 
-  afterEach(() => vi.unstubAllGlobals());
+  afterEach(() => {
+    resetPreferences();
+    vi.unstubAllGlobals();
+  });
 
   it('waits for a nonzero layout before mounting echarts-for-react', () => {
     render(<DashboardChart label="趋势图" option={{}} />);
@@ -54,5 +56,13 @@ describe('dashboard chart', () => {
       'opts': { renderer: 'canvas' },
       'theme': 'dark',
     });
+  });
+
+  it('uses the shared preference theme for ECharts', () => {
+    updatePreferences({ theme: { mode: 'light' } });
+    render(<DashboardChart label="趋势图" option={{}} />);
+    act(() => resizeObserver.callback?.([{ contentRect: { height: 300, width: 800 } } as ResizeObserverEntry], {} as ResizeObserver));
+
+    expect(wrapper.props?.theme).toBeUndefined();
   });
 });

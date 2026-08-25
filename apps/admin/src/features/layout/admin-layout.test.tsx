@@ -9,10 +9,10 @@ vi.mock('@yunzhen/layouts', () => ({ BasicLayout: ({ headerActions }: { headerAc
 vi.mock('@yunzhen/layouts/widgets', () => ({
   LockScreen: () => null,
   LockScreenModal: ({ open }: { open: boolean }) => open ? <div>锁屏弹窗</div> : null,
+  ThemeToggle: () => null,
 }));
 vi.mock('antd', () => ({ App: { useApp: () => ({ modal: { confirm: vi.fn() } }) } }));
 vi.mock('@/features/auth/session', () => ({ logout: vi.fn() }));
-vi.mock('@/features/theme/theme-toggle', () => ({ ThemeToggle: () => null }));
 vi.mock('./route-icon', () => ({ RouteIcon: () => null }));
 vi.mock('./user-dropdown', () => ({ UserDropdown: () => null }));
 

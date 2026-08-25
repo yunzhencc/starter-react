@@ -1,7 +1,7 @@
 import { LockOutlined } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import { BasicLayout } from '@yunzhen/layouts';
-import { LockScreen, LockScreenModal } from '@yunzhen/layouts/widgets';
+import { LockScreen, LockScreenModal, ThemeToggle } from '@yunzhen/layouts/widgets';
 import { useTranslation } from '@yunzhen/locales';
 import { usePreferences } from '@yunzhen/preferences';
 import { setAccessMenus, unlockScreen, useAccessStore } from '@yunzhen/stores';
@@ -9,7 +9,6 @@ import { App as AntApp } from 'antd';
 import { useEffect, useState } from 'react';
 import logo from '@/assets/logo.svg';
 import { logout as clearSession } from '@/features/auth/session';
-import { ThemeToggle } from '@/features/theme/theme-toggle';
 import { appMenuItems } from './route-definitions';
 import { RouteIcon } from './route-icon';
 import { UserDropdown } from './user-dropdown';

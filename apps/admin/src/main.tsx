@@ -1,4 +1,5 @@
 import { setupI18n } from '@yunzhen/locales';
+import { initializeThemePreferences } from '@yunzhen/preferences';
 import { ClickScrollPlugin, OverlayScrollbars } from 'overlayscrollbars';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -10,6 +11,7 @@ OverlayScrollbars.plugin(ClickScrollPlugin);
 
 async function bootstrap() {
   await setupI18n();
+  initializeThemePreferences();
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />

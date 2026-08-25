@@ -1,4 +1,5 @@
 import type { EChartsOption } from 'echarts';
+import { useIsDark } from '@yunzhen/preferences';
 import EChartsReactCore from 'echarts-for-react/esm/core';
 import { BarChart, LineChart, PieChart, RadarChart } from 'echarts/charts';
 import {
@@ -9,7 +10,6 @@ import {
 import * as echarts from 'echarts/core';
 import { LabelLayout, LegacyGridContainLabel } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 
 echarts.use([
@@ -26,7 +26,7 @@ echarts.use([
 ]);
 
 export function DashboardChart({ label, option }: { label: string; option: EChartsOption }) {
-  const { resolvedTheme } = useTheme();
+  const isDark = useIsDark();
   const elementRef = useRef<HTMLDivElement>(null);
   const [hasLayout, setHasLayout] = useState(false);
 
@@ -50,5 +50,5 @@ export function DashboardChart({ label, option }: { label: string; option: EChar
     return <div aria-label={label} className="dashboard-chart" ref={elementRef} />;
   }
 
-  return <EChartsReactCore aria-label={label} autoResize className="dashboard-chart" echarts={echarts} option={{ ...option, backgroundColor: 'transparent' }} opts={{ renderer: 'canvas' }} theme={resolvedTheme === 'dark' ? 'dark' : undefined} />;
+  return <EChartsReactCore aria-label={label} autoResize className="dashboard-chart" echarts={echarts} option={{ ...option, backgroundColor: 'transparent' }} opts={{ renderer: 'canvas' }} theme={isDark ? 'dark' : undefined} />;
 }

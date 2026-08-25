@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { Link } from '@tanstack/react-router';
+import { ThemeToggle } from '@yunzhen/layouts/widgets';
 import { useState } from 'react';
-import { ThemeToggle } from '../../theme/theme-toggle';
 import { AuthPageLayoutToggle } from '../widgets/auth-page-layout-toggle';
 import { AuthHero } from './auth-hero';
 import { getAuthPageLayout, setAuthPageLayout } from './preferences';
