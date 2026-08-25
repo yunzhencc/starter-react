@@ -36,7 +36,7 @@ export function ThemeToggle() {
     const y = event.clientY;
     const isDark = document.documentElement.classList.contains('dark');
     const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-    const transition = startViewTransition(update);
+    const transition = startViewTransition.call(document, update);
     void transition.ready.then(() => {
       const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`];
       document.documentElement.animate(
