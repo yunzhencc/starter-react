@@ -1,0 +1,23 @@
+{
+  "name": "@yunzhen/locales",
+  "type": "module",
+  "version": "0.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/yunzhencc/starter-react#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yunzhencc/starter-react.git"
+  },
+  "bugs": "https://github.com/yunzhencc/starter-react/issues",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "i18next": "catalog:core",
+    "react-i18next": "catalog:core"
+  }
+}

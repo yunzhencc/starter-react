@@ -70,6 +70,7 @@
     "@vitest/coverage-v8": "catalog:test",
     "@vitest/ui": "catalog:test",
     "@vitest/web-worker": "catalog:test",
+    "@yunzhen/tsconfig": "workspace:*",
     "code-inspector-plugin": "catalog:vite",
     "cross-env": "catalog:dev",
     "cspell": "catalog:lint",
