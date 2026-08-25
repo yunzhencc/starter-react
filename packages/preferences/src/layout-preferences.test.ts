@@ -7,6 +7,14 @@ afterEach(() => {
 });
 
 describe('@yunzhen/preferences', () => {
+  it('persists the selected theme and applies it to the document root', () => {
+    updatePreferences({ theme: { mode: 'light' } });
+
+    expect(getPreferences()).toMatchObject({ theme: { mode: 'light' } });
+    expect(document.documentElement.classList.contains('light')).toBe(true);
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
+  });
+
   it('merges layout preference updates and persists them', () => {
     updatePreferences({ sidebar: { collapsed: true, width: 280 } });
 
