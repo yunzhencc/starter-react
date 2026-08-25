@@ -145,6 +145,9 @@ catalogs:
     '@changesets/cli':
       specifier: 3.0.1
       version: 3.0.1
+    '@manypkg/get-packages':
+      specifier: 3.1.0
+      version: 3.1.0
     '@rsbuild/plugin-react':
       specifier: 2.1.0
       version: 2.1.0
@@ -301,7 +304,7 @@ catalogs:
       specifier: 8.2.2
       version: 8.2.2
     vite-plugin-compression:
-      specifier: ^0.5.1
+      specifier: 0.5.1
       version: 0.5.1
     vite-plugin-html:
       specifier: 3.2.2
@@ -608,6 +611,12 @@ importers:
       react-dom:
         specifier: catalog:core
         version: 19.2.8(react@19.2.8)
+
+  internal/node-utils:
+    dependencies:
+      '@manypkg/get-packages':
+        specifier: catalog:dev
+        version: 3.1.0
 
   internal/tsconfig: {}
 
@@ -10140,7 +10149,7 @@ snapshots:
   '@code-inspector/core@2.0.7(supports-color@7.2.0)':
     dependencies:
       '@vue/compiler-dom': 3.5.41
-      chalk: 4.1.1
+      chalk: 4.1.2
       launch-ide: 1.4.8
       portfinder: 1.0.38(supports-color@7.2.0)
       ws: 8.21.3
@@ -16325,7 +16334,7 @@ snapshots:
 
   launch-ide@1.4.8:
     dependencies:
-      chalk: 4.1.1
+      chalk: 4.1.2
       dotenv: 16.6.1
 
   levn@0.4.1:

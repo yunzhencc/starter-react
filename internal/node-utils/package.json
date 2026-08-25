@@ -1,0 +1,32 @@
+{
+  "name": "@yunzhen/node-utils",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://github.com/yunzhencc/starter-react#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yunzhencc/starter-react.git"
+  },
+  "bugs": "https://github.com/yunzhencc/starter-react/issues",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "stub": "node ./scripts/build.mjs"
+  },
+  "dependencies": {
+    "@manypkg/get-packages": "catalog:dev"
+  }
+}

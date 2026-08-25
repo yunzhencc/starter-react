@@ -68,6 +68,7 @@ catalogs:
     zustand: 5.0.15
   dev:
     '@changesets/cli': 3.0.1
+    '@manypkg/get-packages': 3.1.0
     '@rsbuild/plugin-react': 2.1.0
     '@rslib/core': 0.23.2
     '@rspress/core': 2.0.19
@@ -123,7 +124,7 @@ catalogs:
     code-inspector-plugin: 2.0.7
     unplugin-auto-import: 21.1.0
     vite: 8.2.2
-    vite-plugin-compression: ^0.5.1
+    vite-plugin-compression: 0.5.1
     vite-plugin-html: 3.2.2
 
 onlyBuiltDependencies:
