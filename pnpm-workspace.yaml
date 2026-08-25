@@ -1,6 +1,7 @@
 minimumReleaseAgeExclude:
   - '@tanstack/query-core@5.102.3'
   - '@tanstack/react-query@5.102.3'
+  - '@yunzhen/tsconfig@1.0.0'
 
 shellEmulator: true
 
@@ -68,7 +69,6 @@ catalogs:
     zustand: 5.0.15
   dev:
     '@changesets/cli': 3.0.1
-    '@manypkg/get-packages': 3.1.0
     '@rsbuild/plugin-react': 2.1.0
     '@rslib/core': 0.23.2
     '@rspress/core': 2.0.19
@@ -79,6 +79,7 @@ catalogs:
     '@tanstack/react-start': 1.168.49
     '@tanstack/router-cli': 1.167.33
     '@tanstack/router-plugin': 1.168.35
+    '@yunzhen/tsconfig': ^1.0.0
     cross-env: 10.1.0
     lint-staged: 17.3.0
     react-grab: 0.2.0
@@ -124,7 +125,6 @@ catalogs:
     code-inspector-plugin: 2.0.7
     unplugin-auto-import: 21.1.0
     vite: 8.2.2
-    vite-plugin-compression: 0.5.1
     vite-plugin-html: 3.2.2
 
 onlyBuiltDependencies:
@@ -132,6 +132,7 @@ onlyBuiltDependencies:
   - lightningcss
 
 allowBuilds:
+  '@parcel/watcher': false
   core-js: false
   esbuild: false
   node-pty: true
