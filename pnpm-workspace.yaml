@@ -1,7 +1,4 @@
 minimumReleaseAgeExclude:
-  - '@testing-library/user-event@14.6.5'
-  - '@yunzhen/request@2.1.0'
-  - antd@6.6.1
 shellEmulator: true
 
 trustPolicy: no-downgrade
