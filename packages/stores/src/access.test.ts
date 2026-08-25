@@ -7,7 +7,7 @@ import {
   setAccessMenus,
   unlockScreen,
   useAccessStore,
-} from './access-store';
+} from './access';
 
 afterEach(() => {
   resetAccessMenus();

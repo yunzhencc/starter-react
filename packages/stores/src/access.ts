@@ -8,7 +8,7 @@ export interface LockScreenState {
   password?: string;
 }
 
-interface AccessStoreState {
+interface AccessStore {
   accessMenus: LayoutMenuItem[];
   lockScreen: (password: string) => void;
   lockScreenState: LockScreenState;
@@ -44,7 +44,7 @@ function persistLockScreenState(lockScreenState: LockScreenState) {
   }
 }
 
-export const useAccessStore = create<AccessStoreState>(set => ({
+export const useAccessStore = create<AccessStore>(set => ({
   accessMenus: [],
   lockScreen: (password) => {
     const lockScreenState = { isLocked: true, password };
