@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from 'react';
+import { create } from 'zustand';
 
 export interface LayoutPreferences {
   sidebar: {
@@ -12,6 +12,12 @@ export type LayoutPreferencesPatch = {
   [K in keyof LayoutPreferences]?: Partial<LayoutPreferences[K]>;
 };
 
+interface PreferencesStoreState {
+  preferences: LayoutPreferences;
+  resetPreferences: () => void;
+  updatePreferences: (patch: LayoutPreferencesPatch) => void;
+}
+
 const storageKey = 'yunzhen:preferences';
 const defaultPreferences: LayoutPreferences = {
   sidebar: {
@@ -20,74 +26,62 @@ const defaultPreferences: LayoutPreferences = {
     width: 240,
   },
 };
-const listeners = new Set<() => void>();
-let currentPreferences: LayoutPreferences | undefined;
 
 function cloneDefaults(): LayoutPreferences {
   return { sidebar: { ...defaultPreferences.sidebar } };
 }
 
-function loadPreferences(): LayoutPreferences {
-  if (currentPreferences) {
-    return currentPreferences;
-  }
-
+function readPreferences(): LayoutPreferences {
   try {
     const stored = window.localStorage.getItem(storageKey);
     if (stored) {
       const parsed = JSON.parse(stored) as Partial<LayoutPreferences>;
-      currentPreferences = {
+      return {
         sidebar: { ...defaultPreferences.sidebar, ...parsed.sidebar },
       };
-      return currentPreferences;
     }
   }
   catch {
     // Browser storage may be unavailable or malformed.
   }
 
-  currentPreferences = cloneDefaults();
-  return currentPreferences;
+  return cloneDefaults();
 }
 
-function notify() {
-  for (const listener of listeners) {
-    listener();
-  }
-}
-
-export function getPreferences(): LayoutPreferences {
-  return loadPreferences();
-}
-
-export function updatePreferences(patch: LayoutPreferencesPatch) {
-  const current = loadPreferences();
-  currentPreferences = {
-    sidebar: { ...current.sidebar, ...patch.sidebar },
-  };
-
+function persistPreferences(preferences: LayoutPreferences) {
   try {
-    window.localStorage.setItem(storageKey, JSON.stringify(currentPreferences));
+    window.localStorage.setItem(storageKey, JSON.stringify(preferences));
   }
   catch {
     // Persistence is optional; the in-memory preference still applies.
   }
+}
 
-  notify();
+export const usePreferencesStore = create<PreferencesStoreState>((set, get) => ({
+  preferences: readPreferences(),
+  resetPreferences: () => set({ preferences: readPreferences() }),
+  updatePreferences: (patch) => {
+    const current = get().preferences;
+    const preferences = {
+      sidebar: { ...current.sidebar, ...patch.sidebar },
+    };
+    persistPreferences(preferences);
+    set({ preferences });
+  },
+}));
+
+export function getPreferences(): LayoutPreferences {
+  return usePreferencesStore.getState().preferences;
+}
+
+export function updatePreferences(patch: LayoutPreferencesPatch) {
+  usePreferencesStore.getState().updatePreferences(patch);
 }
 
 export function resetPreferences() {
-  currentPreferences = undefined;
-  notify();
+  usePreferencesStore.getState().resetPreferences();
 }
 
 export function usePreferences() {
-  return useSyncExternalStore(
-    (listener) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
-    },
-    getPreferences,
-    cloneDefaults,
-  );
+  return usePreferencesStore(state => state.preferences);
 }

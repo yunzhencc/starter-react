@@ -139,7 +139,7 @@ catalogs:
       specifier: 4.4.3
       version: 4.4.3
     zustand:
-      specifier: 5.0.15
+      specifier: ^5.0.15
       version: 5.0.15
   dev:
     '@changesets/cli':
@@ -569,9 +569,6 @@ importers:
       type-fest:
         specifier: catalog:core
         version: 5.8.0
-      zustand:
-        specifier: catalog:core
-        version: 5.0.15(@types/react@19.2.18)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
 
   apps/web:
     dependencies:
@@ -737,6 +734,9 @@ importers:
       react:
         specifier: '>=19.0.0'
         version: 19.2.8
+      zustand:
+        specifier: catalog:core
+        version: 5.0.15(@types/react@19.2.18)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
 
   packages/shadcn-ui:
     dependencies:
@@ -779,6 +779,9 @@ importers:
       react:
         specifier: '>=19.0.0'
         version: 19.2.8
+      zustand:
+        specifier: catalog:core
+        version: 5.0.15(@types/react@19.2.18)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
 
   packages/utils:
     dependencies:

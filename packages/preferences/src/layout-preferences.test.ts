@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { getPreferences, resetPreferences, updatePreferences } from './layout-preferences';
+import { getPreferences, resetPreferences, updatePreferences, usePreferencesStore } from './layout-preferences';
 
 afterEach(() => {
   window.localStorage.clear();
@@ -14,5 +14,11 @@ describe('@yunzhen/preferences', () => {
 
     resetPreferences();
     expect(getPreferences().sidebar).toEqual({ collapsed: true, hidden: false, width: 280 });
+  });
+
+  it('exposes layout preferences and actions to non-React consumers', () => {
+    usePreferencesStore.getState().updatePreferences({ sidebar: { hidden: true } });
+
+    expect(usePreferencesStore.getState().preferences.sidebar).toEqual({ collapsed: false, hidden: true, width: 240 });
   });
 });

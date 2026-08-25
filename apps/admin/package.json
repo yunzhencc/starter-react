@@ -42,7 +42,6 @@
     "sonner": "catalog:core",
     "tailwind-merge": "catalog:core",
     "tldraw": "catalog:core",
-    "type-fest": "catalog:core",
-    "zustand": "catalog:core"
+    "type-fest": "catalog:core"
   }
 }

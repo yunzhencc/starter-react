@@ -6,6 +6,7 @@ import {
   resetAccessMenus,
   setAccessMenus,
   unlockScreen,
+  useAccessStore,
 } from './access-store';
 
 afterEach(() => {
@@ -30,5 +31,15 @@ describe('@yunzhen/stores access menus', () => {
 
     expect(getLockScreenState()).toEqual({ isLocked: false });
     expect(window.localStorage.getItem('starter-react:lock-screen')).toBeNull();
+  });
+
+  it('exposes the shared access state and actions to non-React consumers', () => {
+    useAccessStore.getState().setAccessMenus([{ affix: true, path: '/playground', title: '演示' }]);
+    useAccessStore.getState().lockScreen('secret');
+
+    expect(useAccessStore.getState()).toMatchObject({
+      accessMenus: [{ affix: true, path: '/playground', title: '演示' }],
+      lockScreenState: { isLocked: true, password: 'secret' },
+    });
   });
 });

@@ -6,6 +6,7 @@ export {
   setAccessMenus,
   unlockScreen,
   useAccessMenus,
+  useAccessStore,
   useLockScreen,
 } from './access-store';
 export type { LockScreenState } from './access-store';

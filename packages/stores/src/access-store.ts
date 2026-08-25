@@ -1,14 +1,20 @@
 import type { LayoutMenuItem } from './layout-route';
-import { useSyncExternalStore } from 'react';
+import { create } from 'zustand';
 
-const listeners = new Set<() => void>();
 const lockScreenStorageKey = 'starter-react:lock-screen';
-let accessMenus: LayoutMenuItem[] = [];
-let lockScreenState = readLockScreenState();
 
 export interface LockScreenState {
   isLocked: boolean;
   password?: string;
+}
+
+interface AccessStoreState {
+  accessMenus: LayoutMenuItem[];
+  lockScreen: (password: string) => void;
+  lockScreenState: LockScreenState;
+  resetAccessMenus: () => void;
+  setAccessMenus: (menus: LayoutMenuItem[]) => void;
+  unlockScreen: () => void;
 }
 
 function readLockScreenState(): LockScreenState {
@@ -25,7 +31,7 @@ function readLockScreenState(): LockScreenState {
   }
 }
 
-function persistLockScreenState() {
+function persistLockScreenState(lockScreenState: LockScreenState) {
   if (typeof window === 'undefined') {
     return;
   }
@@ -38,60 +44,51 @@ function persistLockScreenState() {
   }
 }
 
-function notify() {
-  for (const listener of listeners) {
-    listener();
-  }
-}
+export const useAccessStore = create<AccessStoreState>(set => ({
+  accessMenus: [],
+  lockScreen: (password) => {
+    const lockScreenState = { isLocked: true, password };
+    persistLockScreenState(lockScreenState);
+    set({ lockScreenState });
+  },
+  lockScreenState: readLockScreenState(),
+  resetAccessMenus: () => set({ accessMenus: [] }),
+  setAccessMenus: accessMenus => set({ accessMenus }),
+  unlockScreen: () => {
+    const lockScreenState = { isLocked: false };
+    persistLockScreenState(lockScreenState);
+    set({ lockScreenState });
+  },
+}));
 
 export function getAccessMenus() {
-  return accessMenus;
+  return useAccessStore.getState().accessMenus;
 }
 
 export function setAccessMenus(menus: LayoutMenuItem[]) {
-  accessMenus = menus;
-  notify();
+  useAccessStore.getState().setAccessMenus(menus);
 }
 
 export function resetAccessMenus() {
-  accessMenus = [];
-  notify();
+  useAccessStore.getState().resetAccessMenus();
 }
 
 export function getLockScreenState() {
-  return lockScreenState;
+  return useAccessStore.getState().lockScreenState;
 }
 
 export function lockScreen(password: string) {
-  lockScreenState = { isLocked: true, password };
-  persistLockScreenState();
-  notify();
+  useAccessStore.getState().lockScreen(password);
 }
 
 export function unlockScreen() {
-  lockScreenState = { isLocked: false };
-  persistLockScreenState();
-  notify();
+  useAccessStore.getState().unlockScreen();
 }
 
 export function useAccessMenus() {
-  return useSyncExternalStore(
-    (listener) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
-    },
-    getAccessMenus,
-    getAccessMenus,
-  );
+  return useAccessStore(state => state.accessMenus);
 }
 
 export function useLockScreen() {
-  return useSyncExternalStore(
-    (listener) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
-    },
-    getLockScreenState,
-    getLockScreenState,
-  );
+  return useAccessStore(state => state.lockScreenState);
 }
