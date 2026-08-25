@@ -300,6 +300,9 @@ catalogs:
     vite:
       specifier: 8.2.2
       version: 8.2.2
+    vite-plugin-compression:
+      specifier: ^0.5.1
+      version: 0.5.1
     vite-plugin-html:
       specifier: 3.2.2
       version: 3.2.2
@@ -395,6 +398,9 @@ importers:
       '@yunzhen/tsconfig':
         specifier: workspace:*
         version: link:internal/tsconfig
+      '@yunzhen/vite-config':
+        specifier: workspace:*
+        version: link:internal/vite-config
       code-inspector-plugin:
         specifier: catalog:vite
         version: 2.0.7(supports-color@7.2.0)
@@ -605,6 +611,37 @@ importers:
 
   internal/tsconfig: {}
 
+  internal/vite-config:
+    dependencies:
+      vite-plugin-compression:
+        specifier: catalog:vite
+        version: 0.5.1(supports-color@7.2.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
+    devDependencies:
+      '@vitejs/plugin-react':
+        specifier: catalog:vite
+        version: 6.1.0(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
+      rollup-plugin-visualizer:
+        specifier: catalog:dev
+        version: 7.1.1(rolldown@1.2.5)
+      vite:
+        specifier: catalog:vite
+        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)
+
+  packages/@core/layout-ui:
+    dependencies:
+      '@ant-design/icons':
+        specifier: catalog:core
+        version: 6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.8
+      react-dom:
+        specifier: '>=19.0.0'
+        version: 19.2.8(react@19.2.8)
+      react-split-pane:
+        specifier: catalog:core
+        version: 3.2.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+
   packages/effects/common-ui:
     dependencies:
       '@yunzhen/shadcn-ui':
@@ -630,7 +667,7 @@ importers:
         version: 1.170.32(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@yunzhen/layout-ui':
         specifier: workspace:*
-        version: link:../../layout-ui
+        version: link:../../@core/layout-ui
       '@yunzhen/preferences':
         specifier: workspace:*
         version: link:../../preferences
@@ -658,21 +695,6 @@ importers:
       react-responsive:
         specifier: catalog:core
         version: 10.0.1(react@19.2.8)
-      react-split-pane:
-        specifier: catalog:core
-        version: 3.2.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-
-  packages/layout-ui:
-    dependencies:
-      '@ant-design/icons':
-        specifier: catalog:core
-        version: 6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      react:
-        specifier: '>=19.0.0'
-        version: 19.2.8
-      react-dom:
-        specifier: '>=19.0.0'
-        version: 19.2.8(react@19.2.8)
       react-split-pane:
         specifier: catalog:core
         version: 3.2.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -5472,6 +5494,10 @@ packages:
     resolution: {integrity: sha512-diHzdDKxcU+bAsUboHLPEDQiw0qEe0qd7SYUn3HgcFlWgbDcfLGswOHYeGrHKzG9z6UYf01d9VFMfZxPM1xZSg==}
     engines: {node: '>=10'}
 
+  chalk@4.1.2:
+    resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
+    engines: {node: '>=10'}
+
   chalk@5.6.2:
     resolution: {integrity: sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
@@ -9233,6 +9259,11 @@ packages:
 
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
+
+  vite-plugin-compression@0.5.1:
+    resolution: {integrity: sha512-5QJKBDc+gNYVqL/skgFAP81Yuzo9R+EAf19d+EtsMF/i8kFUpNi3J/H01QD3Oo8zBQn+NzoCIFkpPLynoOzaJg==}
+    peerDependencies:
+      vite: '>=2.0.0'
 
   vite-plugin-html@3.2.2:
     resolution: {integrity: sha512-vb9C9kcdzcIo/Oc3CLZVS03dL5pDlOFuhGlZYDCJ840BhWl/0nGeZWf3Qy7NlOayscY4Cm/QRgULCQkEZige5Q==}
@@ -14487,6 +14518,11 @@ snapshots:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
 
+  chalk@4.1.2:
+    dependencies:
+      ansi-styles: 4.3.0
+      supports-color: 7.2.0
+
   chalk@5.6.2: {}
 
   chalk@6.0.0: {}
@@ -18904,6 +18940,15 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
+
+  vite-plugin-compression@0.5.1(supports-color@7.2.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)):
+    dependencies:
+      chalk: 4.1.2
+      debug: 4.4.3(supports-color@7.2.0)
+      fs-extra: 10.1.0
+      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)
+    transitivePeerDependencies:
+      - supports-color
 
   vite-plugin-html@3.2.2(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0)):
     dependencies:
