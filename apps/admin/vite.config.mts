@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
       autoCodeSplitting: true,
     }),
     codeInspectorPlugin({
-      bundler: 'vite', // Automatically detect development or production environment
+      bundler: 'vite',
       editor: 'code',
     }),
     react(),
