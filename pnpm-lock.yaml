@@ -500,6 +500,9 @@ importers:
       '@yunzhen/playground':
         specifier: workspace:*
         version: link:../../packages/playground
+      '@yunzhen/preferences':
+        specifier: workspace:*
+        version: link:../../packages/preferences
       '@yunzhen/request':
         specifier: catalog:core
         version: 2.1.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
@@ -644,6 +647,9 @@ importers:
       '@yunzhen/layout-ui':
         specifier: workspace:*
         version: link:../../@core/layout-ui
+      '@yunzhen/locales':
+        specifier: workspace:*
+        version: link:../../locales
       '@yunzhen/preferences':
         specifier: workspace:*
         version: link:../../preferences

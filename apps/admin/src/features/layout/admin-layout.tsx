@@ -2,6 +2,8 @@ import { LockOutlined } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import { BasicLayout } from '@yunzhen/layouts';
 import { LockScreen, LockScreenModal } from '@yunzhen/layouts/widgets';
+import { useTranslation } from '@yunzhen/locales';
+import { usePreferences } from '@yunzhen/preferences';
 import { setAccessMenus, unlockScreen, useAccessStore } from '@yunzhen/stores';
 import { App as AntApp } from 'antd';
 import { useEffect, useState } from 'react';
@@ -25,11 +27,23 @@ setAccessMenus(menuItems);
 
 export function AdminLayout() {
   const { modal } = AntApp.useApp();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const isLockScreen = useAccessStore(state => state.isLockScreen);
+  const { shortcutKeys, widget } = usePreferences();
   const [lockScreenModalOpen, setLockScreenModalOpen] = useState(false);
+  const showLockInHeader = widget.lockScreen && widget.lockScreenButtonPosition === 'header';
+  const showLockInDropdown = widget.lockScreen && widget.lockScreenButtonPosition === 'user-dropdown';
+  const enableLockScreenShortcut = widget.lockScreen
+    && widget.lockScreenButtonPosition !== 'none'
+    && shortcutKeys.enable
+    && shortcutKeys.globalLockScreen;
 
   useEffect(() => {
+    if (!enableLockScreenShortcut) {
+      return;
+    }
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isLockScreen && event.altKey && event.code === 'KeyL' && !event.repeat) {
         event.preventDefault();
@@ -38,7 +52,7 @@ export function AdminLayout() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isLockScreen]);
+  }, [enableLockScreenShortcut, isLockScreen]);
 
   function logout() {
     clearSession();
@@ -70,14 +84,16 @@ export function AdminLayout() {
         headerActions={(
           <>
             <ThemeToggle />
-            <button aria-label="锁定屏幕" className="header-icon-button" title="锁定屏幕" type="button" onClick={() => setLockScreenModalOpen(true)}>
-              <LockOutlined />
-            </button>
-            <UserDropdown onLogout={confirmLogout} />
+            {showLockInHeader && (
+              <button aria-label={t('ui.lockScreen.title')} className="header-icon-button" title={t('ui.lockScreen.title')} type="button" onClick={() => setLockScreenModalOpen(true)}>
+                <LockOutlined />
+              </button>
+            )}
+            <UserDropdown onLockScreen={() => setLockScreenModalOpen(true)} onLogout={confirmLogout} showLockScreen={showLockInDropdown} />
           </>
         )}
       />
-      <LockScreenModal avatar={logo} avatarAlt="React Starter" open={lockScreenModalOpen} onOpenChange={setLockScreenModalOpen} />
+      {widget.lockScreen && <LockScreenModal avatar={logo} avatarAlt="React Starter" open={lockScreenModalOpen} text="Vben" onOpenChange={setLockScreenModalOpen} />}
     </>
   );
 }

@@ -21,4 +21,16 @@ describe('@yunzhen/preferences', () => {
 
     expect(usePreferencesStore.getState().preferences.sidebar).toEqual({ collapsed: false, hidden: true, width: 240 });
   });
+
+  it('configures the lock screen widget and its shortcut', () => {
+    updatePreferences({
+      shortcutKeys: { globalLockScreen: false },
+      widget: { lockScreen: false, lockScreenButtonPosition: 'user-dropdown' },
+    });
+
+    expect(getPreferences()).toMatchObject({
+      shortcutKeys: { enable: true, globalLockScreen: false },
+      widget: { lockScreen: false, lockScreenButtonPosition: 'user-dropdown' },
+    });
+  });
 });

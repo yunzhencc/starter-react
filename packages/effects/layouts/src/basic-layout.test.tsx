@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { resetPreferences, updatePreferences } from '@yunzhen/preferences';
 import { lockScreen, resetAccessMenus, setAccessMenus, unlockScreen } from '@yunzhen/stores';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BasicLayout } from './basic-layout';
@@ -29,6 +30,7 @@ afterEach(() => {
   cleanup();
   navigate.mockReset();
   resetAccessMenus();
+  resetPreferences();
   unlockScreen();
   vi.unstubAllGlobals();
 });
@@ -48,5 +50,14 @@ describe('@yunzhen/layouts BasicLayout', () => {
     expect(screen.queryByText('锁定覆盖层')).toBeNull();
     lockScreen('secret');
     expect(await screen.findByText('锁定覆盖层')).toBeTruthy();
+  });
+
+  it('does not render the lock screen when the widget is disabled', () => {
+    updatePreferences({ widget: { lockScreen: false } });
+    lockScreen('secret');
+
+    render(<BasicLayout brand={<span>Starter</span>} lockScreen={<div>锁定覆盖层</div>} />);
+
+    expect(screen.queryByText('锁定覆盖层')).toBeNull();
   });
 });

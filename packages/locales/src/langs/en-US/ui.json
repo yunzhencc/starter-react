@@ -1,5 +1,14 @@
 {
   "back": "Back",
+  "lockScreen": {
+    "backToLogin": "Back to login",
+    "entry": "Enter system",
+    "placeholder": "Enter lock screen password",
+    "screenButton": "Lock screen",
+    "title": "Lock Screen",
+    "unlock": "Click to unlock",
+    "wrongPassword": "Incorrect password. Please try again."
+  },
   "formRules": {
 
   }

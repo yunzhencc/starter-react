@@ -34,6 +34,7 @@
     "@ant-design/icons": "catalog:core",
     "@tanstack/react-router": "catalog:core",
     "@yunzhen/layout-ui": "workspace:*",
+    "@yunzhen/locales": "workspace:*",
     "@yunzhen/preferences": "workspace:*",
     "@yunzhen/stores": "workspace:*",
     "antd": "catalog:core",

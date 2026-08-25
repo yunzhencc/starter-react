@@ -1,14 +1,19 @@
-import { GithubOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { GithubOutlined, LockOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { useTranslation } from '@yunzhen/locales';
 import { Dropdown } from 'antd';
 import avatar from '@/assets/images/avatar-v1.webp';
 
 const githubUrl = 'https://github.com/yunzhencc/starter-react';
 
 interface UserDropdownProps {
+  onLockScreen?: () => void;
   onLogout: () => void;
+  showLockScreen?: boolean;
 }
 
-export function UserDropdown({ onLogout }: UserDropdownProps) {
+export function UserDropdown({ onLockScreen, onLogout, showLockScreen = false }: UserDropdownProps) {
+  const { t } = useTranslation();
+
   return (
     <Dropdown
       classNames={{ root: 'user-dropdown' }}
@@ -41,6 +46,14 @@ export function UserDropdown({ onLogout }: UserDropdownProps) {
             </span>
             GitHub
           </a>
+          {showLockScreen && (
+            <button className="user-dropdown__item" type="button" onClick={onLockScreen}>
+              <span className="user-dropdown__item-icon">
+                <LockOutlined aria-hidden />
+              </span>
+              {t('ui.lockScreen.title')}
+            </button>
+          )}
           <div className="user-dropdown__divider" />
           <button className="user-dropdown__item" type="button" onClick={onLogout}>
             <span className="user-dropdown__item-icon">

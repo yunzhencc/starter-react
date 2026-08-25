@@ -1,5 +1,6 @@
 import type { InputRef } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
+import { useTranslation } from '@yunzhen/locales';
 import { lockScreen, unlockScreen, useAccessStore } from '@yunzhen/stores';
 import { Button, Input, Modal } from 'antd';
 import { useEffect, useRef, useState } from 'react';
@@ -9,9 +10,11 @@ interface LockScreenModalProps {
   avatarAlt?: string;
   onOpenChange: (open: boolean) => void;
   open: boolean;
+  text?: string;
 }
 
-export function LockScreenModal({ avatar, avatarAlt = '应用标志', onOpenChange, open }: LockScreenModalProps) {
+export function LockScreenModal({ avatar, avatarAlt = '应用标志', onOpenChange, open, text }: LockScreenModalProps) {
+  const { t } = useTranslation();
   const inputRef = useRef<InputRef>(null);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,7 +27,7 @@ export function LockScreenModal({ avatar, avatarAlt = '应用标志', onOpenChan
 
   function submit() {
     if (!password) {
-      setError('请输入锁屏密码');
+      setError(t('ui.lockScreen.placeholder'));
       return;
     }
     lockScreen(password);
@@ -37,7 +40,7 @@ export function LockScreenModal({ avatar, avatarAlt = '应用标志', onOpenChan
       destroyOnHidden
       footer={null}
       open={open}
-      title="锁定屏幕"
+      title={t('ui.lockScreen.title')}
       afterOpenChange={(visible) => {
         if (visible) {
           requestAnimationFrame(() => inputRef.current?.focus());
@@ -47,10 +50,11 @@ export function LockScreenModal({ avatar, avatarAlt = '应用标志', onOpenChan
     >
       <div className="lock-screen-modal">
         <img alt={avatarAlt} className="lock-screen-modal__avatar" src={avatar} />
+        {text && <div className="lock-screen-modal__text">{text}</div>}
         <Input.Password
           ref={inputRef}
           autoComplete="new-password"
-          placeholder="请输入锁屏密码"
+          placeholder={t('ui.lockScreen.placeholder')}
           status={error ? 'error' : undefined}
           value={password}
           onChange={(event) => {
@@ -61,7 +65,7 @@ export function LockScreenModal({ avatar, avatarAlt = '应用标志', onOpenChan
         />
         {error && <div className="lock-screen-modal__error">{error}</div>}
         <Button block className="lock-screen-modal__submit" type="primary" onClick={submit}>
-          锁定
+          {t('ui.lockScreen.screenButton')}
         </Button>
       </div>
     </Modal>
@@ -75,6 +79,7 @@ interface LockScreenProps {
 }
 
 export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: LockScreenProps) {
+  const { i18n, t } = useTranslation();
   const isLockScreen = useAccessStore(state => state.isLockScreen);
   const lockScreenPassword = useAccessStore(state => state.lockScreenPassword);
   const inputRef = useRef<InputRef>(null);
@@ -87,6 +92,18 @@ export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: Loc
     const interval = window.setInterval(() => setNow(new Date()), 1000);
     return () => window.clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!isLockScreen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isLockScreen]);
 
   useEffect(() => {
     if (showUnlockForm) {
@@ -103,20 +120,24 @@ export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: Loc
       unlockScreen();
       return;
     }
-    setError('密码错误，请重新输入');
+    setError(t('ui.lockScreen.wrongPassword'));
   }
 
+  const locale = i18n.resolvedLanguage ?? i18n.language;
   const hour = String(now.getHours()).padStart(2, '0');
   const minute = String(now.getMinutes()).padStart(2, '0');
-  const meridiem = now.getHours() < 12 ? '上午' : '下午';
-  const date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${new Intl.DateTimeFormat('zh-CN', { weekday: 'long' }).format(now)}`;
+  const meridiem = new Intl.DateTimeFormat(locale, { hour: 'numeric', hour12: true })
+    .formatToParts(now)
+    .find(part => part.type === 'dayPeriod')
+    ?.value;
+  const date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${new Intl.DateTimeFormat(locale, { weekday: 'long' }).format(now)}`;
 
   return (
-    <div aria-label="锁定屏幕" aria-modal="true" className="lock-screen" role="dialog">
+    <div aria-label={t('ui.lockScreen.title')} aria-modal="true" className="lock-screen" role="dialog">
       {!showUnlockForm && (
         <button className="lock-screen__unlock-prompt" type="button" onClick={() => setShowUnlockForm(true)}>
           <LockOutlined aria-hidden />
-          <span>点击解锁</span>
+          <span>{t('ui.lockScreen.unlock')}</span>
         </button>
       )}
 
@@ -133,7 +154,7 @@ export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: Loc
               <Input.Password
                 ref={inputRef}
                 autoComplete="current-password"
-                placeholder="请输入锁屏密码"
+                placeholder={t('ui.lockScreen.placeholder')}
                 status={error ? 'error' : undefined}
                 value={value}
                 onChange={(event) => {
@@ -143,9 +164,9 @@ export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: Loc
                 onPressEnter={submit}
               />
               {error && <div className="lock-screen__error">{error}</div>}
-              <Button block htmlType="submit" type="primary">进入系统</Button>
-              {onLogout && <Button block type="text" onClick={onLogout}>返回登录</Button>}
-              <Button block type="text" onClick={() => setShowUnlockForm(false)}>返回</Button>
+              <Button block htmlType="submit" type="primary">{t('ui.lockScreen.entry')}</Button>
+              {onLogout && <Button block type="text" onClick={onLogout}>{t('ui.lockScreen.backToLogin')}</Button>}
+              <Button block type="text" onClick={() => setShowUnlockForm(false)}>{t('ui.back')}</Button>
             </form>
           )
         : (

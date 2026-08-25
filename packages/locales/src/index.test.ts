@@ -23,6 +23,7 @@ describe('@yunzhen/locales', () => {
 
     expect(api.i18n.language).toBe('en-US');
     expect(api.i18n.t('ui.back')).toBe('Back');
+    expect(api.i18n.t('ui.lockScreen.title')).toBe('Lock Screen');
     expect(document.documentElement.lang).toBe('en-US');
   });
 
@@ -38,6 +39,7 @@ describe('@yunzhen/locales', () => {
     });
 
     expect(api.i18n.t('ui.back')).toBe('返回');
+    expect(api.i18n.t('ui.lockScreen.title')).toBe('锁定屏幕');
     expect(api.i18n.t('dashboard.title')).toBe('工作台');
     expect(document.documentElement.lang).toBe('zh-CN');
 

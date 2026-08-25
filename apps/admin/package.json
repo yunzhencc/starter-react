@@ -20,6 +20,7 @@
     "@yunzhen/layouts": "workspace:*",
     "@yunzhen/locales": "workspace:*",
     "@yunzhen/playground": "workspace:*",
+    "@yunzhen/preferences": "workspace:*",
     "@yunzhen/request": "catalog:core",
     "@yunzhen/shadcn-ui": "workspace:*",
     "@yunzhen/stores": "workspace:*",

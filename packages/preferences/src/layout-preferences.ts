@@ -6,6 +6,14 @@ export interface LayoutPreferences {
     hidden: boolean;
     width: number;
   };
+  shortcutKeys: {
+    enable: boolean;
+    globalLockScreen: boolean;
+  };
+  widget: {
+    lockScreen: boolean;
+    lockScreenButtonPosition: 'header' | 'none' | 'user-dropdown';
+  };
 }
 
 export type LayoutPreferencesPatch = {
@@ -25,10 +33,22 @@ const defaultPreferences: LayoutPreferences = {
     hidden: false,
     width: 240,
   },
+  shortcutKeys: {
+    enable: true,
+    globalLockScreen: true,
+  },
+  widget: {
+    lockScreen: true,
+    lockScreenButtonPosition: 'header',
+  },
 };
 
 function cloneDefaults(): LayoutPreferences {
-  return { sidebar: { ...defaultPreferences.sidebar } };
+  return {
+    sidebar: { ...defaultPreferences.sidebar },
+    shortcutKeys: { ...defaultPreferences.shortcutKeys },
+    widget: { ...defaultPreferences.widget },
+  };
 }
 
 function readPreferences(): LayoutPreferences {
@@ -38,6 +58,8 @@ function readPreferences(): LayoutPreferences {
       const parsed = JSON.parse(stored) as Partial<LayoutPreferences>;
       return {
         sidebar: { ...defaultPreferences.sidebar, ...parsed.sidebar },
+        shortcutKeys: { ...defaultPreferences.shortcutKeys, ...parsed.shortcutKeys },
+        widget: { ...defaultPreferences.widget, ...parsed.widget },
       };
     }
   }
@@ -64,6 +86,8 @@ export const usePreferencesStore = create<PreferencesStoreState>((set, get) => (
     const current = get().preferences;
     const preferences = {
       sidebar: { ...current.sidebar, ...patch.sidebar },
+      shortcutKeys: { ...current.shortcutKeys, ...patch.shortcutKeys },
+      widget: { ...current.widget, ...patch.widget },
     };
     persistPreferences(preferences);
     set({ preferences });
