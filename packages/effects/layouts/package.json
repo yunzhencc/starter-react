@@ -17,6 +17,10 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./widgets": {
+      "types": "./src/widgets/index.ts",
+      "default": "./src/widgets/index.ts"
+    },
     "./admin-layout.css": "./src/admin-layout.css"
   },
   "scripts": {

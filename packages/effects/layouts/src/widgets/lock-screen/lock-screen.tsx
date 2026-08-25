@@ -1,49 +1,17 @@
 import type { InputRef } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
+import { lockScreen, unlockScreen, useLockScreen } from '@yunzhen/stores';
 import { Button, Input, Modal } from 'antd';
 import { useEffect, useRef, useState } from 'react';
-import logo from '@/assets/logo.svg';
 
-const storageKey = 'starter-react:lock-screen';
-
-export interface LockScreenState {
-  isLocked: boolean;
-  password?: string;
-}
-
-export function getStoredLockScreen(): LockScreenState {
-  if (typeof window === 'undefined') {
-    return { isLocked: false };
-  }
-
-  try {
-    const state = JSON.parse(window.localStorage.getItem(storageKey) ?? 'null') as LockScreenState | null;
-    return state?.isLocked && state.password ? state : { isLocked: false };
-  }
-  catch {
-    return { isLocked: false };
-  }
-}
-
-export function persistLockScreen(state: LockScreenState) {
-  if (typeof window === 'undefined') {
-    return;
-  }
-  if (state.isLocked && state.password) {
-    window.localStorage.setItem(storageKey, JSON.stringify(state));
-  }
-  else {
-    window.localStorage.removeItem(storageKey);
-  }
-}
-
-interface SetLockScreenModalProps {
-  onCancel: () => void;
-  onConfirm: (password: string) => void;
+interface LockScreenModalProps {
+  avatar: string;
+  avatarAlt?: string;
+  onOpenChange: (open: boolean) => void;
   open: boolean;
 }
 
-export function SetLockScreenModal({ onCancel, onConfirm, open }: SetLockScreenModalProps) {
+export function LockScreenModal({ avatar, avatarAlt = '应用标志', onOpenChange, open }: LockScreenModalProps) {
   const inputRef = useRef<InputRef>(null);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -51,7 +19,7 @@ export function SetLockScreenModal({ onCancel, onConfirm, open }: SetLockScreenM
   function close() {
     setPassword('');
     setError('');
-    onCancel();
+    onOpenChange(false);
   }
 
   function submit() {
@@ -59,9 +27,8 @@ export function SetLockScreenModal({ onCancel, onConfirm, open }: SetLockScreenM
       setError('请输入锁屏密码');
       return;
     }
-    onConfirm(password);
-    setPassword('');
-    setError('');
+    lockScreen(password);
+    close();
   }
 
   return (
@@ -71,15 +38,15 @@ export function SetLockScreenModal({ onCancel, onConfirm, open }: SetLockScreenM
       footer={null}
       open={open}
       title="锁定屏幕"
-      onCancel={close}
       afterOpenChange={(visible) => {
         if (visible) {
           requestAnimationFrame(() => inputRef.current?.focus());
         }
       }}
+      onCancel={close}
     >
       <div className="lock-screen-modal">
-        <img alt="React Starter" className="lock-screen-modal__avatar" src={logo} />
+        <img alt={avatarAlt} className="lock-screen-modal__avatar" src={avatar} />
         <Input.Password
           ref={inputRef}
           autoComplete="new-password"
@@ -102,12 +69,13 @@ export function SetLockScreenModal({ onCancel, onConfirm, open }: SetLockScreenM
 }
 
 interface LockScreenProps {
-  onLogout: () => void;
-  onUnlock: () => void;
-  password: string;
+  avatar: string;
+  avatarAlt?: string;
+  onLogout?: () => void;
 }
 
-export function LockScreen({ onLogout, onUnlock, password }: LockScreenProps) {
+export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: LockScreenProps) {
+  const { isLocked, password } = useLockScreen();
   const inputRef = useRef<InputRef>(null);
   const [now, setNow] = useState(() => new Date());
   const [showUnlockForm, setShowUnlockForm] = useState(false);
@@ -125,13 +93,13 @@ export function LockScreen({ onLogout, onUnlock, password }: LockScreenProps) {
     }
   }, [showUnlockForm]);
 
-  function showForm() {
-    setShowUnlockForm(true);
+  if (!isLocked) {
+    return null;
   }
 
   function submit() {
     if (value === password) {
-      onUnlock();
+      unlockScreen();
       return;
     }
     setError('密码错误，请重新输入');
@@ -145,8 +113,8 @@ export function LockScreen({ onLogout, onUnlock, password }: LockScreenProps) {
   return (
     <div aria-label="锁定屏幕" aria-modal="true" className="lock-screen" role="dialog">
       {!showUnlockForm && (
-        <button className="lock-screen__unlock-prompt" type="button" onClick={showForm}>
-          <LockOutlined />
+        <button className="lock-screen__unlock-prompt" type="button" onClick={() => setShowUnlockForm(true)}>
+          <LockOutlined aria-hidden />
           <span>点击解锁</span>
         </button>
       )}
@@ -160,7 +128,7 @@ export function LockScreen({ onLogout, onUnlock, password }: LockScreenProps) {
                 submit();
               }}
             >
-              <img alt="React Starter" className="lock-screen__avatar" src={logo} />
+              <img alt={avatarAlt} className="lock-screen__avatar" src={avatar} />
               <Input.Password
                 ref={inputRef}
                 autoComplete="current-password"
@@ -175,7 +143,7 @@ export function LockScreen({ onLogout, onUnlock, password }: LockScreenProps) {
               />
               {error && <div className="lock-screen__error">{error}</div>}
               <Button block htmlType="submit" type="primary">进入系统</Button>
-              <Button block type="text" onClick={onLogout}>返回登录</Button>
+              {onLogout && <Button block type="text" onClick={onLogout}>返回登录</Button>}
               <Button block type="text" onClick={() => setShowUnlockForm(false)}>返回</Button>
             </form>
           )

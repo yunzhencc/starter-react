@@ -1,13 +1,13 @@
 import { LockOutlined } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import { BasicLayout } from '@yunzhen/layouts';
-import { setAccessMenus } from '@yunzhen/stores';
+import { LockScreen, LockScreenModal } from '@yunzhen/layouts/widgets';
+import { setAccessMenus, unlockScreen, useLockScreen } from '@yunzhen/stores';
 import { App as AntApp } from 'antd';
 import { useEffect, useState } from 'react';
 import logo from '@/assets/logo.svg';
 import { logout as clearSession } from '@/features/auth/session';
 import { ThemeToggle } from '@/features/theme/theme-toggle';
-import { getStoredLockScreen, LockScreen, persistLockScreen, SetLockScreenModal } from './lock-screen';
 import { appMenuItems } from './route-definitions';
 import { RouteIcon } from './route-icon';
 import { UserDropdown } from './user-dropdown';
@@ -26,35 +26,23 @@ setAccessMenus(menuItems);
 export function AdminLayout() {
   const { modal } = AntApp.useApp();
   const navigate = useNavigate();
-  const [lockScreen, setLockScreen] = useState(getStoredLockScreen);
+  const { isLocked } = useLockScreen();
   const [lockScreenModalOpen, setLockScreenModalOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!lockScreen.isLocked && event.altKey && event.code === 'KeyL' && !event.repeat) {
+      if (!isLocked && event.altKey && event.code === 'KeyL' && !event.repeat) {
         event.preventDefault();
         setLockScreenModalOpen(true);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lockScreen.isLocked]);
-
-  function lock(password: string) {
-    const next = { isLocked: true, password };
-    setLockScreen(next);
-    persistLockScreen(next);
-    setLockScreenModalOpen(false);
-  }
-
-  function unlock() {
-    setLockScreen({ isLocked: false });
-    persistLockScreen({ isLocked: false });
-  }
+  }, [isLocked]);
 
   function logout() {
     clearSession();
-    unlock();
+    unlockScreen();
     void navigate({ replace: true, to: '/login' });
   }
 
@@ -78,6 +66,7 @@ export function AdminLayout() {
             <span className="brand-name">React Starter</span>
           </button>
         )}
+        lockScreen={<LockScreen avatar={logo} avatarAlt="React Starter" onLogout={logout} />}
         headerActions={(
           <>
             <ThemeToggle />
@@ -88,8 +77,7 @@ export function AdminLayout() {
           </>
         )}
       />
-      <SetLockScreenModal open={lockScreenModalOpen} onCancel={() => setLockScreenModalOpen(false)} onConfirm={lock} />
-      {lockScreen.isLocked && <LockScreen password={lockScreen.password ?? ''} onLogout={logout} onUnlock={unlock} />}
+      <LockScreenModal avatar={logo} avatarAlt="React Starter" open={lockScreenModalOpen} onOpenChange={setLockScreenModalOpen} />
     </>
   );
 }

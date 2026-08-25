@@ -24,7 +24,7 @@ import { AdminLayoutFrame, LayoutPane } from '@yunzhen/layout-ui';
 import { updatePreferences, usePreferences } from '@yunzhen/preferences';
 import { Menu } from 'antd';
 import { motion } from 'motion/react';
-import { useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { ChromeTabs } from './chrome-tabs';
 import { LayoutScrollArea } from './layout-scroll';
@@ -37,6 +37,7 @@ interface AdminLayoutProps {
   activeSearch?: string;
   brand: ReactNode;
   headerActions?: ReactNode;
+  lockScreen?: ReactNode;
   menuItems: LayoutMenuItem[];
   onNavigate: (path: string) => void;
   renderPage: (route: Tab, refreshVersion: number) => ReactNode;
@@ -74,6 +75,7 @@ export function AdminLayout({
   activeSearch = '',
   brand,
   headerActions,
+  lockScreen,
   menuItems,
   onNavigate,
   renderPage,
@@ -225,8 +227,9 @@ export function AdminLayout({
     }
   };
 
-  return (
+  return [
     <AdminLayoutFrame
+      key="layout"
       className={`admin-layout ${collapsed && !sidebarHidden ? 'admin-layout--collapsed' : ''} ${sidebarHidden ? 'admin-layout--sidebar-hidden' : ''} ${maximized ? 'admin-layout--maximized' : ''}`}
       sidebarResizable={sidebarResizable}
       onResize={(size) => {
@@ -370,6 +373,7 @@ export function AdminLayout({
           </LayoutScrollArea>
         </main>
       </LayoutPane>
-    </AdminLayoutFrame>
-  );
+    </AdminLayoutFrame>,
+    <Fragment key="lock-screen">{lockScreen}</Fragment>,
+  ];
 }

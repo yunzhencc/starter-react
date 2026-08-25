@@ -7,9 +7,10 @@ import App, { router } from './App';
 vi.mock('@yunzhen/layouts', async () => {
   const { Outlet } = await import('@tanstack/react-router');
   return {
-    BasicLayout: ({ brand }: { brand: React.ReactNode }) => (
+    BasicLayout: ({ brand, headerActions }: { brand: React.ReactNode; headerActions?: React.ReactNode }) => (
       <>
         {brand}
+        {headerActions}
         <Outlet />
       </>
     ),
@@ -39,6 +40,7 @@ describe('playground locales example', () => {
     render(<App />);
 
     expect(await screen.findByRole('button', { name: 'Playground' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '锁定屏幕' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: '返回' })).toBeTruthy();
     expect(getAccessMenus()).toEqual([{ affix: true, path: '/locales', title: '国际化' }]);
 
