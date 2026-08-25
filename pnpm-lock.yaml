@@ -176,8 +176,8 @@ catalogs:
       specifier: 1.168.35
       version: 1.168.35
     '@yunzhen/tsconfig':
-      specifier: ^1.0.0
-      version: 1.0.0
+      specifier: 1.0.1
+      version: 1.0.1
     cross-env:
       specifier: 10.1.0
       version: 10.1.0
@@ -397,7 +397,7 @@ importers:
         version: 4.1.11(vitest@4.1.11)
       '@yunzhen/tsconfig':
         specifier: catalog:dev
-        version: 1.0.0
+        version: 1.0.1
       code-inspector-plugin:
         specifier: catalog:vite
         version: 2.0.7(supports-color@8.1.1)
@@ -5312,8 +5312,8 @@ packages:
   '@yunzhen/request@2.1.0':
     resolution: {integrity: sha512-spe56gGKe6O0GpZ6bQEOeZJ2DtWXAei6Neb2mhOS+BYwBErC0dumsEvPiAoFdD4ZXFL0hcy2gnE6jocfuz7Fvg==}
 
-  '@yunzhen/tsconfig@1.0.0':
-    resolution: {integrity: sha512-qKRE61eKqsPob44Yh2UidhFan1aMLxs3NH5w+4vG9AVLGH2MDUx1ipxoB/ZFTBHuQVPug7xBz8kiLNnQN2t4NA==}
+  '@yunzhen/tsconfig@1.0.1':
+    resolution: {integrity: sha512-egiTbOD8JwZjJ04lsPQ4xeSUYRRSHgfqDaWK/wgBSjFYpXYQmjuDm8Afvp99I+eMm9Jy5QU+z7R5JHtRo7FtNw==}
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -14506,7 +14506,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@yunzhen/tsconfig@1.0.0': {}
+  '@yunzhen/tsconfig@1.0.1': {}
 
   accepts@2.0.0:
     dependencies:

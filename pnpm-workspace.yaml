@@ -1,7 +1,7 @@
 minimumReleaseAgeExclude:
   - '@tanstack/query-core@5.102.3'
   - '@tanstack/react-query@5.102.3'
-  - '@yunzhen/tsconfig@1.0.0'
+  - '@yunzhen/tsconfig@1.0.0 || 1.0.1'
 
 shellEmulator: true
 
@@ -79,7 +79,7 @@ catalogs:
     '@tanstack/react-start': 1.168.49
     '@tanstack/router-cli': 1.167.33
     '@tanstack/router-plugin': 1.168.35
-    '@yunzhen/tsconfig': ^1.0.0
+    '@yunzhen/tsconfig': 1.0.1
     cross-env: 10.1.0
     lint-staged: 17.3.0
     react-grab: 0.2.0
