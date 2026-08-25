@@ -1,6 +1,7 @@
 import type { ResourceLanguage } from 'i18next';
 import type { ImportLocaleFn, LocaleSetupOptions, SupportedLanguagesType } from './typing';
 import { createInstance } from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 const i18n = createInstance();
@@ -43,16 +44,29 @@ function setDocumentLanguage(locale: string) {
 async function setupI18n(options: LocaleSetupOptions = {}) {
   const { defaultLocale = 'zh-CN', loadMessages: loadApplicationMessages } = options;
   loadMessages = loadApplicationMessages;
+  let locale = defaultLocale;
 
   if (!i18n.isInitialized) {
-    await i18n.use(initReactI18next).init({
-      fallbackLng: defaultLocale,
-      interpolation: { escapeValue: false },
-      lng: defaultLocale,
-    });
+    await i18n
+      .use(LanguageDetector)
+      .use(initReactI18next)
+      .init({
+        fallbackLng: defaultLocale,
+        supportedLngs: Object.keys(localesMap),
+        interpolation: {
+          escapeValue: false,
+        },
+        detection: {
+          order: ['localStorage', 'navigator', 'htmlTag'],
+          caches: ['localStorage'],
+          lookupLocalStorage: 'starter-react:locale',
+        },
+      });
+
+    locale = i18n.resolvedLanguage ?? i18n.language ?? defaultLocale;
   }
 
-  await loadLocaleMessages(defaultLocale);
+  await loadLocaleMessages(locale);
 }
 
 async function loadLocaleMessages(locale: SupportedLanguagesType) {

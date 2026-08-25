@@ -16,6 +16,16 @@ interface LocalesApi {
 const api = locales as unknown as LocalesApi;
 
 describe('@yunzhen/locales', () => {
+  it('prefers the stored locale during initialization', async () => {
+    localStorage.setItem('starter-react:locale', 'en-US');
+
+    await api.setupI18n({ defaultLocale: 'zh-CN' });
+
+    expect(api.i18n.language).toBe('en-US');
+    expect(api.i18n.t('ui.back')).toBe('Back');
+    expect(document.documentElement.lang).toBe('en-US');
+  });
+
   it('merges application messages and switches the document language', async () => {
     expect(api.setupI18n).toBeTypeOf('function');
     expect(api.loadLocaleMessages).toBeTypeOf('function');
