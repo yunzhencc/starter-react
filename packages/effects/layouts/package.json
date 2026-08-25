@@ -1,0 +1,38 @@
+{
+  "name": "@yunzhen/layouts",
+  "type": "module",
+  "version": "0.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/yunzhencc/starter-react#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yunzhencc/starter-react.git"
+  },
+  "bugs": "https://github.com/yunzhencc/starter-react/issues",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./admin-layout.css": "./src/admin-layout.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -b"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "dependencies": {
+    "@ant-design/icons": "catalog:core",
+    "antd": "catalog:core",
+    "motion": "catalog:core",
+    "next-themes": "catalog:core",
+    "overlayscrollbars-react": "catalog:core",
+    "react-responsive": "catalog:core",
+    "react-split-pane": "catalog:core"
+  }
+}

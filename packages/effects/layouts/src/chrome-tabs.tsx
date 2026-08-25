@@ -2,7 +2,6 @@ import type { MouseEvent } from 'react';
 import type { Tab } from './tab-model';
 import { CloseOutlined, PushpinFilled } from '@ant-design/icons';
 import { AnimatePresence, Reorder } from 'motion/react';
-import { RouteIcon } from './route-icon';
 
 interface ChromeTabsProps {
   activeKey: string;
@@ -14,23 +13,9 @@ interface ChromeTabsProps {
   tabs: Tab[];
 }
 
-export function ChromeTabs({
-  activeKey,
-  onActivate,
-  onClose,
-  onContextMenu,
-  onReorder,
-  onUnpin,
-  tabs,
-}: ChromeTabsProps) {
+export function ChromeTabs({ activeKey, onActivate, onClose, onContextMenu, onReorder, onUnpin, tabs }: ChromeTabsProps) {
   return (
-    <Reorder.Group
-      as="div"
-      axis="x"
-      className="vben-tabs-content tabs-chrome"
-      values={tabs}
-      onReorder={items => onReorder(items.map(item => item.key))}
-    >
+    <Reorder.Group as="div" axis="x" className="vben-tabs-content tabs-chrome" values={tabs} onReorder={items => onReorder(items.map(item => item.key))}>
       <AnimatePresence initial={false}>
         {tabs.map((tab, index) => {
           const active = tab.key === activeKey;
@@ -48,10 +33,7 @@ export function ChromeTabs({
               initial={{ opacity: 0, x: -15 }}
               key={tab.key}
               layout="position"
-              transition={{
-                default: { duration: 0.25, ease: [0.25, 0.8, 0.5, 1] },
-                layout: { duration: 0.3 },
-              }}
+              transition={{ default: { duration: 0.25, ease: [0.25, 0.8, 0.5, 1] }, layout: { duration: 0.3 } }}
               value={tab}
               onClick={() => onActivate(tab.key)}
               onContextMenu={event => onContextMenu(event, tab)}
@@ -71,7 +53,7 @@ export function ChromeTabs({
                   <svg className="tabs-chrome__background-after" height="7" width="7" viewBox="0 0 7 7"><path d="M 0 0 A 7 7 0 0 0 7 7 L 0 7 Z" /></svg>
                 </div>
                 <button className="tabs-chrome__target" type="button">
-                  <RouteIcon icon={tab.icon} />
+                  {tab.icon}
                   <span>{tab.title}</span>
                 </button>
                 {(closable || pinnable) && (
@@ -81,12 +63,9 @@ export function ChromeTabs({
                     type="button"
                     onClick={(event) => {
                       event.stopPropagation();
-                      if (closable) {
+                      if (closable)
                         onClose(tab.key);
-                      }
-                      else {
-                        onUnpin(tab);
-                      }
+                      else onUnpin(tab);
                     }}
                   >
                     {closable ? <CloseOutlined /> : <PushpinFilled />}

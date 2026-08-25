@@ -1,5 +1,5 @@
+import { getSidebarWidth } from '@yunzhen/layouts';
 import { describe, expect, it } from 'vitest';
-import { getSidebarWidth } from './sidebar-width';
 
 describe('sidebar width', () => {
   it('uses the default when no valid persisted width exists', () => {

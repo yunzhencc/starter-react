@@ -1,4 +1,4 @@
-import type { RouteIconName } from './tab-model';
+import type { RouteIconName } from './route-definitions';
 import { AppstoreOutlined, AreaChartOutlined } from '@ant-design/icons';
 
 export function RouteIcon({ icon }: { icon?: RouteIconName }) {

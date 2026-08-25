@@ -488,6 +488,9 @@ importers:
       '@yunzhen/common-ui':
         specifier: workspace:*
         version: link:../../packages/effects/common-ui
+      '@yunzhen/layouts':
+        specifier: workspace:*
+        version: link:../../packages/effects/layouts
       '@yunzhen/locales':
         specifier: workspace:*
         version: link:../../packages/locales
@@ -614,6 +617,36 @@ importers:
         specifier: '>=19.0.0'
         version: 19.2.8(react@19.2.8)
 
+  packages/effects/layouts:
+    dependencies:
+      '@ant-design/icons':
+        specifier: catalog:core
+        version: 6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      antd:
+        specifier: catalog:core
+        version: 6.6.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      motion:
+        specifier: catalog:core
+        version: 13.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      next-themes:
+        specifier: catalog:core
+        version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      overlayscrollbars-react:
+        specifier: catalog:core
+        version: 0.5.6(overlayscrollbars@2.16.0)(react@19.2.8)
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.8
+      react-dom:
+        specifier: '>=19.0.0'
+        version: 19.2.8(react@19.2.8)
+      react-responsive:
+        specifier: catalog:core
+        version: 10.0.1(react@19.2.8)
+      react-split-pane:
+        specifier: catalog:core
+        version: 3.2.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+
   packages/locales:
     dependencies:
       i18next:
@@ -718,6 +751,9 @@ importers:
 
   playground:
     dependencies:
+      '@yunzhen/layouts':
+        specifier: workspace:*
+        version: link:../packages/effects/layouts
       '@yunzhen/locales':
         specifier: workspace:*
         version: link:../packages/locales

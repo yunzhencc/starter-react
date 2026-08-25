@@ -1,17 +1,17 @@
-export type RouteIconName = 'analytics' | 'document';
+import type { ReactNode } from 'react';
 
-export interface TabRoute {
+export interface LayoutRoute {
   affix?: boolean;
   fullPath?: string;
   fullPathKey?: boolean;
-  icon?: RouteIconName;
+  icon?: ReactNode;
   keepAlive?: boolean;
   path: string;
   search?: Record<string, string | string[] | undefined>;
   title: string;
 }
 
-export interface Tab extends TabRoute {
+export interface Tab extends LayoutRoute {
   key: string;
 }
 
@@ -21,11 +21,10 @@ export interface TabStateSnapshot {
   items: Tab[];
 }
 
-export function getTabKey(route: Omit<TabRoute, 'title'>) {
+export function getTabKey(route: Omit<LayoutRoute, 'title'>) {
   const pageKey = route.search?.pageKey;
-  const rawKey = Array.isArray(pageKey)
-    ? pageKey[0]
-    : pageKey || (route.fullPathKey === false ? route.path : (route.fullPath ?? route.path));
+  const rawKey = (Array.isArray(pageKey) ? pageKey[0] : pageKey)
+    ?? (route.fullPathKey === false ? route.path : (route.fullPath ?? route.path));
 
   try {
     return decodeURIComponent(rawKey);
@@ -101,7 +100,7 @@ export function createTabState(snapshot?: TabStateSnapshot) {
         state.activeKey = key;
       }
     },
-    open(route: TabRoute) {
+    open(route: LayoutRoute) {
       const key = getTabKey(route);
       const index = state.items.findIndex(tab => tab.key === key);
       const existing = state.items[index];
@@ -130,7 +129,7 @@ export function createTabState(snapshot?: TabStateSnapshot) {
       const to = state.items.findIndex(tab => tab.key === targetKey);
       const tab = state.items[from];
       const target = state.items[to];
-      if (from === -1 || to === -1 || tab?.affix || target?.affix) {
+      if (from === -1 || to === -1 || !tab || !target || tab.affix || target.affix) {
         return;
       }
       state.items.splice(from, 1);

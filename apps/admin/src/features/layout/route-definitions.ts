@@ -1,6 +1,10 @@
-import type { RouteIconName, TabRoute } from './tab-model';
+import type { LayoutRoute } from '@yunzhen/layouts';
 
-export type AppRoute = TabRoute;
+export type RouteIconName = 'analytics' | 'document';
+
+export type AppRoute = Omit<LayoutRoute, 'icon'> & {
+  icon?: RouteIconName;
+};
 
 export type AppMenuItem = AppRoute | {
   children: AppRoute[];

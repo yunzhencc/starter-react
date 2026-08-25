@@ -1,6 +1,6 @@
+import { LayoutScrollArea } from '@yunzhen/layouts';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { LayoutScrollArea } from './layout-scroll';
 
 describe('layout scroll area', () => {
   it('owns the Vben-compatible layout scroll target', () => {

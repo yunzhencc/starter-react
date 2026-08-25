@@ -1,5 +1,5 @@
+import { createTabState, getTabKey } from '@yunzhen/layouts';
 import { describe, expect, it } from 'vitest';
-import { createTabState, getTabKey } from './tab-model';
 
 describe('tab model', () => {
   it('uses pageKey before full path and path for a tab key', () => {
