@@ -1,0 +1,17 @@
+{
+  "name": "@yunzhen/playground1",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@yunzhen/request": "catalog:core",
+    "react": "catalog:core",
+    "react-dom": "catalog:core"
+  }
+}

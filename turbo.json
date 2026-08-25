@@ -31,6 +31,8 @@
       "outputs": []
     },
     "dev": {
+      "dependsOn": [],
+      "outputs": [],
       "cache": false,
       "persistent": true
     },
