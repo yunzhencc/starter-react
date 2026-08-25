@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
-import { useAccessMenus, useLockScreen } from '@yunzhen/stores';
+import { useAccessMenus, useAccessStore } from '@yunzhen/stores';
 import { AdminLayout } from './admin-layout';
 import { getTabKey } from './tab-model';
 
@@ -13,7 +13,7 @@ export interface BasicLayoutProps {
 export function BasicLayout({ brand, headerActions, lockScreen }: BasicLayoutProps) {
   const location = useLocation();
   const menuItems = useAccessMenus();
-  const { isLocked } = useLockScreen();
+  const isLockScreen = useAccessStore(state => state.isLockScreen);
   const navigate = useNavigate();
   const currentPath = location.pathname === '/' ? '/' : location.pathname.replace(/\/$/, '');
   const currentKey = getTabKey({
@@ -28,7 +28,7 @@ export function BasicLayout({ brand, headerActions, lockScreen }: BasicLayoutPro
       activeSearch={location.searchStr}
       brand={brand}
       headerActions={headerActions}
-      lockScreen={isLocked ? lockScreen : undefined}
+      lockScreen={isLockScreen ? lockScreen : undefined}
       menuItems={menuItems}
       renderPage={(tab, refreshVersion) => tab.key === currentKey ? <Outlet key={refreshVersion} /> : null}
       onNavigate={path => void navigate({ to: path as never })}

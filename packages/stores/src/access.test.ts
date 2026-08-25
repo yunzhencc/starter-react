@@ -24,12 +24,12 @@ describe('@yunzhen/stores access menus', () => {
   it('persists and clears the shared lock screen state', () => {
     lockScreen('secret');
 
-    expect(getLockScreenState()).toEqual({ isLocked: true, password: 'secret' });
-    expect(window.localStorage.getItem('starter-react:lock-screen')).toBe('{"isLocked":true,"password":"secret"}');
+    expect(getLockScreenState()).toEqual({ isLockScreen: true, lockScreenPassword: 'secret' });
+    expect(window.localStorage.getItem('starter-react:lock-screen')).toBe('{"isLockScreen":true,"lockScreenPassword":"secret"}');
 
     unlockScreen();
 
-    expect(getLockScreenState()).toEqual({ isLocked: false });
+    expect(getLockScreenState()).toEqual({ isLockScreen: false, lockScreenPassword: undefined });
     expect(window.localStorage.getItem('starter-react:lock-screen')).toBeNull();
   });
 
@@ -39,7 +39,8 @@ describe('@yunzhen/stores access menus', () => {
 
     expect(useAccessStore.getState()).toMatchObject({
       accessMenus: [{ affix: true, path: '/playground', title: '演示' }],
-      lockScreenState: { isLocked: true, password: 'secret' },
+      isLockScreen: true,
+      lockScreenPassword: 'secret',
     });
   });
 });

@@ -1,6 +1,6 @@
 import type { InputRef } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-import { lockScreen, unlockScreen, useLockScreen } from '@yunzhen/stores';
+import { lockScreen, unlockScreen, useAccessStore } from '@yunzhen/stores';
 import { Button, Input, Modal } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
@@ -75,7 +75,8 @@ interface LockScreenProps {
 }
 
 export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: LockScreenProps) {
-  const { isLocked, password } = useLockScreen();
+  const isLockScreen = useAccessStore(state => state.isLockScreen);
+  const lockScreenPassword = useAccessStore(state => state.lockScreenPassword);
   const inputRef = useRef<InputRef>(null);
   const [now, setNow] = useState(() => new Date());
   const [showUnlockForm, setShowUnlockForm] = useState(false);
@@ -93,12 +94,12 @@ export function LockScreen({ avatar, avatarAlt = '应用标志', onLogout }: Loc
     }
   }, [showUnlockForm]);
 
-  if (!isLocked) {
+  if (!isLockScreen) {
     return null;
   }
 
   function submit() {
-    if (value === password) {
+    if (value === lockScreenPassword) {
       unlockScreen();
       return;
     }

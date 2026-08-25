@@ -16,7 +16,7 @@ describe('@yunzhen/layouts lock screen widget', () => {
     fireEvent.change(screen.getByPlaceholderText('请输入锁屏密码'), { target: { value: 'secret' } });
     fireEvent.click(screen.getByRole('button', { name: /锁\s*定/ }));
 
-    expect(getLockScreenState()).toEqual({ isLocked: true, password: 'secret' });
+    expect(getLockScreenState()).toEqual({ isLockScreen: true, lockScreenPassword: 'secret' });
 
     cleanup();
     render(<LockScreen avatar="/logo.svg" />);
@@ -24,6 +24,6 @@ describe('@yunzhen/layouts lock screen widget', () => {
     fireEvent.change(screen.getByPlaceholderText('请输入锁屏密码'), { target: { value: 'secret' } });
     fireEvent.click(screen.getByRole('button', { name: /进\s*入\s*系\s*统/ }));
 
-    expect(getLockScreenState()).toEqual({ isLocked: false });
+    expect(getLockScreenState()).toEqual({ isLockScreen: false, lockScreenPassword: undefined });
   });
 });

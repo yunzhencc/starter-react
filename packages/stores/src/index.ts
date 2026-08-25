@@ -7,7 +7,6 @@ export {
   unlockScreen,
   useAccessMenus,
   useAccessStore,
-  useLockScreen,
 } from './access';
 export type { LockScreenState } from './access';
 export type { LayoutMenuItem, LayoutRoute, Tab, TabStateSnapshot } from './layout-route';

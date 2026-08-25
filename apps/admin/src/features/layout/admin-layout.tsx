@@ -2,7 +2,7 @@ import { LockOutlined } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import { BasicLayout } from '@yunzhen/layouts';
 import { LockScreen, LockScreenModal } from '@yunzhen/layouts/widgets';
-import { setAccessMenus, unlockScreen, useLockScreen } from '@yunzhen/stores';
+import { setAccessMenus, unlockScreen, useAccessStore } from '@yunzhen/stores';
 import { App as AntApp } from 'antd';
 import { useEffect, useState } from 'react';
 import logo from '@/assets/logo.svg';
@@ -26,19 +26,19 @@ setAccessMenus(menuItems);
 export function AdminLayout() {
   const { modal } = AntApp.useApp();
   const navigate = useNavigate();
-  const { isLocked } = useLockScreen();
+  const isLockScreen = useAccessStore(state => state.isLockScreen);
   const [lockScreenModalOpen, setLockScreenModalOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isLocked && event.altKey && event.code === 'KeyL' && !event.repeat) {
+      if (!isLockScreen && event.altKey && event.code === 'KeyL' && !event.repeat) {
         event.preventDefault();
         setLockScreenModalOpen(true);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isLocked]);
+  }, [isLockScreen]);
 
   function logout() {
     clearSession();
